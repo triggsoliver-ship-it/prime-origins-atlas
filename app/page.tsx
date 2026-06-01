@@ -20,8 +20,9 @@ export default function HomePage() {
             Carbon credits, traced to the source.
           </h1>
           <p className="mt-5 text-lg md:text-xl text-sand-100/85 max-w-2xl">
-            Prime Origins Atlas is a curated marketplace for high-integrity carbon credits —
-            nature-based, engineered removals, and renewable energy — each one vetted, verifiable, and retirable.
+            A curated marketplace for high-integrity carbon credits — from major registries (Verra, Gold Standard,
+            ACR, Puro.earth) and directly from <strong className="text-white">self-verified</strong> project
+            developers. Every listing is vetted, traceable, and retirable.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/browse" className="btn-primary bg-sand-50 text-forest-900 hover:bg-white">
@@ -61,18 +62,52 @@ export default function HomePage() {
         <div className="container-narrow py-16">
           <div className="grid md:grid-cols-3 gap-10">
             <Pillar
-              title="Registry-verified"
-              body="Every credit links to a public serial number on Verra, Gold Standard, ACR, Puro.earth, or Climate Action Reserve. No mystery offsets."
+              title="Two-tier verification"
+              body="Choose between Prime Origins Verified credits (registered with Verra, Gold Standard, ACR, Puro.earth, or Climate Action Reserve) or Self-Verified credits with transparent developer documentation. Filter by tier when you browse."
             />
             <Pillar
               title="Quality-filtered"
-              body="Prime Origins screens for additionality, permanence, methodology rigour, and co-benefit substance before listing — not after."
+              body="Every project — registry-backed or self-verified — is manually reviewed for additionality, permanence, methodology rigour, and co-benefit substance before going live."
             />
             <Pillar
               title="Retirement on request"
               body="Buy and retire in a single flow. We handle registry retirement and send you the certificate within 48 hours."
             />
           </div>
+        </div>
+      </section>
+
+      {/* Tiers explained */}
+      <section className="container-narrow py-16">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <h2 className="text-2xl md:text-3xl font-semibold text-forest-900">Two ways to source credits on Atlas</h2>
+          <p className="mt-2 text-forest-700/80">Both tiers are vetted by Prime Origins. The difference is who issued the underlying verification.</p>
+        </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          <TierCard
+            badgeColor="bg-forest-700"
+            badge="✓ Prime Origins Verified"
+            title="Registry-issued credits"
+            body="Credits issued under Verra, Gold Standard, ACR, Puro.earth, or Climate Action Reserve. Public serial numbers, formal methodologies, third-party validation and verification. Best for corporate buyers with strict compliance requirements (SBTi, VCMI, CSRD, CDP)."
+            bullets={[
+              'Public registry serial numbers',
+              'Independently validated & verified',
+              'Buffer-pool contributions where applicable',
+              'Suitable for compliance reporting'
+            ]}
+          />
+          <TierCard
+            badgeColor="bg-amber-500"
+            badge="Self-Verified"
+            title="Direct from developers"
+            body="Smaller projects and innovative methodologies that aren't yet on a major registry. Developers provide their own documentation — coordinates, sampling reports, COAs — which we publish transparently so buyers can review."
+            bullets={[
+              'Full developer documentation on the listing',
+              'Coordinates and on-the-ground evidence',
+              'Manually reviewed by Prime Origins before listing',
+              'Suited to voluntary action and pilot programmes'
+            ]}
+          />
         </div>
       </section>
 
@@ -105,6 +140,21 @@ function Pillar({ title, body }: { title: string; body: string }) {
     <div>
       <h3 className="text-lg font-semibold text-forest-900">{title}</h3>
       <p className="mt-2 text-sm text-forest-800/90 leading-relaxed">{body}</p>
+    </div>
+  );
+}
+
+function TierCard({ badgeColor, badge, title, body, bullets }: { badgeColor: string; badge: string; title: string; body: string; bullets: string[] }) {
+  return (
+    <div className="rounded-2xl border border-forest-100 bg-white p-6 md:p-8">
+      <span className={`chip ${badgeColor} text-white`}>{badge}</span>
+      <h3 className="mt-4 text-xl font-semibold text-forest-900">{title}</h3>
+      <p className="mt-2 text-sm text-forest-800/90 leading-relaxed">{body}</p>
+      <ul className="mt-4 space-y-1.5 text-sm text-forest-800">
+        {bullets.map((b) => (
+          <li key={b} className="flex gap-2"><span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-forest-600" /><span>{b}</span></li>
+        ))}
+      </ul>
     </div>
   );
 }
