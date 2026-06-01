@@ -1,3 +1,12 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About Prime Origins Atlas — High-Integrity Carbon Credit Marketplace',
+  description:
+    'Prime Origins Atlas is a curated marketplace for high-integrity carbon credits. Our 5-pillar quality framework: additionality, permanence, methodology, co-benefits, traceability.',
+  alternates: { canonical: '/about' }
+};
+
 export default function About() {
   return (
     <div className="container-narrow py-12 max-w-3xl">

@@ -1,3 +1,12 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Carbon Credit Marketplace FAQ — Pricing, Quality, Retirement',
+  description:
+    'Frequently asked questions about buying and selling carbon credits on Prime Origins Atlas: vetting, pricing, retirement, SBTi/VCMI/CSRD compliance, and self-verified credits.',
+  alternates: { canonical: '/faq' }
+};
+
 const faqs = [
   {
     q: 'How do I know the credits are real?',
@@ -34,8 +43,18 @@ const faqs = [
 ];
 
 export default function FAQ() {
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a }
+    }))
+  };
   return (
     <div className="container-narrow py-12 max-w-3xl">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">Frequently asked questions</h1>
       <div className="mt-8 space-y-3">
         {faqs.map((f) => (

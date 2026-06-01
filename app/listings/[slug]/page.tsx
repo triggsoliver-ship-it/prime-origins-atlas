@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getListing, listings, categoryLabels } from '@/lib/listings';
 import BuyPanel from '@/components/BuyPanel';
@@ -9,12 +10,69 @@ export function generateStaticParams() {
   return listings.map((l) => ({ slug: l.slug }));
 }
 
+export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
+  const l = getListing(params.slug);
+  if (!l) return { title: 'Listing not found' };
+  const title = `${l.projectName} — ${l.registry} ${l.vintage} Carbon Credits | $${l.pricePerTonne}/tCO₂e`;
+  const description = `${l.summary} Buy ${l.projectName} carbon credits from $${l.pricePerTonne.toFixed(2)} per tonne. ${l.registry}, ${l.country}, vintage ${l.vintage}. Retirement included.`;
+  return {
+    title,
+    description,
+    keywords: [
+      `${l.projectName} carbon credits`,
+      `${l.registry} credits`,
+      `${l.country} carbon credits`,
+      `${categoryLabels[l.category]} credits`,
+      `buy ${l.registry} credits`,
+      `${l.methodology} credits`,
+      'carbon credit marketplace',
+      'verified carbon credits'
+    ],
+    alternates: { canonical: `/listings/${l.slug}` },
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      url: `/listings/${l.slug}`,
+      images: [{ url: l.imageUrl, alt: l.projectName }]
+    },
+    twitter: { card: 'summary_large_image', title, description, images: [l.imageUrl] }
+  };
+}
+
 export default function ListingDetail({ params }: { params: { slug: string } }) {
   const listing = getListing(params.slug);
   if (!listing) notFound();
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: listing.projectName,
+    description: listing.description,
+    image: listing.imageUrl,
+    brand: { '@type': 'Organization', name: listing.developer },
+    category: `Carbon Credits / ${categoryLabels[listing.category]}`,
+    offers: {
+      '@type': 'Offer',
+      url: `/listings/${listing.slug}`,
+      priceCurrency: 'USD',
+      price: listing.pricePerTonne,
+      availability: listing.tonnesAvailable > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      itemCondition: 'https://schema.org/NewCondition'
+    },
+    additionalProperty: [
+      { '@type': 'PropertyValue', name: 'Registry', value: listing.registry },
+      { '@type': 'PropertyValue', name: 'Project ID', value: listing.projectId },
+      { '@type': 'PropertyValue', name: 'Methodology', value: listing.methodology },
+      { '@type': 'PropertyValue', name: 'Vintage', value: String(listing.vintage) },
+      { '@type': 'PropertyValue', name: 'Country', value: listing.country },
+      { '@type': 'PropertyValue', name: 'Tonnes available', value: String(listing.tonnesAvailable) }
+    ]
+  };
+
   return (
     <div className="container-narrow py-10">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Link href="/browse" className="text-sm text-forest-700 hover:text-forest-600">← Back to browse</Link>
 
       <div className="mt-6 grid lg:grid-cols-[1.4fr_1fr] gap-10">

@@ -2,12 +2,38 @@ import Link from 'next/link';
 import ListingCard from '@/components/ListingCard';
 import { getFeaturedListings, listings } from '@/lib/listings';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://primeoriginsatlas.org';
+
 export default function HomePage() {
   const featured = getFeaturedListings();
   const totalTonnes = listings.reduce((s, l) => s + l.tonnesAvailable, 0);
 
+  const orgJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Prime Origins Atlas',
+    url: SITE_URL,
+    logo: `${SITE_URL}/logo.png`,
+    parentOrganization: { '@type': 'Organization', name: 'Prime Origins', url: 'https://www.primeorigins.org' },
+    description: 'A curated marketplace for high-integrity carbon credits — from major registries and self-verified developers.',
+    sameAs: ['https://www.primeorigins.org']
+  };
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Prime Origins Atlas',
+    url: SITE_URL,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${SITE_URL}/browse?q={search_term_string}`,
+      'query-input': 'required name=search_term_string'
+    }
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-forest-700 via-forest-800 to-forest-900" aria-hidden />

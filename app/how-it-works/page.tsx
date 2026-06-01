@@ -1,4 +1,12 @@
 import Link from 'next/link';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'How Atlas Works — Buying & Selling Verified Carbon Credits',
+  description:
+    'How to buy and retire carbon credits on Prime Origins Atlas, and how project developers can list. 4% platform fee. Supports Verra, Gold Standard, ACR, Puro.earth, CAR, and self-verified credits.',
+  alternates: { canonical: '/how-it-works' }
+};
 
 export default function HowItWorks() {
   return (
