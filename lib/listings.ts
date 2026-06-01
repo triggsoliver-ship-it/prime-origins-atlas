@@ -24,6 +24,7 @@ export const listings: Listing[] = [
       'The Kasigau Corridor REDD+ project safeguards a vital wildlife migration route connecting Tsavo East and Tsavo West National Parks. The project has reduced deforestation by over 95% in the project area and supports more than 100,000 community members through education, water, and livelihoods programs.',
     imageUrl: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1400&q=70',
     verified: true,
+    tier: 'prime-origins-verified',
     retirementSupported: true,
     featured: true
   },
@@ -49,6 +50,7 @@ export const listings: Listing[] = [
       'Orca captures CO₂ directly from the atmosphere using geothermal power and mineralizes it in basalt rock via Carbfix technology, achieving permanent storage. Issuance is verified under the Puro Standard for CO₂ Removal.',
     imageUrl: 'https://images.unsplash.com/photo-1473773508845-188df298d2d1?auto=format&fit=crop&w=1400&q=70',
     verified: true,
+    tier: 'prime-origins-verified',
     retirementSupported: true,
     featured: true
   },
@@ -73,6 +75,7 @@ export const listings: Listing[] = [
       'Gyapa distributes locally-made efficient cookstoves that reduce charcoal consumption by 50% or more compared to traditional stoves. The project has reached over 1 million households, with verified emissions reductions and significant indoor air quality improvements.',
     imageUrl: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=1400&q=70',
     verified: true,
+    tier: 'prime-origins-verified',
     retirementSupported: true
   },
   {
@@ -97,6 +100,7 @@ export const listings: Listing[] = [
       'One of the largest REDD+ projects in the world, Mai Ndombe protects critical rainforest in the Congo Basin while delivering health, education, and agricultural support to surrounding communities.',
     imageUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1400&q=70',
     verified: true,
+    tier: 'prime-origins-verified',
     retirementSupported: true
   },
   {
@@ -121,6 +125,7 @@ export const listings: Listing[] = [
       'Pacific Biochar converts forestry residues from wildfire fuel-reduction operations into stable biochar applied to California vineyards and orchards. Storage is durable on a >100-year timescale.',
     imageUrl: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=70',
     verified: true,
+    tier: 'prime-origins-verified',
     retirementSupported: true,
     featured: true
   },
@@ -147,6 +152,7 @@ export const listings: Listing[] = [
       'Rimba Raya protects 64,000 hectares of carbon-rich tropical peatland, providing critical refuge for endangered Bornean orangutans while delivering measurable benefits across all 17 UN Sustainable Development Goals.',
     imageUrl: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1400&q=70',
     verified: true,
+    tier: 'prime-origins-verified',
     retirementSupported: true
   },
   {
@@ -171,6 +177,7 @@ export const listings: Listing[] = [
       'A 200 MW wind installation in Gujarat displacing emissions from the predominantly coal-fueled Indian grid. Gold Standard certified with verified community impact.',
     imageUrl: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1400&q=70',
     verified: true,
+    tier: 'prime-origins-verified',
     retirementSupported: true
   },
   {
@@ -194,6 +201,7 @@ export const listings: Listing[] = [
       'Running Tide grows macroalgae on biodegradable buoys seeded with alkaline limestone. The buoys sink to the deep ocean where carbon is stored on multi-century timescales while restoring ocean chemistry.',
     imageUrl: 'https://images.unsplash.com/photo-1530053969600-caed2596d242?auto=format&fit=crop&w=1400&q=70',
     verified: true,
+    tier: 'prime-origins-verified',
     retirementSupported: true
   },
   {
@@ -219,6 +227,7 @@ export const listings: Listing[] = [
       'The Pariri project is co-developed with the Munduruku people, protecting one of the most biodiverse regions of the Brazilian Amazon while supporting traditional livelihoods.',
     imageUrl: 'https://images.unsplash.com/photo-1500354960784-987d10b03d22?auto=format&fit=crop&w=1400&q=70',
     verified: true,
+    tier: 'prime-origins-verified',
     retirementSupported: true
   },
   {
@@ -243,6 +252,7 @@ export const listings: Listing[] = [
       'UNDO spreads finely-crushed basalt on agricultural land. As the rock weathers naturally, it draws CO₂ from the atmosphere and locks it away as stable bicarbonate. Co-benefits include soil de-acidification and improved yields.',
     imageUrl: 'https://images.unsplash.com/photo-1535912559178-bb46760ad0fa?auto=format&fit=crop&w=1400&q=70',
     verified: true,
+    tier: 'prime-origins-verified',
     retirementSupported: true
   },
   {
@@ -267,7 +277,71 @@ export const listings: Listing[] = [
       'Methane (28× more potent than CO₂ on a 100-year basis) is captured from the McCommas Bluff landfill and converted into renewable natural gas, displacing fossil natural gas demand.',
     imageUrl: 'https://images.unsplash.com/photo-1473773386757-42beed09bb7b?auto=format&fit=crop&w=1400&q=70',
     verified: true,
+    tier: 'prime-origins-verified',
     retirementSupported: true
+  },
+  {
+    id: 'po-013',
+    slug: 'sussex-regen-farm',
+    projectName: 'Sussex Regenerative Farm — Soil Carbon Pilot',
+    developer: 'Downsview Farm Co-operative',
+    category: 'nature-based',
+    registry: 'Self-Verified',
+    methodology: 'IPCC Tier 1 + soil sampling protocol',
+    projectId: 'POA-SV-013',
+    vintage: 2025,
+    country: 'United Kingdom',
+    region: 'East Sussex',
+    pricePerTonne: 28.0,
+    tonnesAvailable: 1200,
+    totalIssued: 1800,
+    cobenefits: ['Soil health', 'Biodiversity uplift', 'Local sourcing'],
+    sdgs: [2, 13, 15],
+    summary: 'Cover cropping and reduced tillage across 320 ha of arable land — third-party soil sampling included.',
+    description:
+      'A co-operative of three farms in the South Downs implementing cover crops, reduced-tillage and rotational grazing. Soil carbon is sampled annually by an independent UK lab. Self-verified credits — full sampling reports and methodology disclosed below.',
+    imageUrl: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=70',
+    verified: true,
+    tier: 'self-verified',
+    retirementSupported: true,
+    latitude: 50.85,
+    longitude: 0.10,
+    documents: [
+      { label: 'Soil sampling report (2025)', url: 'https://example.com/sussex-soil-2025.pdf', filename: 'sussex-soil-2025.pdf' },
+      { label: 'Methodology disclosure', url: 'https://example.com/sussex-methodology.pdf', filename: 'sussex-methodology.pdf' },
+      { label: 'Independent lab COA', url: 'https://example.com/sussex-coa.pdf', filename: 'sussex-coa.pdf' }
+    ]
+  },
+  {
+    id: 'po-014',
+    slug: 'kerala-smallholder-agroforestry',
+    projectName: 'Kerala Smallholder Agroforestry',
+    developer: 'WaynaCarbon Co-op',
+    category: 'nature-based',
+    registry: 'Self-Verified',
+    methodology: 'CDM AR-AMS0007 (adapted)',
+    projectId: 'POA-SV-014',
+    vintage: 2024,
+    country: 'India',
+    region: 'Wayanad, Kerala',
+    pricePerTonne: 19.5,
+    tonnesAvailable: 3400,
+    totalIssued: 4200,
+    cobenefits: ['Smallholder income', 'Forest cover', 'Watershed protection'],
+    sdgs: [1, 13, 15],
+    summary: '420 smallholder farms intercropping native species with coffee and spices — biomass tracked annually.',
+    description:
+      'A self-verified agroforestry programme covering 420 smallholder plots in Wayanad. Tree biomass is measured annually using allometric equations adapted from CDM AR-AMS0007. Verification documentation is provided directly by the co-operative.',
+    imageUrl: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1400&q=70',
+    verified: true,
+    tier: 'self-verified',
+    retirementSupported: true,
+    latitude: 11.69,
+    longitude: 76.13,
+    documents: [
+      { label: 'Biomass measurement report', url: 'https://example.com/kerala-biomass.pdf', filename: 'kerala-biomass.pdf' },
+      { label: 'Co-operative member list & plot boundaries', url: 'https://example.com/kerala-plots.pdf', filename: 'kerala-plots.pdf' }
+    ]
   },
   {
     id: 'po-012',
@@ -292,10 +366,31 @@ export const listings: Listing[] = [
       'Replanting and protecting 2,400 hectares of mangrove forest in typhoon-prone coastal communities. Blue carbon storage rates 3-5× higher per hectare than terrestrial forests.',
     imageUrl: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1400&q=70',
     verified: true,
+    tier: 'prime-origins-verified',
     retirementSupported: true,
     featured: true
   }
 ];
+
+// Add latitude/longitude to a few listings so the map is populated for the demo
+const coords: Record<string, [number, number]> = {
+  'po-001': [-3.85, 38.65],     // Kasigau, Kenya
+  'po-002': [64.05, -21.40],    // Hellisheidi, Iceland
+  'po-003': [7.95, -1.03],      // Ghana centroid
+  'po-004': [-2.50, 18.30],     // Mai Ndombe, DRC
+  'po-005': [38.50, -121.50],   // California
+  'po-006': [-2.65, 112.50],    // Central Kalimantan, Borneo
+  'po-007': [22.30, 71.20],     // Gujarat, India
+  'po-008': [64.13, -21.95],    // Iceland
+  'po-009': [-3.50, -52.50],    // Pará, Brazil
+  'po-010': [56.50, -4.20],     // Scotland
+  'po-011': [32.65, -96.70],    // Dallas
+  'po-012': [11.50, 125.00]     // Eastern Visayas, Philippines
+};
+for (const l of listings) {
+  const c = coords[l.id];
+  if (c) { l.latitude = c[0]; l.longitude = c[1]; }
+}
 
 export function getListing(slug: string): Listing | undefined {
   return listings.find((l) => l.slug === slug);
@@ -314,4 +409,9 @@ export const categoryLabels: Record<string, string> = {
   'engineered-removal': 'Engineered Removal',
   'renewable-energy': 'Renewable Energy',
   community: 'Community / Cookstoves'
+};
+
+export const tierLabels: Record<string, string> = {
+  'prime-origins-verified': 'Prime Origins Verified',
+  'self-verified': 'Self-Verified'
 };

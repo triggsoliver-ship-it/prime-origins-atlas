@@ -4,7 +4,21 @@ export type ProjectCategory =
   | 'renewable-energy'
   | 'community';
 
-export type Registry = 'Verra' | 'Gold Standard' | 'ACR' | 'Puro.earth' | 'Climate Action Reserve';
+export type Registry =
+  | 'Verra'
+  | 'Gold Standard'
+  | 'ACR'
+  | 'Puro.earth'
+  | 'Climate Action Reserve'
+  | 'Self-Verified';
+
+export type VerificationTier = 'prime-origins-verified' | 'self-verified';
+
+export type VerificationDoc = {
+  label: string;       // e.g. "Certificate of Analysis", "Validation report"
+  url: string;         // hosted PDF/image
+  filename?: string;
+};
 
 export type Listing = {
   id: string;
@@ -30,4 +44,10 @@ export type Listing = {
   verified: boolean; // Prime Origins vetting flag
   retirementSupported: boolean;
   featured?: boolean;
+
+  // New: verification tier + supporting evidence
+  tier: VerificationTier;
+  latitude?: number;
+  longitude?: number;
+  documents?: VerificationDoc[];
 };

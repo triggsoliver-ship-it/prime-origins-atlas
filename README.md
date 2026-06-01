@@ -31,8 +31,16 @@ Open <http://localhost:3000>.
 | `STRIPE_SECRET_KEY` | yes | `sk_test_…` for testing, `sk_live_…` for production |
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | optional | only if you add client-side Stripe Elements later |
 | `NEXT_PUBLIC_SITE_URL` | yes in prod | e.g. `https://atlas.primeorigins.org` — used for Stripe redirect URLs |
+| `BLOB_READ_WRITE_TOKEN` | yes for uploads | Set automatically when you connect a Vercel Blob store to the project (Vercel → Storage → Create → Blob). Required for sellers to upload verification documents. |
 | `SELLER_WEBHOOK_URL` | optional | If set, seller applications are forwarded as JSON (use Zapier, Make, or Slack incoming webhooks) |
 | `ADMIN_EMAIL` | optional | Reference only — emailing is not wired up yet |
+
+### Enabling seller document uploads (Vercel Blob)
+
+1. In your Vercel project → **Storage** tab → **Create Database** → choose **Blob**
+2. Name it `atlas-blob` (or whatever) → Create
+3. Vercel will automatically connect it to your project and add `BLOB_READ_WRITE_TOKEN` as an environment variable
+4. Redeploy. Uploaded files now go to Vercel Blob and the URLs are stored with the submission
 
 ## Deploy to Vercel (same flow as GenoVaq)
 

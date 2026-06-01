@@ -2,16 +2,18 @@
 
 import { useMemo, useState } from 'react';
 import ListingCard from '@/components/ListingCard';
-import { listings, categoryLabels } from '@/lib/listings';
-import type { ProjectCategory, Registry } from '@/lib/types';
+import { listings, categoryLabels, tierLabels } from '@/lib/listings';
+import type { ProjectCategory, Registry, VerificationTier } from '@/lib/types';
 
-const allRegistries: Registry[] = ['Verra', 'Gold Standard', 'ACR', 'Puro.earth', 'Climate Action Reserve'];
+const allRegistries: Registry[] = ['Verra', 'Gold Standard', 'ACR', 'Puro.earth', 'Climate Action Reserve', 'Self-Verified'];
 const allCategories: ProjectCategory[] = ['nature-based', 'engineered-removal', 'renewable-energy', 'community'];
+const allTiers: VerificationTier[] = ['prime-origins-verified', 'self-verified'];
 
 export default function BrowsePage() {
   const [query, setQuery] = useState('');
   const [cats, setCats] = useState<ProjectCategory[]>([]);
   const [regs, setRegs] = useState<Registry[]>([]);
+  const [tiers, setTiers] = useState<VerificationTier[]>([]);
   const [minVintage, setMinVintage] = useState<number | ''>('');
   const [maxPrice, setMaxPrice] = useState<number | ''>('');
   const [sort, setSort] = useState<'price-asc' | 'price-desc' | 'vintage-desc' | 'tonnes-desc'>('price-asc');
@@ -21,6 +23,7 @@ export default function BrowsePage() {
       if (query && !`${l.projectName} ${l.country} ${l.developer} ${l.summary}`.toLowerCase().includes(query.toLowerCase())) return false;
       if (cats.length && !cats.includes(l.category)) return false;
       if (regs.length && !regs.includes(l.registry)) return false;
+      if (tiers.length && !tiers.includes(l.tier)) return false;
       if (minVintage !== '' && l.vintage < Number(minVintage)) return false;
       if (maxPrice !== '' && l.pricePerTonne > Number(maxPrice)) return false;
       return true;
@@ -32,7 +35,7 @@ export default function BrowsePage() {
       return b.tonnesAvailable - a.tonnesAvailable;
     });
     return r;
-  }, [query, cats, regs, minVintage, maxPrice, sort]);
+  }, [query, cats, regs, tiers, minVintage, maxPrice, sort]);
 
   return (
     <div className="container-narrow py-10 md:py-14">
@@ -52,6 +55,19 @@ export default function BrowsePage() {
               placeholder="Project, country, developer…"
               className="w-full rounded-lg border border-forest-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500"
             />
+          </FilterBox>
+
+          <FilterBox label="Verification tier">
+            <div className="space-y-1.5">
+              {allTiers.map((t) => (
+                <Checkbox
+                  key={t}
+                  label={tierLabels[t]}
+                  checked={tiers.includes(t)}
+                  onChange={(v) => setTiers(v ? [...tiers, t] : tiers.filter((x) => x !== t))}
+                />
+              ))}
+            </div>
           </FilterBox>
 
           <FilterBox label="Project category">
@@ -101,7 +117,7 @@ export default function BrowsePage() {
           </FilterBox>
 
           <button
-            onClick={() => { setQuery(''); setCats([]); setRegs([]); setMinVintage(''); setMaxPrice(''); }}
+            onClick={() => { setQuery(''); setCats([]); setRegs([]); setTiers([]); setMinVintage(''); setMaxPrice(''); }}
             className="text-xs font-medium text-forest-700 underline underline-offset-2"
           >
             Reset filters

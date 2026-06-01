@@ -17,10 +17,13 @@ export default function ListingCard({ listing }: { listing: Listing }) {
           sizes="(max-width: 768px) 100vw, 33vw"
           className="object-cover transition duration-500 group-hover:scale-105"
         />
-        <div className="absolute left-3 top-3 flex gap-1.5">
+        <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
           <span className="chip backdrop-blur bg-white/85">{categoryLabels[listing.category]}</span>
-          {listing.verified && (
+          {listing.tier === 'prime-origins-verified' && (
             <span className="chip bg-forest-700 text-white">✓ Vetted</span>
+          )}
+          {listing.tier === 'self-verified' && (
+            <span className="chip bg-amber-500 text-white">Self-Verified</span>
           )}
         </div>
       </div>

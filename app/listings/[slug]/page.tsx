@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getListing, listings, categoryLabels } from '@/lib/listings';
 import BuyPanel from '@/components/BuyPanel';
+import ProjectMap from '@/components/ProjectMap';
 
 export function generateStaticParams() {
   return listings.map((l) => ({ slug: l.slug }));
@@ -26,7 +27,8 @@ export default function ListingDetail({ params }: { params: { slug: string } }) 
             <div className="flex flex-wrap gap-2 mb-3">
               <span className="chip">{categoryLabels[listing.category]}</span>
               <span className="chip">{listing.registry}</span>
-              {listing.verified && <span className="chip bg-forest-700 text-white">✓ Prime Origins Vetted</span>}
+              {listing.tier === 'prime-origins-verified' && <span className="chip bg-forest-700 text-white">✓ Prime Origins Vetted</span>}
+              {listing.tier === 'self-verified' && <span className="chip bg-amber-500 text-white">Self-Verified</span>}
             </div>
             <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">{listing.projectName}</h1>
             <p className="mt-1 text-forest-700">{listing.developer} · {listing.country}{listing.region ? `, ${listing.region}` : ''}</p>
@@ -59,6 +61,39 @@ export default function ListingDetail({ params }: { params: { slug: string } }) 
               ))}
             </div>
           </section>
+
+          {listing.latitude !== undefined && listing.longitude !== undefined && (
+            <section className="mt-10">
+              <h2 className="text-xl font-semibold text-forest-900 mb-3">Project location</h2>
+              <ProjectMap lat={listing.latitude} lng={listing.longitude} name={listing.projectName} />
+              <p className="text-xs text-forest-700/70 mt-2">{listing.latitude.toFixed(4)}°, {listing.longitude.toFixed(4)}° — {listing.country}{listing.region ? `, ${listing.region}` : ''}</p>
+            </section>
+          )}
+
+          {listing.documents && listing.documents.length > 0 && (
+            <section className="mt-10">
+              <h2 className="text-xl font-semibold text-forest-900 mb-3">Verification documents</h2>
+              <p className="text-sm text-forest-700 mb-3">
+                {listing.tier === 'self-verified'
+                  ? 'These documents are provided directly by the project developer. Prime Origins has not independently verified the contents — buyers should review carefully.'
+                  : 'Supporting documents reviewed during Prime Origins vetting.'}
+              </p>
+              <ul className="space-y-2">
+                {listing.documents.map((d) => (
+                  <li key={d.url}>
+                    <a href={d.url} target="_blank" rel="noreferrer" className="flex items-center gap-3 rounded-xl border border-forest-100 bg-white px-4 py-3 hover:bg-forest-50 transition">
+                      <span className="grid h-9 w-9 place-items-center rounded-lg bg-forest-700 text-white text-xs font-semibold">PDF</span>
+                      <span className="flex-1">
+                        <span className="block text-sm font-medium text-forest-900">{d.label}</span>
+                        {d.filename && <span className="block text-xs text-forest-700/70">{d.filename}</span>}
+                      </span>
+                      <span className="text-forest-600">↗</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
 
           <section className="mt-10">
             <h2 className="text-xl font-semibold text-forest-900 mb-3">Quality assurance</h2>
