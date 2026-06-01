@@ -1,0 +1,97 @@
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { getListing, listings, categoryLabels } from '@/lib/listings';
+import BuyPanel from '@/components/BuyPanel';
+
+export function generateStaticParams() {
+  return listings.map((l) => ({ slug: l.slug }));
+}
+
+export default function ListingDetail({ params }: { params: { slug: string } }) {
+  const listing = getListing(params.slug);
+  if (!listing) notFound();
+
+  return (
+    <div className="container-narrow py-10">
+      <Link href="/browse" className="text-sm text-forest-700 hover:text-forest-600">← Back to browse</Link>
+
+      <div className="mt-6 grid lg:grid-cols-[1.4fr_1fr] gap-10">
+        <div>
+          <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-forest-100">
+            <Image src={listing.imageUrl} alt={listing.projectName} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 60vw" />
+          </div>
+
+          <div className="mt-6">
+            <div className="flex flex-wrap gap-2 mb-3">
+              <span className="chip">{categoryLabels[listing.category]}</span>
+              <span className="chip">{listing.registry}</span>
+              {listing.verified && <span className="chip bg-forest-700 text-white">✓ Prime Origins Vetted</span>}
+            </div>
+            <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">{listing.projectName}</h1>
+            <p className="mt-1 text-forest-700">{listing.developer} · {listing.country}{listing.region ? `, ${listing.region}` : ''}</p>
+            <p className="mt-5 text-forest-800 leading-relaxed">{listing.description}</p>
+          </div>
+
+          <section className="mt-10">
+            <h2 className="text-xl font-semibold text-forest-900 mb-3">Project details</h2>
+            <dl className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-4 rounded-2xl border border-forest-100 bg-white p-6">
+              <Field label="Registry" value={listing.registry} />
+              <Field label="Project ID" value={listing.projectId} />
+              <Field label="Methodology" value={listing.methodology} />
+              <Field label="Vintage" value={String(listing.vintage)} />
+              <Field label="Total issued" value={`${listing.totalIssued.toLocaleString()} tCO₂e`} />
+              <Field label="Available" value={`${listing.tonnesAvailable.toLocaleString()} tCO₂e`} />
+              {listing.bufferPoolPct !== undefined && <Field label="Buffer pool" value={`${listing.bufferPoolPct}%`} />}
+              <Field label="Retirement" value={listing.retirementSupported ? 'Supported' : 'On request'} />
+            </dl>
+          </section>
+
+          <section className="mt-10">
+            <h2 className="text-xl font-semibold text-forest-900 mb-3">Co-benefits</h2>
+            <div className="flex flex-wrap gap-2">
+              {listing.cobenefits.map((c) => <span key={c} className="chip-outline">{c}</span>)}
+            </div>
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              <span className="text-xs uppercase tracking-wider text-forest-600 mr-1 self-center">SDGs:</span>
+              {listing.sdgs.map((n) => (
+                <span key={n} className="inline-grid h-7 w-7 place-items-center rounded-full bg-forest-700 text-white text-xs font-semibold">{n}</span>
+              ))}
+            </div>
+          </section>
+
+          <section className="mt-10">
+            <h2 className="text-xl font-semibold text-forest-900 mb-3">Quality assurance</h2>
+            <ul className="space-y-2 text-sm text-forest-800">
+              <Check label={`Registered under ${listing.registry} — public serial numbers available`} />
+              <Check label={`Methodology: ${listing.methodology}`} />
+              {listing.bufferPoolPct ? <Check label={`${listing.bufferPoolPct}% contribution to permanence buffer pool`} /> : null}
+              <Check label="Listing reviewed by Prime Origins for additionality, permanence and co-benefit substance" />
+              <Check label="Retirement certificate provided within 48h of purchase" />
+            </ul>
+          </section>
+        </div>
+
+        <BuyPanel listing={listing} />
+      </div>
+    </div>
+  );
+}
+
+function Field({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="text-[11px] uppercase tracking-wider text-forest-600">{label}</dt>
+      <dd className="text-sm font-medium text-forest-900 mt-0.5">{value}</dd>
+    </div>
+  );
+}
+
+function Check({ label }: { label: string }) {
+  return (
+    <li className="flex gap-2">
+      <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-forest-600" />
+      <span>{label}</span>
+    </li>
+  );
+}
