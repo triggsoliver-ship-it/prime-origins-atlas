@@ -5,8 +5,9 @@ export default function Footer() {
     <footer className="mt-24 border-t border-forest-100 bg-white">
       <div className="container-narrow grid grid-cols-2 md:grid-cols-4 gap-8 py-12">
         <div className="col-span-2 md:col-span-1">
-          <div className="flex items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-full bg-forest-700 text-sand-50 text-sm font-bold">PO</span>
+          <div className="flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo.png" alt="Prime Origins" className="h-10 w-auto object-contain" />
             <span className="text-sm font-semibold text-forest-900">Prime Origins Atlas</span>
           </div>
           <p className="mt-3 text-sm text-forest-700/80">
