@@ -3,10 +3,10 @@
  * Edit this file once — every page picks the values up automatically.
  */
 export const legal = {
-  companyName: 'Prime Origins Ltd',
+  companyName: 'Prime Origins Limited',
   tradingName: 'Prime Origins Atlas',
-  registrationNumber: '[Companies House number — to add]',
-  registeredAddress: '[Registered office address — to add]',
+  registrationNumber: '15775663',
+  registeredAddress: '128 City Road, London, EC1V 2NX, United Kingdom',
   jurisdiction: 'England and Wales',
   contactEmail: 'hello@primeorigins.com',
   privacyEmail: 'privacy@primeorigins.com',
