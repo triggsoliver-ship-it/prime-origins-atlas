@@ -30,7 +30,7 @@ const faqs = [
   },
   {
     q: 'Can I buy a large volume or forward contract?',
-    a: 'For orders over 1,000 tonnes or multi-year purchase agreements, contact our team at hello@primeorigins.com. Institutional pricing applies.'
+    a: 'For orders over 1,000 tonnes or multi-year purchase agreements, contact our team at oliver@primeorigins.org. Institutional pricing applies.'
   },
   {
     q: 'What payment methods are supported?',

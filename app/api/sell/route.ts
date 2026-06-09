@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { put } from '@vercel/blob';
+import { sendAdminEmail, fieldsToHtml, escapeHtml } from '@/lib/email';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -69,6 +70,49 @@ export async function POST(req: Request) {
     };
 
     console.log('[Atlas seller submission]', JSON.stringify(submission, null, 2));
+
+    // Send admin email
+    const docsHtml = docs.length
+      ? `<table style="border-collapse:collapse;width:100%;margin-top:8px;font-family:system-ui">${docs.map((d) => `<tr><td style="padding:4px 8px;border-bottom:1px solid #e5e7eb">${escapeHtml(d.label)}</td><td style="padding:4px 8px;border-bottom:1px solid #e5e7eb"><a href="${escapeHtml(d.url)}">${escapeHtml(d.filename || d.url)}</a></td></tr>`).join('')}</table>`
+      : '<p style="color:#6b7280">No documents attached.</p>';
+
+    const html = `
+      <div style="font-family:system-ui,-apple-system,sans-serif;max-width:680px;margin:0 auto">
+        <h2 style="color:#173a27">New seller application</h2>
+        <p style="color:#3a8b58">A project developer has applied to list on Atlas. Review the registry and supporting documents before approving.</p>
+        ${fieldsToHtml({
+          'Tier': base.tier,
+          'Project name': base.projectName,
+          'Registry': base.registry,
+          'Project ID': base.projectId,
+          'Methodology': base.methodology,
+          'Category': base.category,
+          'Country': base.country,
+          'Region': base.region || '',
+          'Vintage': base.vintage,
+          'Tonnes available': base.tonnesAvailable,
+          'Asking price (USD/tCO₂e)': base.pricePerTonne,
+          'Latitude': base.latitude,
+          'Longitude': base.longitude,
+          'Summary': base.summary || '',
+          '— Organisation —': '',
+          'Org name': base.orgName,
+          'Contact name': base.contactName,
+          'Email': base.email,
+          'Phone': base.phone || '',
+          'Received': submission.received_at
+        })}
+        <h3 style="color:#173a27;margin-top:16px">Verification documents</h3>
+        ${docsHtml}
+        <p style="margin-top:16px;font-size:12px;color:#6b7280">Reply directly to contact ${escapeHtml(String(base.contactName))} at ${escapeHtml(String(base.email))}.</p>
+      </div>
+    `;
+    const emailResult = await sendAdminEmail({
+      subject: `New Atlas seller application — ${base.projectName} (${base.registry})`,
+      html,
+      replyTo: typeof base.email === 'string' ? base.email : undefined
+    });
+    if (!emailResult.sent) console.warn('[Atlas seller submission] email not sent:', emailResult.error);
 
     // Optional webhook forward
     const webhook = process.env.SELLER_WEBHOOK_URL;

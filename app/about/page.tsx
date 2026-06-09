@@ -39,7 +39,7 @@ export default function About() {
       <section className="mt-10">
         <h2 className="text-xl font-semibold text-forest-900">Get in touch</h2>
         <p className="mt-3 text-forest-800">
-          Buyer questions, seller applications, or media: <a className="underline" href="mailto:hello@primeorigins.com">hello@primeorigins.com</a>.
+          Buyer questions, seller applications, or media: <a className="underline" href="mailto:oliver@primeorigins.org">oliver@primeorigins.org</a>.
         </p>
       </section>
     </div>

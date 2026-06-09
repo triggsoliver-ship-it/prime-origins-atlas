@@ -27,7 +27,7 @@ export default function Footer() {
         <FooterCol title="Company" links={[
           { label: 'About', href: '/about' },
           { label: 'Parent company', href: 'https://www.primeorigins.org', external: true },
-          { label: 'Contact', href: 'mailto:hello@primeorigins.com' },
+          { label: 'Contact', href: 'mailto:oliver@primeorigins.org' },
           { label: 'Terms', href: '/terms' },
           { label: 'Privacy', href: '/privacy' },
           { label: 'Cookies', href: '/cookies' }

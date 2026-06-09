@@ -32,8 +32,19 @@ Open <http://localhost:3000>.
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | optional | only if you add client-side Stripe Elements later |
 | `NEXT_PUBLIC_SITE_URL` | yes in prod | e.g. `https://atlas.primeorigins.org` — used for Stripe redirect URLs |
 | `BLOB_READ_WRITE_TOKEN` | yes for uploads | Set automatically when you connect a Vercel Blob store to the project (Vercel → Storage → Create → Blob). Required for sellers to upload verification documents. |
-| `SELLER_WEBHOOK_URL` | optional | If set, seller applications are forwarded as JSON (use Zapier, Make, or Slack incoming webhooks) |
-| `ADMIN_EMAIL` | optional | Reference only — emailing is not wired up yet |
+| `RESEND_API_KEY` | yes for email | Sign up at [resend.com](https://resend.com) → API Keys → Create. Powers inquiry + seller application emails to ADMIN_EMAIL. |
+| `EMAIL_FROM` | optional | Custom sender address. Defaults to Resend's `onboarding@resend.dev`. Set once you've verified `primeorigins.org` in Resend. |
+| `ADMIN_EMAIL` | yes for email | Where inquiry + seller emails are delivered. Defaults to `oliver@primeorigins.org`. |
+| `SELLER_WEBHOOK_URL` | optional | If set, seller applications are also forwarded as JSON (use Zapier, Make, or Slack incoming webhooks) |
+| `INQUIRY_WEBHOOK_URL` | optional | Same as above but for buyer inquiries |
+
+### Enabling email (Resend)
+
+1. Sign up at [resend.com](https://resend.com) — free tier covers 100 emails/day
+2. **API Keys → Create API Key** → name it `Atlas Production` → copy the `re_…` key
+3. Add it to Vercel: project → **Settings → Environment Variables** → `RESEND_API_KEY` = the key → save → redeploy
+4. Inquiries from the "Talk to us" form and seller applications from `/sell` will now land in `oliver@primeorigins.org`
+5. (Optional, recommended for production) Verify `primeorigins.org` in Resend → **Domains** → add the DNS records to IONOS → set `EMAIL_FROM` to a custom address like `Atlas <noreply@primeorigins.org>`
 
 ### Enabling seller document uploads (Vercel Blob)
 

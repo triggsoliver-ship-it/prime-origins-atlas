@@ -8,8 +8,8 @@ export const legal = {
   registrationNumber: '15775663',
   registeredAddress: '128 City Road, London, EC1V 2NX, United Kingdom',
   jurisdiction: 'England and Wales',
-  contactEmail: 'hello@primeorigins.com',
-  privacyEmail: 'privacy@primeorigins.com',
+  contactEmail: 'oliver@primeorigins.org',
+  privacyEmail: 'oliver@primeorigins.org',
   websiteUrl: 'https://primeoriginsatlas.org',
   parentUrl: 'https://www.primeorigins.org',
   lastUpdated: '9 June 2026'
