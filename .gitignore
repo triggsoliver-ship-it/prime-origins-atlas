@@ -1,9 +1,49 @@
+# Dependencies
 node_modules
+
+# Next.js
 .next
 out
+next-env.d.ts
+
+# Env / secrets
 .env
 .env.local
+.env.production
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Logs
 *.log
+
+# Vercel
 .vercel
-next-env.d.ts
+
+# Unrelated documents stored in this folder (not part of the Atlas codebase)
+# Anything not explicitly part of the Next.js app should be excluded.
+*.pptx
+*.pdf
+*.xlsx
+*.xls
+*.docx
+*.doc
+*.key
+*.numbers
+*.pages
+
+# Other Prime Origins sites/work that live alongside Atlas in this folder
+prime-origins-global-site/
+primeoriginsglobal_index.html
+primeorigins_global/
+investor-deck/
+investor_deck/
+financial-models/
+financial_models/
+
+# Backups / temporary
+*~
+*.bak
+*.swp
+*.tmp
