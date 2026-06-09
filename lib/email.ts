@@ -35,7 +35,7 @@ export async function sendAdminEmail({
       subject,
       html,
       text,
-      replyTo
+      reply_to: replyTo
     });
     if (res.error) {
       console.error('[email] Resend error', res.error);
