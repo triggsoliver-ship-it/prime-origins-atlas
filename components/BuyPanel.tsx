@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import type { Listing } from '@/lib/types';
+import TalkToUs from './TalkToUs';
 
 export default function BuyPanel({ listing }: { listing: Listing }) {
   const [tonnes, setTonnes] = useState(10);
@@ -84,8 +85,9 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
       </div>
 
       <div className="mt-4 rounded-2xl border border-forest-100 bg-forest-50/50 p-5 text-sm text-forest-800">
-        <p className="font-semibold mb-1">Buying for an organisation?</p>
-        <p>For orders over 1,000 tonnes we offer institutional pricing and forward contracts. <a className="underline" href="mailto:hello@primeorigins.com">Talk to us</a>.</p>
+        <p className="font-semibold mb-2">Buying for an organisation?</p>
+        <p className="mb-3">For orders over 1,000 tonnes we offer institutional pricing and forward contracts.</p>
+        <TalkToUs variant="inline-button" listingId={listing.id} listingName={listing.projectName} />
       </div>
     </aside>
   );

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import ListingCard from '@/components/ListingCard';
+import TalkToUs from '@/components/TalkToUs';
 import { getFeaturedListings, listings } from '@/lib/listings';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://primeoriginsatlas.org';
@@ -136,6 +137,9 @@ export default function HomePage() {
           />
         </div>
       </section>
+
+      {/* Talk to us */}
+      <TalkToUs variant="banner" />
 
       {/* CTA */}
       <section className="container-narrow py-20 text-center">
