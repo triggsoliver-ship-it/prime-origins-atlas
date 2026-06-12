@@ -1,10 +1,16 @@
 import './globals.css';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://primeoriginsatlas.org';
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#235838'
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -37,6 +43,13 @@ export const metadata: Metadata = {
   creator: 'Prime Origins',
   publisher: 'Prime Origins',
   alternates: { canonical: '/' },
+  icons: {
+    icon: [
+      { url: '/logo.svg', type: 'image/svg+xml' },
+      { url: '/logo.png', type: 'image/png' }
+    ],
+    apple: [{ url: '/logo.png', type: 'image/png' }]
+  },
   openGraph: {
     type: 'website',
     locale: 'en_GB',
@@ -61,10 +74,42 @@ export const metadata: Metadata = {
   category: 'Sustainability'
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'Prime Origins Atlas',
+      url: SITE_URL,
+      logo: `${SITE_URL}/logo.png`,
+      description:
+        'A marketplace for high-integrity carbon credits from Verra, Gold Standard, ACR, Puro.earth, Climate Action Reserve and self-verified project developers.',
+      parentOrganization: {
+        '@type': 'Organization',
+        name: 'Prime Origins',
+        url: 'https://www.primeorigins.org'
+      }
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      name: 'Prime Origins Atlas',
+      url: SITE_URL,
+      inLanguage: 'en-GB',
+      publisher: { '@id': `${SITE_URL}/#organization` }
+    }
+  ]
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
