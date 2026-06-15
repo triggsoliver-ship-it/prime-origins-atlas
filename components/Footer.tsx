@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -6,8 +7,7 @@ export default function Footer() {
       <div className="container-narrow grid grid-cols-2 md:grid-cols-4 gap-8 py-12">
         <div className="col-span-2 md:col-span-1">
           <div className="flex items-center gap-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="Prime Origins" className="h-10 w-auto object-contain" />
+            <Image src="/logo.png" alt="Prime Origins" width={40} height={40} className="h-10 w-auto object-contain" />
             <span className="text-sm font-semibold text-forest-900">Prime Origins Atlas</span>
           </div>
           <p className="mt-3 text-sm text-forest-700/80">
@@ -51,9 +51,9 @@ function FooterCol({ title, links }: { title: string; links: { label: string; hr
         {links.map((l) => (
           <li key={l.href}>
             {l.external ? (
-              <a href={l.href} target="_blank" rel="noreferrer" className="hover:text-forest-600">{l.label}</a>
+              <a href={l.href} target="_blank" rel="noreferrer" className="transition-colors hover:text-forest-600">{l.label}</a>
             ) : (
-              <Link href={l.href} className="hover:text-forest-600">{l.label}</Link>
+              <Link href={l.href} className="transition-colors hover:text-forest-600">{l.label}</Link>
             )}
           </li>
         ))}
