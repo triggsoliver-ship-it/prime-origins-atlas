@@ -38,28 +38,30 @@ export default function HomePage() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-forest-700 via-forest-800 to-forest-900" aria-hidden />
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.4),transparent_50%)]" aria-hidden />
+        <div className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_25%_15%,rgba(255,255,255,0.45),transparent_55%)]" aria-hidden />
+        <div className="absolute inset-0 opacity-[0.12] bg-[radial-gradient(circle_at_85%_80%,rgba(140,198,158,0.9),transparent_45%)]" aria-hidden />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-sand-50/90 to-transparent" aria-hidden />
         <div className="container-narrow relative py-20 md:py-28 text-sand-50">
-          <span className="chip bg-white/15 text-sand-50 border border-white/20">
+          <span className="chip reveal bg-white/15 text-sand-50 border border-white/20 backdrop-blur">
             On-chain origin · Full transparency
           </span>
-          <h1 className="mt-5 text-4xl md:text-6xl font-semibold tracking-tight max-w-3xl">
+          <h1 className="reveal reveal-delay-1 mt-5 text-4xl md:text-6xl font-semibold tracking-tight max-w-3xl text-balance">
             Carbon credits, traced to the source.
           </h1>
-          <p className="mt-5 text-lg md:text-xl text-sand-100/85 max-w-2xl">
+          <p className="reveal reveal-delay-2 mt-5 text-lg md:text-xl text-sand-100/85 max-w-2xl">
             A curated marketplace for high-integrity carbon credits — from major registries (Verra, Gold Standard,
             ACR, Puro.earth) and directly from <strong className="text-white">self-verified</strong> project
             developers. Every listing is vetted, traceable, and retirable.
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/browse" className="btn-primary bg-sand-50 text-forest-900 hover:bg-white">
+          <div className="reveal reveal-delay-3 mt-8 flex flex-wrap gap-3">
+            <Link href="/browse" className="btn-primary bg-sand-50 text-forest-900 hover:bg-white shadow-lift">
               Browse credits →
             </Link>
             <Link href="/sell" className="btn-secondary border-sand-50 text-sand-50 hover:bg-white/10">
               List your project
             </Link>
           </div>
-          <dl className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl">
+          <dl className="reveal reveal-delay-4 mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl">
             <Stat label="Vetted projects" value={String(listings.length)} />
             <Stat label="Tonnes available" value={`${(totalTonnes / 1000).toFixed(0)}k`} />
             <Stat label="Registries supported" value="5" />
@@ -72,7 +74,7 @@ export default function HomePage() {
       <section className="container-narrow py-16">
         <div className="flex items-end justify-between mb-8">
           <div>
-            <h2 className="text-2xl md:text-3xl font-semibold text-forest-900">Featured projects</h2>
+            <h2 className="reveal text-2xl md:text-3xl font-semibold text-forest-900">Featured projects</h2>
             <p className="mt-2 text-forest-700/80">Hand-picked listings across nature-based, engineered, and community categories.</p>
           </div>
           <Link href="/browse" className="hidden md:inline text-sm font-medium text-forest-700 hover:text-forest-600">View all →</Link>
@@ -85,7 +87,7 @@ export default function HomePage() {
       </section>
 
       {/* Quality */}
-      <section className="bg-white border-y border-forest-100">
+      <section className="bg-gradient-to-b from-white to-sand-50/40 border-y border-forest-100">
         <div className="container-narrow py-16">
           <div className="grid md:grid-cols-3 gap-10">
             <Pillar
@@ -158,9 +160,9 @@ export default function HomePage() {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div>
-      <dt className="text-xs uppercase tracking-wider text-sand-100/70">{label}</dt>
-      <dd className="mt-1 text-3xl font-semibold">{value}</dd>
+    <div className="border-l-2 border-white/15 pl-3">
+      <dd className="text-3xl font-semibold tracking-tight">{value}</dd>
+      <dt className="mt-1 text-xs uppercase tracking-wider text-sand-100/70">{label}</dt>
     </div>
   );
 }
@@ -176,7 +178,7 @@ function Pillar({ title, body }: { title: string; body: string }) {
 
 function TierCard({ badgeColor, badge, title, body, bullets }: { badgeColor: string; badge: string; title: string; body: string; bullets: string[] }) {
   return (
-    <div className="rounded-2xl border border-forest-100 bg-white p-6 md:p-8">
+    <div className="rounded-2xl border border-forest-100 bg-white p-6 md:p-8 shadow-soft transition-all duration-300 hover:shadow-lift motion-safe:hover:-translate-y-1">
       <span className={`chip ${badgeColor} text-white`}>{badge}</span>
       <h3 className="mt-4 text-xl font-semibold text-forest-900">{title}</h3>
       <p className="mt-2 text-sm text-forest-800/90 leading-relaxed">{body}</p>
