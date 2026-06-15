@@ -12,9 +12,20 @@ html, body {
   color: rgb(var(--foreground));
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   font-feature-settings: 'cv11', 'ss01';
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 .container-narrow {
@@ -22,11 +33,11 @@ body {
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-full bg-forest-700 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-forest-800 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2 focus:ring-offset-sand-50;
+  @apply inline-flex items-center justify-center gap-2 rounded-full bg-forest-700 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-forest-800 hover:shadow-md motion-safe:hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2 focus:ring-offset-sand-50;
 }
 
 .btn-secondary {
-  @apply inline-flex items-center justify-center gap-2 rounded-full border border-forest-700 px-5 py-2.5 text-sm font-medium text-forest-700 transition hover:bg-forest-50;
+  @apply inline-flex items-center justify-center gap-2 rounded-full border border-forest-700 px-5 py-2.5 text-sm font-medium text-forest-700 transition-all duration-200 hover:bg-forest-50 motion-safe:hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2 focus:ring-offset-sand-50;
 }
 
 .chip {
@@ -35,4 +46,24 @@ body {
 
 .chip-outline {
   @apply inline-flex items-center gap-1.5 rounded-full border border-forest-200 bg-white px-3 py-1 text-xs font-medium text-forest-700;
+}
+
+/* Scroll-reveal: subtle entrance, fully disabled under reduced-motion */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    animation: reveal-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .reveal-delay-1 { animation-delay: 0.08s; }
+  .reveal-delay-2 { animation-delay: 0.16s; }
+  .reveal-delay-3 { animation-delay: 0.24s; }
+  .reveal-delay-4 { animation-delay: 0.32s; }
+}
+
+@keyframes reveal-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
