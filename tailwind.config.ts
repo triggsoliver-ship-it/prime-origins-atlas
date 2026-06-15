@@ -29,6 +29,10 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif']
+      },
+      boxShadow: {
+        soft: '0 1px 2px rgba(23, 58, 39, 0.04), 0 8px 24px -12px rgba(23, 58, 39, 0.18)',
+        lift: '0 4px 12px -2px rgba(23, 58, 39, 0.10), 0 18px 40px -16px rgba(23, 58, 39, 0.28)'
       }
     }
   },
