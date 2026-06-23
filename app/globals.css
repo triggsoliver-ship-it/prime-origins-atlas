@@ -23,9 +23,13 @@ html {
 }
 
 body {
-  font-feature-settings: 'cv11', 'ss01';
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* Headlines use the display grotesque; body inherits the sans set in Tailwind. */
+h1, h2, h3, h4 {
+  font-family: var(--font-display), ui-sans-serif, sans-serif;
 }
 
 .container-narrow {
