@@ -49,9 +49,9 @@ export default function HomePage() {
             Carbon credits, traced to the source.
           </h1>
           <p className="reveal reveal-delay-2 mt-5 text-lg md:text-xl text-sand-100/85 max-w-2xl">
-            A curated marketplace for high-integrity carbon credits — from major registries (Verra, Gold Standard,
-            ACR, Puro.earth) and directly from <strong className="text-white">self-verified</strong> project
-            developers. Every listing is vetted, traceable, and retirable.
+            High-integrity carbon credits from the major registries (Verra, Gold Standard, ACR, Puro.earth) and
+            directly from <strong className="text-white">self-verified</strong> developers. Every listing is vetted,
+            traceable and retirable.
           </p>
           <div className="reveal reveal-delay-3 mt-8 flex flex-wrap gap-3">
             <Link href="/browse" className="btn-primary bg-sand-50 text-forest-900 hover:bg-white shadow-lift">
@@ -75,7 +75,7 @@ export default function HomePage() {
         <div className="flex items-end justify-between mb-8">
           <div>
             <h2 className="reveal text-2xl md:text-3xl font-semibold text-forest-900">Featured projects</h2>
-            <p className="mt-2 text-forest-700/80">Hand-picked listings across nature-based, engineered, and community categories.</p>
+            <p className="mt-2 text-forest-700/80">Hand-picked across nature-based, engineered and community categories.</p>
           </div>
           <Link href="/browse" className="hidden md:inline text-sm font-medium text-forest-700 hover:text-forest-600">View all →</Link>
         </div>
@@ -91,16 +91,16 @@ export default function HomePage() {
         <div className="container-narrow py-16">
           <div className="grid md:grid-cols-3 gap-10">
             <Pillar
-              title="Two-tier verification"
-              body="Choose between Prime Origins Verified credits (registered with Verra, Gold Standard, ACR, Puro.earth, or Climate Action Reserve) or Self-Verified credits with transparent developer documentation. Filter by tier when you browse."
+              title="Vetted, every listing"
+              body="Registry-backed or self-verified, every project is reviewed for additionality, permanence and methodology rigour before it goes live."
             />
             <Pillar
-              title="Quality-filtered"
-              body="Every project — registry-backed or self-verified — is manually reviewed for additionality, permanence, methodology rigour, and co-benefit substance before going live."
+              title="Traceable to source"
+              body="Public registry serial numbers or full developer documentation — coordinates, sampling reports, COAs — on every listing."
             />
             <Pillar
               title="Retirement on request"
-              body="Buy and retire in a single flow. We handle registry retirement and send you the certificate within 48 hours."
+              body="Buy and retire in a single flow. We handle registry retirement and send your certificate within 48 hours."
             />
           </div>
         </div>
@@ -117,7 +117,7 @@ export default function HomePage() {
             badgeColor="bg-forest-700"
             badge="✓ Prime Origins Verified"
             title="Registry-issued credits"
-            body="Credits issued under Verra, Gold Standard, ACR, Puro.earth, or Climate Action Reserve. Public serial numbers, formal methodologies, third-party validation and verification. Best for corporate buyers with strict compliance requirements (SBTi, VCMI, CSRD, CDP)."
+            body="Issued under Verra, Gold Standard, ACR, Puro.earth or Climate Action Reserve, with public serial numbers and third-party verification. Built for strict compliance (SBTi, VCMI, CSRD, CDP)."
             bullets={[
               'Public registry serial numbers',
               'Independently validated & verified',
@@ -129,7 +129,7 @@ export default function HomePage() {
             badgeColor="bg-amber-500"
             badge="Self-Verified"
             title="Direct from developers"
-            body="Smaller projects and innovative methodologies that aren't yet on a major registry. Developers provide their own documentation — coordinates, sampling reports, COAs — which we publish transparently so buyers can review."
+            body="Smaller or newer projects not yet on a major registry. Developers supply their own documentation, which we publish in full for buyers to review."
             bullets={[
               'Full developer documentation on the listing',
               'Coordinates and on-the-ground evidence',
@@ -147,7 +147,7 @@ export default function HomePage() {
       <section className="container-narrow py-20 text-center">
         <h2 className="text-3xl md:text-4xl font-semibold text-forest-900">Start retiring credits with confidence.</h2>
         <p className="mt-3 text-forest-700/80 max-w-xl mx-auto">
-          Whether you're hitting a net-zero target or sourcing for a portfolio mandate, Atlas gets you to verified, claimable credits faster.
+          Hitting a net-zero target or sourcing for a portfolio mandate, Atlas gets you to verified, claimable credits faster.
         </p>
         <div className="mt-7 flex justify-center gap-3">
           <Link href="/browse" className="btn-primary">Browse the catalog</Link>
