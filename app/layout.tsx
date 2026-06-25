@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import { Space_Grotesk, Public_Sans } from 'next/font/google';
+import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -21,6 +22,7 @@ const sans = Public_Sans({
 });
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://primeoriginsatlas.org';
+const GA_ID = 'G-M5D032ZNHR';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -126,6 +128,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+        <Script id="ga4" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`}
+        </Script>
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
