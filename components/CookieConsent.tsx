@@ -1,31 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 const KEY = 'po-consent';
 
 declare global {
   interface Window {
-    __gaLoaded?: boolean;
+    __gaInit?: boolean;
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
   }
-}
-
-function loadGA(id: string) {
-  if (window.__gaLoaded) return;
-  window.__gaLoaded = true;
-  const s = document.createElement('script');
-  s.async = true;
-  s.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
-  document.head.appendChild(s);
-  window.dataLayer = window.dataLayer || [];
-  function gtag(...args: unknown[]) {
-    window.dataLayer!.push(args);
-  }
-  window.gtag = gtag;
-  gtag('js', new Date());
-  gtag('config', id, { anonymize_ip: true });
 }
 
 export default function CookieConsent({ gaId }: { gaId: string }) {
@@ -36,17 +20,51 @@ export default function CookieConsent({ gaId }: { gaId: string }) {
     try {
       choice = localStorage.getItem(KEY);
     } catch {}
-    if (choice === 'granted') loadGA(gaId);
-    else if (choice !== 'denied') setShow(true);
+
+    if (!window.__gaInit) {
+      window.__gaInit = true;
+      window.dataLayer = window.dataLayer || [];
+      const gtag = (...args: unknown[]) => {
+        window.dataLayer!.push(args);
+      };
+      window.gtag = gtag;
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: choice === 'granted' ? 'granted' : 'denied',
+        wait_for_update: 500,
+      });
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+      document.head.appendChild(s);
+      gtag('js', new Date());
+      gtag('config', gaId, { anonymize_ip: true });
+    }
+
+    if (choice !== 'granted' && choice !== 'denied') setShow(true);
+
+    const onSettings = (e: Event) => {
+      const el = (e.target as HTMLElement | null)?.closest?.('[data-cookie-settings]');
+      if (el) {
+        e.preventDefault();
+        setShow(true);
+      }
+    };
+    document.addEventListener('click', onSettings);
+    return () => document.removeEventListener('click', onSettings);
   }, [gaId]);
 
-  function choose(v: 'granted' | 'denied') {
+  const choose = useCallback((v: 'granted' | 'denied') => {
     try {
       localStorage.setItem(KEY, v);
     } catch {}
     setShow(false);
-    if (v === 'granted') loadGA(gaId);
-  }
+    window.gtag?.('consent', 'update', {
+      analytics_storage: v === 'granted' ? 'granted' : 'denied',
+    });
+  }, []);
 
   if (!show) return null;
 

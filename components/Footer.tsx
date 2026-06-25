@@ -36,7 +36,10 @@ export default function Footer() {
       <div className="border-t border-forest-100 py-5">
         <div className="container-narrow flex flex-col md:flex-row gap-2 md:items-center md:justify-between text-xs text-forest-700/70">
           <span>© {new Date().getFullYear()} Prime Origins Limited. Company number 15775663. Registered office: 128 City Road, London, EC1V 2NX.</span>
-          <span>Listings shown are illustrative — final transactions settle on the underlying registry.</span>
+          <div className="flex items-center gap-4">
+            <span>Listings shown are illustrative — final transactions settle on the underlying registry.</span>
+            <button type="button" data-cookie-settings className="whitespace-nowrap underline underline-offset-2 transition-colors hover:text-forest-600">Cookie settings</button>
+          </div>
         </div>
       </div>
     </footer>
