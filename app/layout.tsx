@@ -1,10 +1,28 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
+import { Space_Grotesk, Public_Sans } from 'next/font/google';
+import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
+// Distinct type identity for Atlas: a technical grotesque for headlines
+// (climate-tech feel) paired with a neutral, legible body sans.
+const display = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-display',
+  display: 'swap'
+});
+const sans = Public_Sans({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-sans',
+  display: 'swap'
+});
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://primeoriginsatlas.org';
+const GA_ID = 'G-M5D032ZNHR';
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -104,12 +122,19 @@ const structuredData = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${display.variable} ${sans.variable}`}>
       <body className="min-h-screen flex flex-col">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
+        <Script id="ga4" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_ID}');`}
+        </Script>
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
