@@ -1,0 +1,23 @@
+{
+  "name": "Prime Origins Atlas",
+  "short_name": "Atlas",
+  "description": "A curated marketplace for high-integrity carbon credits from major registries and self-verified project developers.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf8f3",
+  "theme_color": "#235838",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    }
+  ]
+}

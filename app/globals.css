@@ -28,6 +28,11 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Skip link: off-screen until focused via keyboard */
+.skip-link {
+  @apply absolute left-4 top-4 z-[100] -translate-y-20 rounded-full bg-forest-700 px-4 py-2 text-sm font-medium text-white shadow-md transition-transform focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2 focus:ring-offset-sand-50;
+}
+
 .container-narrow {
   @apply max-w-6xl mx-auto px-5 sm:px-8;
 }

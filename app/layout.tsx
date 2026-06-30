@@ -43,6 +43,7 @@ export const metadata: Metadata = {
   creator: 'Prime Origins',
   publisher: 'Prime Origins',
   alternates: { canonical: '/' },
+  manifest: '/manifest.webmanifest',
   icons: {
     icon: [
       { url: '/logo.svg', type: 'image/svg+xml' },
@@ -104,14 +105,15 @@ const structuredData = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en-GB">
       <body className="min-h-screen flex flex-col">
+        <a href="#main-content" className="skip-link">Skip to main content</a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         <Header />
-        <main className="flex-1">{children}</main>
+        <main id="main-content" className="flex-1">{children}</main>
         <Footer />
         <Analytics />
       </body>
