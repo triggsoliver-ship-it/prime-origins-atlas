@@ -45,10 +45,11 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
         </div>
 
         <div className="mt-5">
-          <label className="text-xs uppercase tracking-wider text-forest-600">Tonnes</label>
+          <label htmlFor="buy-tonnes" className="text-xs uppercase tracking-wider text-forest-600">Tonnes</label>
           <div className="mt-1 flex items-center gap-2">
-            <button onClick={() => setTonnes(Math.max(1, tonnes - 10))} className="h-9 w-9 rounded-lg border border-forest-200 text-forest-700 hover:bg-forest-50">–</button>
+            <button type="button" aria-label="Decrease tonnes by 10" onClick={() => setTonnes(Math.max(1, tonnes - 10))} className="h-9 w-9 rounded-lg border border-forest-200 text-forest-700 hover:bg-forest-50 focus:outline-none focus:ring-2 focus:ring-forest-500">–</button>
             <input
+              id="buy-tonnes"
               type="number"
               min={1}
               max={listing.tonnesAvailable}
@@ -56,7 +57,7 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
               onChange={(e) => setTonnes(Math.max(1, Math.min(listing.tonnesAvailable, Number(e.target.value || 1))))}
               className="h-9 flex-1 rounded-lg border border-forest-200 text-center text-sm focus:outline-none focus:ring-2 focus:ring-forest-500"
             />
-            <button onClick={() => setTonnes(Math.min(listing.tonnesAvailable, tonnes + 10))} className="h-9 w-9 rounded-lg border border-forest-200 text-forest-700 hover:bg-forest-50">+</button>
+            <button type="button" aria-label="Increase tonnes by 10" onClick={() => setTonnes(Math.min(listing.tonnesAvailable, tonnes + 10))} className="h-9 w-9 rounded-lg border border-forest-200 text-forest-700 hover:bg-forest-50 focus:outline-none focus:ring-2 focus:ring-forest-500">+</button>
           </div>
         </div>
 
