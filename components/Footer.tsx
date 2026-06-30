@@ -37,6 +37,17 @@ export default function Footer() {
         <div className="container-narrow flex flex-col md:flex-row gap-2 md:items-center md:justify-between text-xs text-forest-700/70">
           <span>© {new Date().getFullYear()} Prime Origins Limited. Company number 15775663. Registered office: 128 City Road, London, EC1V 2NX.</span>
           <span>Listings shown are illustrative — final transactions settle on the underlying registry.</span>
+          <span>
+            Site designed by{' '}
+            <a
+              href="https://shipitstudio.co.uk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 transition-colors hover:text-forest-600"
+            >
+              shipitstudio.co.uk
+            </a>
+          </span>
         </div>
       </div>
     </footer>
