@@ -102,7 +102,7 @@ export default function SellPage() {
           <Select name="category" label="Category" required options={['nature-based', 'engineered-removal', 'renewable-energy', 'community']} />
           <Field name="country" label="Country" required />
           <Field name="region" label="Region (optional)" />
-          <Field name="vintage" label="Vintage year" type="number" required placeholder="2025" />
+          <Field name="vintage" label="Vintage year" type="number" required placeholder="2026" />
           <Field name="tonnesAvailable" label="Tonnes available" type="number" required placeholder="10000" />
           <Field name="pricePerTonne" label="Asking price (USD / tCO₂e)" type="number" required placeholder="15" />
           <Field name="methodology" label="Methodology" required placeholder={tier === 'prime-origins-verified' ? 'e.g. VM0007 REDD+ MF' : 'Describe your methodology'} />
