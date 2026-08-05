@@ -10,8 +10,10 @@ A verified carbon-credit marketplace built with Next.js 14, Tailwind, and Stripe
 - **Buy panel + Stripe Checkout** — calculates 4% platform fee, redirects to Stripe, success page
 - **Seller application** (`/sell`) — form for project developers, submissions logged + optional webhook
 - **About / How it works / FAQ** — trust pages
+- **Legal pages** — Terms, Privacy, Cookies (shared company details in `lib/legal.ts`)
+- **Buyer inquiries + seller document uploads** — email notifications via Resend, files stored in Vercel Blob
 - **5 registries supported**: Verra, Gold Standard, ACR, Puro.earth, Climate Action Reserve
-- **12 seed listings** spanning nature-based, engineered removals, renewables, community
+- **24 listings** spanning nature-based, engineered removals, renewables, community
 
 ## Local development
 
@@ -30,7 +32,7 @@ Open <http://localhost:3000>.
 |---|---|---|
 | `STRIPE_SECRET_KEY` | yes | `sk_test_…` for testing, `sk_live_…` for production |
 | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | optional | only if you add client-side Stripe Elements later |
-| `NEXT_PUBLIC_SITE_URL` | yes in prod | e.g. `https://atlas.primeorigins.org` — used for Stripe redirect URLs |
+| `NEXT_PUBLIC_SITE_URL` | yes in prod | production value is `https://www.primeoriginsatlas.org` — used for canonical URLs, sitemap and Stripe redirect URLs |
 | `BLOB_READ_WRITE_TOKEN` | yes for uploads | Set automatically when you connect a Vercel Blob store to the project (Vercel → Storage → Create → Blob). Required for sellers to upload verification documents. |
 | `RESEND_API_KEY` | yes for email | Sign up at [resend.com](https://resend.com) → API Keys → Create. Powers inquiry + seller application emails to ADMIN_EMAIL. |
 | `EMAIL_FROM` | optional | Custom sender address. Defaults to Resend's `onboarding@resend.dev`. Set once you've verified `primeorigins.org` in Resend. |
@@ -61,12 +63,12 @@ Open <http://localhost:3000>.
    git add .
    git commit -m "Initial commit — Prime Origins Atlas"
    git branch -M main
-   git remote add origin https://github.com/YOUR-USERNAME/prime-origins-atlas.git
+   git remote add origin https://github.com/triggsoliver-ship-it/prime-origins-atlas.git
    git push -u origin main
    ```
 2. **Import to Vercel.** Go to <https://vercel.com/new> → Import this repo → Vercel auto-detects Next.js → click **Deploy**.
 3. **Add env vars.** In the Vercel project: **Settings → Environment Variables**. Add `STRIPE_SECRET_KEY` and `NEXT_PUBLIC_SITE_URL` (your `*.vercel.app` URL or custom domain). Redeploy.
-4. **Connect custom domain (optional).** Vercel project → **Settings → Domains** → add `atlas.primeorigins.org` (or similar) → follow DNS instructions.
+4. **Custom domain.** Already connected: the site is live at <https://www.primeoriginsatlas.org> (the apex `primeoriginsatlas.org` redirects to `www`). Manage it in Vercel project → **Settings → Domains**.
 
 Every commit you push to `main` will auto-deploy. Branches get preview URLs.
 
@@ -91,7 +93,7 @@ The MVP is intentionally lean. Recommended next steps when you're ready:
 2. **Buyer accounts + order history** — NextAuth + Stripe customer portal
 3. **Seller payouts** — Stripe Connect (so payments split automatically to project developers)
 4. **Stripe webhook** — `/api/webhooks/stripe` to mark orders paid in DB and trigger retirement workflow
-5. **Email confirmations** — Resend or Postmark for buyer receipts + seller submission acknowledgements
+5. **Buyer-facing email** — admin notifications already ship via Resend; still to add are buyer receipts and automatic seller acknowledgements
 6. **Search index** — for >100 listings, swap the in-memory filter for Algolia or Postgres full-text
 
 ## File structure
@@ -101,19 +103,26 @@ app/
   api/
     checkout/route.ts        # Stripe Checkout session
     sell/route.ts            # Seller submissions
+    inquiry/route.ts         # Buyer "talk to us" inquiries
   browse/page.tsx            # Filterable catalog
   listings/[slug]/page.tsx   # Listing detail
   sell/page.tsx              # Seller application
   checkout/success/page.tsx
   about/, how-it-works/, faq/
+  terms/, privacy/, cookies/ # Legal pages
+  sitemap.ts, robots.ts, opengraph-image.tsx
   layout.tsx, page.tsx, globals.css
 components/
   Header.tsx, Footer.tsx
   ListingCard.tsx
   BuyPanel.tsx               # Client component, Stripe redirect
+  InquiryDialog.tsx, TalkToUs.tsx
+  ProjectMap.tsx             # OpenStreetMap embed for located projects
 lib/
   types.ts                   # Listing/Registry/Category types
   listings.ts                # Seed data + helpers
+  email.ts                   # Resend notifications
+  legal.ts                   # Company details for the legal pages
 ```
 
 ## License
