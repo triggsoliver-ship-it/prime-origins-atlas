@@ -623,6 +623,32 @@ export const listings: Listing[] = [
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
+  },
+  {
+    id: 'po-025',
+    slug: 'uk-housing-decarbonisation',
+    projectName: 'Housing Decarbonisation in the United Kingdom',
+    developer: 'PNZ Carbon',
+    category: 'community',
+    registry: 'Verra',
+    methodology: 'VM0008 — Weatherization of Single & Multi-Family Buildings',
+    projectId: 'VCS-2649',
+    vintage: 2024,
+    country: 'United Kingdom',
+    pricePerTonne: 122,
+    tonnesAvailable: 88000,
+    totalIssued: 88000,
+    cobenefits: ['Quantified social value (HACT UK Social Value Bank)', 'Warmer homes, lower energy bills', 'UK-domiciled impact'],
+    sdgs: [1, 7, 11, 13],
+    summary: 'Retrofit of UK housing stock — every credit carries a quantified social value alongside the verified emission reduction.',
+    description:
+      'PNZ Carbon originates verified carbon credits from the decarbonisation of UK housing stock, delivered with housing associations and their retrofit programmes. Alongside the emission reduction, each credit carries a social value figure quantified using the UK Social Value Bank developed by HACT (Housing Associations Charitable Trust) with Simetrica-Jacobs — an approach recognised in HM Treasury\'s Green Book. Credits are issued under Verra\'s Verified Carbon Standard using VM0008, the building weatherization methodology. For UK buyers this offers domestic, near-sourced abatement with a defensible social-impact narrative attached.',
+    imageUrl: 'https://images.unsplash.com/photo-1778448063789-4106abda4f45?auto=format&fit=crop&w=1400&q=70',
+    verified: true,
+    tier: 'prime-origins-verified',
+    retirementSupported: true,
+    latitude: 53.0,
+    longitude: -1.5
   }
 ];
 
@@ -672,7 +698,7 @@ export const categoryLabels: Record<string, string> = {
   'nature-based': 'Nature-based',
   'engineered-removal': 'Engineered Removal',
   'renewable-energy': 'Renewable Energy',
-  community: 'Community / Cookstoves'
+  community: 'Community / Households'
 };
 
 export const tierLabels: Record<string, string> = {
