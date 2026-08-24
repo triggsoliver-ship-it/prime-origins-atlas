@@ -299,18 +299,13 @@ export const listings: Listing[] = [
     sdgs: [2, 13, 15],
     summary: 'Cover cropping and reduced tillage across 320 ha of arable land — third-party soil sampling included.',
     description:
-      'A co-operative of three farms in the South Downs implementing cover crops, reduced-tillage and rotational grazing. Soil carbon is sampled annually by an independent UK lab. Self-verified credits — full sampling reports and methodology disclosed below.',
+      'A co-operative of three farms in the South Downs implementing cover crops, reduced-tillage and rotational grazing. Soil carbon is sampled annually by an independent UK lab. Self-verified credits — full sampling reports and methodology available from the developer on request.',
     imageUrl: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=70',
     verified: true,
     tier: 'self-verified',
     retirementSupported: true,
     latitude: 50.85,
-    longitude: 0.10,
-    documents: [
-      { label: 'Soil sampling report (2025)', url: 'https://example.com/sussex-soil-2025.pdf', filename: 'sussex-soil-2025.pdf' },
-      { label: 'Methodology disclosure', url: 'https://example.com/sussex-methodology.pdf', filename: 'sussex-methodology.pdf' },
-      { label: 'Independent lab COA', url: 'https://example.com/sussex-coa.pdf', filename: 'sussex-coa.pdf' }
-    ]
+    longitude: 0.10
   },
   {
     id: 'po-014',
@@ -331,17 +326,13 @@ export const listings: Listing[] = [
     sdgs: [1, 13, 15],
     summary: '420 smallholder farms intercropping native species with coffee and spices — biomass tracked annually.',
     description:
-      'A self-verified agroforestry programme covering 420 smallholder plots in Wayanad. Tree biomass is measured annually using allometric equations adapted from CDM AR-AMS0007. Verification documentation is provided directly by the co-operative.',
+      'A self-verified agroforestry programme covering 420 smallholder plots in Wayanad. Tree biomass is measured annually using allometric equations adapted from CDM AR-AMS0007. Verification documentation is available directly from the co-operative on request.',
     imageUrl: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1400&q=70',
     verified: true,
     tier: 'self-verified',
     retirementSupported: true,
     latitude: 11.69,
-    longitude: 76.13,
-    documents: [
-      { label: 'Biomass measurement report', url: 'https://example.com/kerala-biomass.pdf', filename: 'kerala-biomass.pdf' },
-      { label: 'Co-operative member list & plot boundaries', url: 'https://example.com/kerala-plots.pdf', filename: 'kerala-plots.pdf' }
-    ]
+    longitude: 76.13
   },
   {
     id: 'po-012',
