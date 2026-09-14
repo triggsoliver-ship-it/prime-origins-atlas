@@ -25,8 +25,14 @@ export async function POST(req: Request) {
     const feeCents = Math.round(subtotalCents * 0.04);
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || `${new URL(req.url).origin}`;
 
-    const session = await stripe.checkout.sessions.create({
+    // Atlas resells credits originated by third-party developers and takes a
+    // platform fee, so it is a marketplace. Stripe's Managed Payments supports
+    // direct-to-customer digital goods only (software, media, online courses)
+    // and requires a product tax code from that list — none of which describes
+    // a carbon credit. Opt out per session rather than mislabelling the goods.
+    const sessionParams = {
       mode: 'payment',
+      managed_payments: { enabled: false },
       line_items: [
         {
           quantity: qty,
@@ -56,7 +62,11 @@ export async function POST(req: Request) {
       },
       success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/listings/${listing.slug}?cancelled=1`
-    });
+    };
+
+    const session = await stripe.checkout.sessions.create(
+      sessionParams as unknown as Stripe.Checkout.SessionCreateParams
+    );
 
     return NextResponse.json({ url: session.url });
   } catch (e: unknown) {
