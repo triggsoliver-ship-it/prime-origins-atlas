@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Listing } from '@/lib/types';
 import TalkToUs from './TalkToUs';
 
@@ -10,9 +10,33 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Listing pages are statically generated for SEO, so the tonnage baked into
+  // the HTML can be stale. Ask the server what is actually left.
+  const [available, setAvailable] = useState(listing.tonnesAvailable);
+  const [stockChecked, setStockChecked] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/inventory?listingId=${encodeURIComponent(listing.id)}`, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (cancelled || !d || typeof d.available !== 'number') return;
+        setAvailable(d.available);
+        setTonnes((t) => Math.min(Math.max(1, t), Math.max(1, d.available)));
+      })
+      .catch(() => { /* keep the static figure */ })
+      .finally(() => { if (!cancelled) setStockChecked(true); });
+    return () => { cancelled = true; };
+  }, [listing.id]);
+
+  const soldOut = stockChecked && available <= 0;
   const subtotal = tonnes * listing.pricePerTonne;
   const platformFee = subtotal * 0.04; // 4% Prime Origins fee
   const total = subtotal + platformFee;
+
+  function clamp(n: number) {
+    return Math.max(1, Math.min(Math.max(1, available), n));
+  }
 
   async function handleCheckout() {
     setLoading(true);
@@ -24,7 +48,14 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
         body: JSON.stringify({ listingId: listing.id, tonnes, retire })
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Checkout failed');
+      if (!res.ok) {
+        // 409 means someone else took the stock while this tab was open.
+        if (typeof data.available === 'number') {
+          setAvailable(data.available);
+          setTonnes(clamp(tonnes));
+        }
+        throw new Error(data.error || 'Checkout failed');
+      }
       window.location.href = data.url;
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Something went wrong');
@@ -41,48 +72,59 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
             <p className="text-3xl font-semibold text-forest-900">£{listing.pricePerTonne.toFixed(2)}
               <span className="text-sm font-normal text-forest-700"> / tCO₂e</span></p>
           </div>
-          <p className="text-xs text-forest-700">{listing.tonnesAvailable.toLocaleString()} available</p>
+          <p className="text-xs text-forest-700">
+            {soldOut ? 'Sold out' : `${available.toLocaleString()} available`}
+          </p>
         </div>
 
-        <div className="mt-5">
-          <label htmlFor="buy-tonnes" className="text-xs uppercase tracking-wider text-forest-600">Tonnes</label>
-          <div className="mt-1 flex items-center gap-2">
-            <button type="button" aria-label="Decrease tonnes by 10" onClick={() => setTonnes(Math.max(1, tonnes - 10))} className="h-9 w-9 rounded-lg border border-forest-200 text-forest-700 hover:bg-forest-50 focus:outline-none focus:ring-2 focus:ring-forest-500">–</button>
-            <input
-              id="buy-tonnes"
-              type="number"
-              min={1}
-              max={listing.tonnesAvailable}
-              value={tonnes}
-              onChange={(e) => setTonnes(Math.max(1, Math.min(listing.tonnesAvailable, Number(e.target.value || 1))))}
-              className="h-9 flex-1 rounded-lg border border-forest-200 text-center text-sm focus:outline-none focus:ring-2 focus:ring-forest-500"
-            />
-            <button type="button" aria-label="Increase tonnes by 10" onClick={() => setTonnes(Math.min(listing.tonnesAvailable, tonnes + 10))} className="h-9 w-9 rounded-lg border border-forest-200 text-forest-700 hover:bg-forest-50 focus:outline-none focus:ring-2 focus:ring-forest-500">+</button>
+        {soldOut ? (
+          <div className="mt-5 rounded-xl border border-forest-100 bg-forest-50/60 p-4 text-sm text-forest-800">
+            <p className="font-medium text-forest-900">These credits have sold out.</p>
+            <p className="mt-1">We can often source more from the same project — tell us what you need and we&rsquo;ll come back to you.</p>
           </div>
-        </div>
+        ) : (
+          <>
+            <div className="mt-5">
+              <label htmlFor="buy-tonnes" className="text-xs uppercase tracking-wider text-forest-600">Tonnes</label>
+              <div className="mt-1 flex items-center gap-2">
+                <button type="button" aria-label="Decrease tonnes by 10" onClick={() => setTonnes(clamp(tonnes - 10))} className="h-9 w-9 rounded-lg border border-forest-200 text-forest-700 hover:bg-forest-50 focus:outline-none focus:ring-2 focus:ring-forest-500">–</button>
+                <input
+                  id="buy-tonnes"
+                  type="number"
+                  min={1}
+                  max={available}
+                  value={tonnes}
+                  onChange={(e) => setTonnes(clamp(Number(e.target.value || 1)))}
+                  className="h-9 flex-1 rounded-lg border border-forest-200 text-center text-sm focus:outline-none focus:ring-2 focus:ring-forest-500"
+                />
+                <button type="button" aria-label="Increase tonnes by 10" onClick={() => setTonnes(clamp(tonnes + 10))} className="h-9 w-9 rounded-lg border border-forest-200 text-forest-700 hover:bg-forest-50 focus:outline-none focus:ring-2 focus:ring-forest-500">+</button>
+              </div>
+            </div>
 
-        <label className="mt-4 flex items-start gap-2 text-sm text-forest-800 cursor-pointer">
-          <input type="checkbox" checked={retire} onChange={(e) => setRetire(e.target.checked)} className="mt-0.5 h-4 w-4 rounded border-forest-300 text-forest-700 focus:ring-forest-500" />
-          <span>Retire credits in my name on the {listing.registry} registry (certificate within 48h)</span>
-        </label>
+            <label className="mt-4 flex items-start gap-2 text-sm text-forest-800 cursor-pointer">
+              <input type="checkbox" checked={retire} onChange={(e) => setRetire(e.target.checked)} className="mt-0.5 h-4 w-4 rounded border-forest-300 text-forest-700 focus:ring-forest-500" />
+              <span>Retire credits in my name on the {listing.registry} registry (certificate within 48h)</span>
+            </label>
 
-        <dl className="mt-5 space-y-1.5 text-sm border-t border-forest-100 pt-4">
-          <Row label={`Credits (${tonnes} × £${listing.pricePerTonne.toFixed(2)})`} value={`£${subtotal.toFixed(2)}`} />
-          <Row label="Platform fee (4%)" value={`£${platformFee.toFixed(2)}`} />
-          <div className="border-t border-forest-100 pt-2 mt-1">
-            <Row label={<strong>Total</strong>} value={<strong className="text-forest-900">£{total.toFixed(2)}</strong>} />
-          </div>
-        </dl>
+            <dl className="mt-5 space-y-1.5 text-sm border-t border-forest-100 pt-4">
+              <Row label={`Credits (${tonnes} × £${listing.pricePerTonne.toFixed(2)})`} value={`£${subtotal.toFixed(2)}`} />
+              <Row label="Platform fee (4%)" value={`£${platformFee.toFixed(2)}`} />
+              <div className="border-t border-forest-100 pt-2 mt-1">
+                <Row label={<strong>Total</strong>} value={<strong className="text-forest-900">£{total.toFixed(2)}</strong>} />
+              </div>
+            </dl>
 
-        <button
-          onClick={handleCheckout}
-          disabled={loading}
-          className="btn-primary w-full mt-5 disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          {loading ? 'Redirecting…' : 'Continue to checkout'}
-        </button>
-        {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
-        <p className="mt-3 text-[11px] text-forest-700/70 text-center">Secure checkout via Stripe. You can cancel any time before payment.</p>
+            <button
+              onClick={handleCheckout}
+              disabled={loading}
+              className="btn-primary w-full mt-5 disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Redirecting…' : 'Continue to checkout'}
+            </button>
+            {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
+            <p className="mt-3 text-[11px] text-forest-700/70 text-center">Secure checkout via Stripe. You can cancel any time before payment.</p>
+          </>
+        )}
       </div>
 
       <div className="mt-4 rounded-2xl border border-forest-100 bg-forest-50/50 p-5 text-sm text-forest-800">

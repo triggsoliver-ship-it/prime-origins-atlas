@@ -3,6 +3,7 @@ import Stripe from 'stripe';
 import { put, head } from '@vercel/blob';
 import { sendAdminEmail, fieldsToHtml } from '@/lib/email';
 import { getListingById } from '@/lib/listings';
+import { confirm, inventoryEnabled } from '@/lib/inventory';
 
 export const runtime = 'nodejs';
 
@@ -11,7 +12,8 @@ export const runtime = 'nodejs';
  *
  * Without this, a paid order exists only in the Stripe dashboard and nothing
  * tells us to retire credits on the registry. On `checkout.session.completed`
- * we write an order record to Vercel Blob and email ADMIN_EMAIL.
+ * we confirm the inventory hold, write an order record to Vercel Blob, and
+ * email ADMIN_EMAIL.
  *
  * Requires STRIPE_WEBHOOK_SECRET (Stripe Dashboard -> Developers -> Webhooks ->
  * add endpoint https://www.primeoriginsatlas.org/api/webhooks/stripe, subscribe
@@ -57,9 +59,43 @@ export async function POST(req: Request) {
   const listing = listingId ? getListingById(listingId) : undefined;
   const tonnes = Number(session.metadata?.tonnes ?? 0);
   const retire = session.metadata?.retire === 'yes';
+  const reservationId = session.metadata?.reservationId ?? '';
+
+  const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
+  const blobPath = `orders/${session.id}.json`;
+
+  // Stripe retries webhooks. A deterministic path plus this existence check
+  // keeps retries from duplicating the order record or the email. The stock
+  // confirmation below is separately idempotent in SQL.
+  if (blobToken) {
+    try {
+      await head(blobPath, { token: blobToken });
+      console.log('[stripe webhook] order already recorded, skipping:', session.id);
+      return NextResponse.json({ received: true, duplicate: true });
+    } catch {
+      // Not found — first time we have seen this session, carry on.
+    }
+  }
+
+  // Convert the hold into a sale so the tonnes stop being offered.
+  let stockNote = '';
+  if (inventoryEnabled && reservationId) {
+    const res = await confirm(reservationId);
+    if (!res.ok) {
+      stockNote = `STOCK NOT DECREMENTED — ${res.reason ?? 'unknown error'}. Adjust inventory manually.`;
+      console.error('[stripe webhook] could not confirm reservation', reservationId, res.reason);
+    } else if (res.oversold) {
+      stockNote = 'WARNING: this sale takes the project past its listed total. Check before retiring.';
+    } else if (res.expiredHold) {
+      stockNote = 'Note: the buyer paid after their hold expired, but the sale was recorded.';
+    }
+  } else if (!inventoryEnabled) {
+    stockNote = 'Inventory tracking is not configured, so availability has not changed.';
+  }
 
   const order = {
     orderId: session.id,
+    reservationId,
     paidAt: new Date(((session.created ?? Math.floor(Date.now() / 1000)) as number) * 1000).toISOString(),
     recordedAt: new Date().toISOString(),
     listingId,
@@ -70,28 +106,16 @@ export async function POST(req: Request) {
     vintage: listing?.vintage ?? null,
     tonnes,
     pricePerTonne: listing?.pricePerTonne ?? null,
-    currency: (session.currency ?? 'usd').toUpperCase(),
+    currency: (session.currency ?? 'gbp').toUpperCase(),
     amountTotal: session.amount_total != null ? session.amount_total / 100 : null,
     retirementRequested: retire,
     customerEmail: session.customer_details?.email ?? session.customer_email ?? '',
     customerName: session.customer_details?.name ?? '',
-    paymentIntent: typeof session.payment_intent === 'string' ? session.payment_intent : null
+    paymentIntent: typeof session.payment_intent === 'string' ? session.payment_intent : null,
+    stockNote
   };
 
-  const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
-  const blobPath = `orders/${session.id}.json`;
-
-  // Stripe retries webhooks. A deterministic path plus this existence check
-  // keeps retries from duplicating the order record or the email.
   if (blobToken) {
-    try {
-      await head(blobPath, { token: blobToken });
-      console.log('[stripe webhook] order already recorded, skipping:', session.id);
-      return NextResponse.json({ received: true, duplicate: true });
-    } catch {
-      // Not found — first time we have seen this session, carry on.
-    }
-
     try {
       await put(blobPath, JSON.stringify(order, null, 2), {
         access: 'public',
@@ -112,6 +136,7 @@ export async function POST(req: Request) {
       <p style="color:#3a8b58">${retire
         ? 'The buyer asked for the credits to be retired in their name. The listing page promises a certificate within 48 hours.'
         : 'No retirement requested — the buyer is taking delivery of the credits.'}</p>
+      ${stockNote ? `<p style="background:#fef3c7;border-left:4px solid #d97706;padding:10px 14px;color:#7c2d12;font-size:14px">${stockNote}</p>` : ''}
       ${fieldsToHtml({
         'Project': order.projectName,
         'Developer': order.developer,
@@ -127,6 +152,7 @@ export async function POST(req: Request) {
         'Email': order.customerEmail,
         '— Reference —': '',
         'Order / session ID': order.orderId,
+        'Reservation ID': order.reservationId || '(none)',
         'Payment intent': order.paymentIntent ?? '',
         'Paid at': order.paidAt
       })}
