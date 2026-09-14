@@ -106,7 +106,7 @@ export default function BrowsePage() {
             />
           </FilterBox>
 
-          <FilterBox label="Max price per tonne (USD)">
+          <FilterBox label="Max price per tonne (GBP)">
             <input
               type="number"
               value={maxPrice}

@@ -37,7 +37,7 @@ export async function POST(req: Request) {
         {
           quantity: qty,
           price_data: {
-            currency: 'usd',
+            currency: 'gbp',
             unit_amount: Math.round(listing.pricePerTonne * 100),
             product_data: {
               name: `${listing.projectName} — ${listing.registry} ${listing.vintage}`,
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
         {
           quantity: 1,
           price_data: {
-            currency: 'usd',
+            currency: 'gbp',
             unit_amount: feeCents,
             product_data: { name: 'Prime Origins platform fee (4%)' }
           }

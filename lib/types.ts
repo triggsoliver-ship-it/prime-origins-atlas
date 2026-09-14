@@ -32,7 +32,7 @@ export type Listing = {
   vintage: number; // year credits were generated
   country: string;
   region?: string;
-  pricePerTonne: number; // USD
+  pricePerTonne: number; // GBP
   tonnesAvailable: number;
   totalIssued: number;
   bufferPoolPct?: number;

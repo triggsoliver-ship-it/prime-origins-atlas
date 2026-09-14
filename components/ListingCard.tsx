@@ -41,7 +41,7 @@ export default function ListingCard({ listing }: { listing: Listing }) {
         <div className="mt-2 flex items-end justify-between border-t border-forest-100 pt-3">
           <div>
             <p className="text-[11px] uppercase tracking-wider text-forest-600">From</p>
-            <p className="text-lg font-semibold text-forest-900">${listing.pricePerTonne.toFixed(2)}<span className="text-xs font-normal text-forest-700">/tCO₂e</span></p>
+            <p className="text-lg font-semibold text-forest-900">£{listing.pricePerTonne.toFixed(2)}<span className="text-xs font-normal text-forest-700">/tCO₂e</span></p>
           </div>
           <span className="inline-flex items-center gap-1 text-xs font-medium text-forest-700/80 transition-all group-hover:text-forest-700 group-hover:gap-1.5">
             {listing.tonnesAvailable.toLocaleString()} t available

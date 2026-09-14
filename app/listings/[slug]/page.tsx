@@ -13,8 +13,8 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
   const l = getListing(params.slug);
   if (!l) return { title: 'Listing not found' };
-  const title = `${l.projectName} — ${l.registry} ${l.vintage} Carbon Credits | $${l.pricePerTonne}/tCO₂e`;
-  const description = `${l.summary} Buy ${l.projectName} carbon credits from $${l.pricePerTonne.toFixed(2)} per tonne. ${l.registry}, ${l.country}, vintage ${l.vintage}. Retirement included.`;
+  const title = `${l.projectName} — ${l.registry} ${l.vintage} Carbon Credits | £${l.pricePerTonne}/tCO₂e`;
+  const description = `${l.summary} Buy ${l.projectName} carbon credits from £${l.pricePerTonne.toFixed(2)} per tonne. ${l.registry}, ${l.country}, vintage ${l.vintage}. Retirement included.`;
   return {
     title,
     description,
@@ -55,7 +55,7 @@ export default function ListingDetail({ params }: { params: { slug: string } }) 
     offers: {
       '@type': 'Offer',
       url: `/listings/${listing.slug}`,
-      priceCurrency: 'USD',
+      priceCurrency: 'GBP',
       price: listing.pricePerTonne,
       availability: listing.tonnesAvailable > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       itemCondition: 'https://schema.org/NewCondition'

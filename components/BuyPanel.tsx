@@ -38,7 +38,7 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
         <div className="flex items-end justify-between">
           <div>
             <p className="text-[11px] uppercase tracking-wider text-forest-600">Price</p>
-            <p className="text-3xl font-semibold text-forest-900">${listing.pricePerTonne.toFixed(2)}
+            <p className="text-3xl font-semibold text-forest-900">£{listing.pricePerTonne.toFixed(2)}
               <span className="text-sm font-normal text-forest-700"> / tCO₂e</span></p>
           </div>
           <p className="text-xs text-forest-700">{listing.tonnesAvailable.toLocaleString()} available</p>
@@ -67,10 +67,10 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
         </label>
 
         <dl className="mt-5 space-y-1.5 text-sm border-t border-forest-100 pt-4">
-          <Row label={`Credits (${tonnes} × $${listing.pricePerTonne.toFixed(2)})`} value={`$${subtotal.toFixed(2)}`} />
-          <Row label="Platform fee (4%)" value={`$${platformFee.toFixed(2)}`} />
+          <Row label={`Credits (${tonnes} × £${listing.pricePerTonne.toFixed(2)})`} value={`£${subtotal.toFixed(2)}`} />
+          <Row label="Platform fee (4%)" value={`£${platformFee.toFixed(2)}`} />
           <div className="border-t border-forest-100 pt-2 mt-1">
-            <Row label={<strong>Total</strong>} value={<strong className="text-forest-900">${total.toFixed(2)}</strong>} />
+            <Row label={<strong>Total</strong>} value={<strong className="text-forest-900">£{total.toFixed(2)}</strong>} />
           </div>
         </dl>
 
