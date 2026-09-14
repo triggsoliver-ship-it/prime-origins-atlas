@@ -91,7 +91,7 @@ export async function POST(req: Request) {
           'Region': base.region || '',
           'Vintage': base.vintage,
           'Tonnes available': base.tonnesAvailable,
-          'Asking price (USD/tCO₂e)': base.pricePerTonne,
+          'Asking price (GBP/tCO₂e)': base.pricePerTonne,
           'Latitude': base.latitude,
           'Longitude': base.longitude,
           'Summary': base.summary || '',
