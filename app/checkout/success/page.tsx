@@ -33,8 +33,9 @@ async function checkSession(sessionId: string | undefined): Promise<{ state: Pay
   }
 }
 
-export default async function SuccessPage({ searchParams }: { searchParams: { session_id?: string } }) {
-  const sessionId = searchParams.session_id;
+export default async function SuccessPage({ searchParams }: { searchParams: Promise<{ session_id?: string }> }) {
+  // Next 15: searchParams is a Promise.
+  const { session_id: sessionId } = await searchParams;
   const { state, tonnes, retire } = await checkSession(sessionId);
 
   if (state === 'paid') {

@@ -10,8 +10,10 @@ export function generateStaticParams() {
   return listings.map((l) => ({ slug: l.slug }));
 }
 
-export function generateMetadata({ params }: { params: { slug: string } }): Metadata {
-  const l = getListing(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  // Next 15: params is a Promise.
+  const { slug } = await params;
+  const l = getListing(slug);
   if (!l) return { title: 'Listing not found' };
   const title = `${l.projectName} — ${l.registry} ${l.vintage} Carbon Credits | £${l.pricePerTonne}/tCO₂e`;
   const description = `${l.summary} Buy ${l.projectName} carbon credits from £${l.pricePerTonne.toFixed(2)} per tonne. ${l.registry}, ${l.country}, vintage ${l.vintage}. Retirement included.`;
@@ -40,8 +42,9 @@ export function generateMetadata({ params }: { params: { slug: string } }): Meta
   };
 }
 
-export default function ListingDetail({ params }: { params: { slug: string } }) {
-  const listing = getListing(params.slug);
+export default async function ListingDetail({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const listing = getListing(slug);
   if (!listing) notFound();
 
   const jsonLd = {
