@@ -32,6 +32,9 @@ export default function ListingCard({ listing }: { listing: Listing }) {
           {listing.tier === 'self-verified' && (
             <span className="chip bg-amber-500 text-white shadow-sm">Self-Verified</span>
           )}
+          {listing.unitType === 'piu' && (
+            <span className="chip bg-amber-500 text-white shadow-sm">Pending units</span>
+          )}
         </div>
       </div>
       <div className="flex flex-col p-5 gap-3">

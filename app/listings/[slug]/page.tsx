@@ -59,6 +59,10 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
   // say so — telling Google "InStock" about credits we do not hold is the same
   // false promise as printing it on the page.
   const inStock = isSaleable(listing.id);
+  // The UK codes publish a different set of facts from the international
+  // registries, and the pending/verified split changes what a buyer may claim.
+  const isUkCode = listing.registry === 'Woodland Carbon Code' || listing.registry === 'Peatland Code';
+  const isPending = listing.unitType === 'piu';
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -107,12 +111,32 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
             <div className="flex flex-wrap gap-2 mb-3">
               <span className="chip">{categoryLabels[listing.category]}</span>
               <span className="chip">{listing.registry}</span>
-              {listing.tier === 'prime-origins-verified' && <span className="chip bg-forest-700 text-white">✓ Prime Origins Vetted</span>}
+              {listing.tier === 'prime-origins-verified' && <span className="chip bg-forest-700 text-white">Registry-issued</span>}
+              {listing.unitType === 'piu' && <span className="chip bg-amber-500 text-white">Pending units</span>}
               {listing.tier === 'self-verified' && <span className="chip bg-amber-500 text-white">Self-Verified</span>}
             </div>
             <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">{listing.projectName}</h1>
             <p className="mt-1 text-forest-700">{listing.developer} · {listing.country}{listing.region ? `, ${listing.region}` : ''}</p>
             <p className="mt-5 text-forest-800 leading-relaxed">{listing.description}</p>
+
+            {isPending && (
+              <div className="mt-6 rounded-2xl border-l-4 border-amber-500 bg-amber-50 p-5">
+                <p className="text-[11px] uppercase tracking-wider text-amber-700 font-semibold">
+                  This is a Pending Issuance Unit
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-forest-900">
+                  A Pending Issuance Unit is the Woodland Carbon Code&rsquo;s promise to deliver a verified unit in
+                  future, based on predicted removal. <strong>It is not yet a carbon credit, and it cannot be used to
+                  report against your emissions.</strong> Only a verified Woodland Carbon Unit can do that, and only
+                  against UK emissions &mdash; never against international aviation or shipping.
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-forest-800">
+                  What it is good for: locking in future UK removals at today&rsquo;s price, and making an honest
+                  public statement that you are funding new UK woodland. Units convert as each vintage passes
+                  verification, from year five and roughly every ten years after.
+                </p>
+              </div>
+            )}
           </div>
 
           <section className="mt-10">
@@ -121,12 +145,26 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
               <Field label="Registry" value={listing.registry} />
               <Field label="Project ID" value={listing.projectId} />
               <Field label="Methodology" value={listing.methodology} />
-              <Field label="Vintage" value={String(listing.vintage)} />
-              <Field label="Total issued" value={`${listing.totalIssued.toLocaleString()} tCO₂e`} />
-              <Field
-                label={inStock ? 'Available' : 'Indicative volume'}
-                value={`${listing.tonnesAvailable.toLocaleString()} tCO₂e`}
-              />
+              {isUkCode ? (
+                <>
+                  <Field label="Planting year" value={String(listing.plantingYear ?? listing.vintage)} />
+                  {listing.areaHectares !== undefined && (
+                    <Field label="Area planted" value={`${listing.areaHectares.toLocaleString()} ha`} />
+                  )}
+                  {listing.predictedTonnes !== undefined && (
+                    <Field label="Predicted sequestration" value={`${listing.predictedTonnes.toLocaleString()} tCO₂e`} />
+                  )}
+                </>
+              ) : (
+                <>
+                  <Field label="Vintage" value={String(listing.vintage)} />
+                  <Field label="Total issued" value={`${listing.totalIssued.toLocaleString()} tCO₂e`} />
+                  <Field
+                    label={inStock ? 'Available' : 'Indicative volume'}
+                    value={`${listing.tonnesAvailable.toLocaleString()} tCO₂e`}
+                  />
+                </>
+              )}
               {listing.bufferPoolPct !== undefined && <Field label="Buffer pool" value={`${listing.bufferPoolPct}%`} />}
               <Field label="Retirement" value={listing.retirementSupported ? 'Supported' : 'On request'} />
             </dl>
@@ -183,13 +221,19 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
             <ul className="space-y-2 text-sm text-forest-800">
               <Check label={`Registered under ${listing.registry} — public serial numbers available`} />
               <Check label={`Methodology: ${listing.methodology}`} />
-              {listing.bufferPoolPct ? <Check label={`${listing.bufferPoolPct}% contribution to permanence buffer pool`} /> : null}
+              {listing.bufferPoolPct ? (
+                <Check label={isUkCode
+                  ? `${listing.bufferPoolPct}% of this project's units go to the Woodland Carbon Code buffer, which covers losses across the scheme`
+                  : `${listing.bufferPoolPct}% contribution to permanence buffer pool`} />
+              ) : null}
               {listing.tier === 'prime-origins-verified' ? (
                 <Check label="Listing reviewed by Prime Origins for additionality, permanence and co-benefit substance" />
               ) : (
                 <Check label="Listed by the developer and not independently reviewed by Prime Origins — check the documents before committing" />
               )}
-              {inStock ? (
+              {isPending ? (
+                <Check label="Assigned to you on the UK Land Carbon Registry — pending units cannot be retired until they are verified" />
+              ) : inStock ? (
                 <Check label="Retirement certificate provided within 48h of purchase" />
               ) : (
                 <Check label="Retirement handled on your behalf, with the certificate issued once the registry transfer completes" />

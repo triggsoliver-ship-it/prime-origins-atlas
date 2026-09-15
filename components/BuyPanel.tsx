@@ -42,6 +42,7 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
     return () => { cancelled = true; };
   }, [listing.id]);
 
+  const isPending = listing.unitType === 'piu';
   const canBuy = saleable === true && available > 0;
   const soldOut = saleable === true && available <= 0;
   const { subtotal, fee, total } = quoteFor(listing.pricePerTonne, tonnes);
@@ -124,15 +125,26 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
           </div>
         </div>
 
-        <label className="mt-4 flex items-start gap-2 text-sm text-forest-800 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={retire}
-            onChange={(e) => setRetire(e.target.checked)}
-            className="mt-0.5 h-4 w-4 rounded border-forest-300 text-forest-700 focus:ring-forest-500"
-          />
-          <span>Retire credits in my name on the {listing.registry} registry</span>
-        </label>
+        {isPending ? (
+          /* A Pending Issuance Unit cannot be retired — there is nothing
+             verified to retire yet. Offering a retirement tickbox here would
+             promise something the registry will not do. */
+          <p className="mt-4 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2.5 text-xs leading-relaxed text-forest-900">
+            <strong>Pending units are assigned, not retired.</strong> We assign them to you on the UK Land Carbon
+            Registry so the sale is on the public record. They can be retired once the project passes verification
+            and they convert to Woodland Carbon Units.
+          </p>
+        ) : (
+          <label className="mt-4 flex items-start gap-2 text-sm text-forest-800 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={retire}
+              onChange={(e) => setRetire(e.target.checked)}
+              className="mt-0.5 h-4 w-4 rounded border-forest-300 text-forest-700 focus:ring-forest-500"
+            />
+            <span>Retire credits in my name on the {listing.registry} registry</span>
+          </label>
+        )}
 
         <dl className="mt-5 space-y-1.5 text-sm border-t border-forest-100 pt-4">
           <Row label={`Credits (${tonnes.toLocaleString()} × ${gbp(listing.pricePerTonne)})`} value={gbp(subtotal)} />
@@ -167,6 +179,8 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
             <p className="mt-3 text-[11px] leading-relaxed text-forest-700/80 text-center">
               {soldOut
                 ? 'This allocation has gone. We can usually source more from the same project — tell us what you need.'
+                : isPending
+                ? 'Indicative price is the 2025 UK market average. We confirm the real price and how many units this project has left with the developer before you commit to anything.'
                 : 'We source this project to order. You will get a firm price, vintage and registry serial numbers in writing before any payment is taken.'}
             </p>
           </>
@@ -189,8 +203,9 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
           listingId: listing.id,
           listingName: listing.projectName,
           tonnes,
-          retire,
-          registry: listing.registry
+          retire: isPending ? false : retire,
+          registry: listing.registry,
+          unitType: listing.unitType
         }}
       />
     </aside>

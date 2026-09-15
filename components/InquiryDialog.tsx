@@ -8,6 +8,7 @@ export type InquiryContext = {
   tonnes?: number;
   retire?: boolean;
   registry?: string;
+  unitType?: 'piu' | 'wcu';
 };
 
 /**
@@ -63,7 +64,12 @@ export default function InquiryDialog({
     if (context?.registry) payload.registry = context.registry;
     if (isQuote) {
       payload.type = 'quote';
-      payload.retirement = context?.retire ? 'Yes — retire in buyer name' : 'No — transfer only';
+      if (context?.unitType) {
+        payload.unitType = context.unitType === 'piu' ? 'Pending Issuance Units' : 'Verified Woodland Carbon Units';
+      }
+      payload.retirement = context?.unitType === 'piu'
+        ? 'N/A — pending units are assigned, not retired'
+        : context?.retire ? 'Yes — retire in buyer name' : 'No — transfer only';
     }
 
     try {
@@ -120,7 +126,10 @@ export default function InquiryDialog({
                 {isQuote && typeof context.tonnes === 'number' && (
                   <p className="mt-1"><span className="text-forest-700/80">Volume:</span> <strong>{context.tonnes.toLocaleString()} tCO₂e</strong></p>
                 )}
-                {isQuote && (
+                {isQuote && context.unitType === 'piu' && (
+                  <p className="mt-1"><span className="text-forest-700/80">Unit type:</span> <strong>Pending Issuance Units</strong></p>
+                )}
+                {isQuote && context.unitType !== 'piu' && (
                   <p className="mt-1">
                     <span className="text-forest-700/80">Retirement:</span>{' '}
                     <strong>{context.retire ? `Yes, in your name on the ${context.registry ?? 'registry'}` : 'No, transfer only'}</strong>
