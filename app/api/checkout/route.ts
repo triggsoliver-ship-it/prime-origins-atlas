@@ -29,20 +29,18 @@ export async function POST(req: Request) {
     const stripe = new Stripe(key, { apiVersion: '2024-06-20' });
 
     // Take the stock BEFORE creating anything payable. If two buyers arrive at
-    // once, exactly one of them gets past this.
+    // once, exactly one of them gets past this. This is also where a listing we
+    // cannot actually deliver is refused outright.
     const reservationId = randomUUID();
     const held = await reserve(reservationId, listing.id, qty, HOLD_MINUTES);
     if (!held.ok) {
-      return NextResponse.json(
-        {
-          error:
-            held.available > 0
-              ? `Only ${held.available.toLocaleString()} tCO₂e are still available on this project.`
-              : 'These credits have just sold out.',
-          available: held.available
-        },
-        { status: 409 }
-      );
+      const message =
+        held.reason === 'not_saleable'
+          ? 'This project is not currently available to buy. Please get in touch and we will tell you what we can source.'
+          : held.available > 0
+          ? `Only ${held.available.toLocaleString()} tCO₂e are still available on this project.`
+          : 'These credits have just sold out.';
+      return NextResponse.json({ error: message, available: held.available }, { status: 409 });
     }
 
     const subtotalPence = Math.round(listing.pricePerTonne * qty * 100);
