@@ -27,7 +27,7 @@ export default function ListingCard({ listing }: { listing: Listing }) {
         <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
           <span className="chip backdrop-blur bg-white/85 shadow-sm">{categoryLabels[listing.category]}</span>
           {listing.tier === 'prime-origins-verified' && (
-            <span className="chip bg-forest-700 text-white shadow-sm">✓ Vetted</span>
+            <span className="chip bg-forest-700 text-white shadow-sm">Registry-issued</span>
           )}
           {listing.tier === 'self-verified' && (
             <span className="chip bg-amber-500 text-white shadow-sm">Self-Verified</span>

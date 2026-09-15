@@ -10,9 +10,10 @@ export default function HomePage() {
   // The catalogue total, which is what the projects could supply — not stock
   // Atlas holds. Labelled "Tonnes listed" for that reason.
   const totalTonnes = listings.reduce((s, l) => s + l.tonnesAvailable, 0);
-  // Not every listing has been through Prime Origins vetting — self-verified
-  // ones are the developer's own word. Count them rather than implying all are.
-  const vettedCount = listings.filter((l) => l.tier === 'prime-origins-verified').length;
+  // This counts where credits came from, not that anyone here reviewed them.
+  // "Vetted" was claiming a review process the seeded catalogue never had;
+  // registry-issued is a fact about the listing that a buyer can check.
+  const registryIssuedCount = listings.filter((l) => l.tier === 'prime-origins-verified').length;
 
   const orgJsonLd = {
     '@context': 'https://schema.org',
@@ -69,7 +70,7 @@ export default function HomePage() {
           </div>
           <dl className="reveal reveal-delay-4 mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl">
             <Stat label="Projects listed" value={String(listings.length)} />
-            <Stat label="Prime Origins vetted" value={String(vettedCount)} />
+            <Stat label="Registry-issued" value={String(registryIssuedCount)} />
             <Stat label="Tonnes listed" value={`${(totalTonnes / 1000).toFixed(0)}k`} />
             <Stat label="Countries" value={String(new Set(listings.map((l) => l.country)).size)} />
           </dl>
