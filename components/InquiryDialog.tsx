@@ -33,6 +33,7 @@ export default function InquiryDialog({
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fallbackEmail, setFallbackEmail] = useState<string | null>(null);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) { if (e.key === 'Escape') onClose(); }
@@ -42,7 +43,7 @@ export default function InquiryDialog({
 
   // A fresh dialog should not open on last time's confirmation screen.
   useEffect(() => {
-    if (open) { setDone(false); setError(null); setLoading(false); }
+    if (open) { setDone(false); setError(null); setFallbackEmail(null); setLoading(false); }
   }, [open]);
 
   if (!open) return null;
@@ -71,7 +72,11 @@ export default function InquiryDialog({
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(payload)
       });
-      if (!res.ok) throw new Error((await res.json()).error || 'Submission failed');
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        if (body?.contactEmail) setFallbackEmail(String(body.contactEmail));
+        throw new Error(body?.error || 'Submission failed');
+      }
       setDone(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Submission failed');
@@ -154,7 +159,18 @@ export default function InquiryDialog({
               </div>
             </div>
 
-            {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+            {error && (
+              <div className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700">
+                <p>{error}</p>
+                {fallbackEmail && (
+                  <p className="mt-1.5">
+                    <a className="font-semibold underline" href={`mailto:${fallbackEmail}?subject=${encodeURIComponent(isQuote ? 'Quote request' : 'Enquiry')}`}>
+                      Email {fallbackEmail}
+                    </a>
+                  </p>
+                )}
+              </div>
+            )}
 
             <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
               <p className="text-xs text-forest-700/70">

@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
 import { sendAdminEmail, fieldsToHtml, escapeHtml } from '@/lib/email';
+import { storeLead } from '@/lib/leads';
 
 export const runtime = 'nodejs';
 
 /**
  * Enquiry endpoint — captures "Talk to us" leads and, since the catalogue moved
  * to sourcing-to-order, the quote requests that are now Atlas's main way of
- * taking business. Sends an email to ADMIN_EMAIL via Resend (when
- * RESEND_API_KEY is set) and forwards to any configured webhook for redundancy.
+ * taking business. Writes every lead to Blob storage, then notifies
+ * ADMIN_EMAIL via Resend and any configured webhook.
  */
 export async function POST(req: Request) {
   try {
@@ -25,6 +26,9 @@ export async function POST(req: Request) {
     };
 
     console.log(isQuote ? '[Atlas quote]' : '[Atlas inquiry]', JSON.stringify(payload, null, 2));
+
+    // Record first, notify second. Email is best-effort; this is the receipt.
+    const stored = await storeLead(payload);
 
     // Send email
     const subjectBits = [
@@ -82,6 +86,22 @@ export async function POST(req: Request) {
       console.warn('[Atlas inquiry] email not sent:', emailResult.error);
     }
 
+    // If the lead reached neither the inbox nor storage, say so. Confirming a
+    // quote request that landed nowhere is how a real buyer gets lost.
+    if (!emailResult.sent && !stored.stored) {
+      console.error('[Atlas inquiry] LEAD LOST — email and blob both failed', {
+        email: emailResult.error,
+        blob: stored.error
+      });
+      return NextResponse.json(
+        {
+          error: 'We could not record your message. Please email oliver@primeorigins.org directly and we will pick it up straight away.',
+          contactEmail: 'oliver@primeorigins.org'
+        },
+        { status: 502 }
+      );
+    }
+
     // Optional webhook (Slack/Zapier/Make)
     const webhook = process.env.INQUIRY_WEBHOOK_URL || process.env.SELLER_WEBHOOK_URL;
     if (webhook) {
@@ -96,7 +116,7 @@ export async function POST(req: Request) {
       }
     }
 
-    return NextResponse.json({ ok: true, emailSent: emailResult.sent });
+    return NextResponse.json({ ok: true, emailSent: emailResult.sent, stored: stored.stored });
   } catch (e) {
     const msg = e instanceof Error ? e.message : 'Submission error';
     return NextResponse.json({ error: msg }, { status: 500 });
