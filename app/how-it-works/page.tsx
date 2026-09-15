@@ -1,10 +1,13 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { PLATFORM_FEE_RATE } from '@/lib/pricing';
+
+const FEE_PCT = `${Number.isInteger(PLATFORM_FEE_RATE * 100) ? PLATFORM_FEE_RATE * 100 : (PLATFORM_FEE_RATE * 100).toFixed(1)}%`;
 
 export const metadata: Metadata = {
   title: 'How Atlas Works — Buying & Selling Verified Carbon Credits',
   description:
-    'How to buy and retire carbon credits on Prime Origins Atlas, and how project developers can list. 4% platform fee. Supports Verra, Gold Standard, ACR, Puro.earth, CAR, and self-verified credits.',
+    `How to buy and retire carbon credits on Prime Origins Atlas, and how project developers can list. ${FEE_PCT} platform fee. Supports Verra, Gold Standard, ACR, Puro.earth, CAR, and self-verified credits.`,
   alternates: { canonical: '/how-it-works' }
 };
 
@@ -18,17 +21,19 @@ export default function HowItWorks() {
       </p>
 
       <Section title="For buyers">
-        <Step n={1} title="Browse vetted projects">
+        <Step n={1} title="Browse the catalogue">
           Filter by category (nature-based, engineered removal, renewable energy, community), registry, vintage and price.
-          Each listing shows the public registry serial number and methodology.
+          Each listing shows the registry, project ID and methodology, and says whether we hold the credits or source them to order.
         </Step>
-        <Step n={2} title="Buy and (optionally) retire">
-          Stripe-powered checkout. Choose how many tonnes you want. Tick the box to retire credits in your name —
-          we handle the registry retirement and email you the certificate.
+        <Step n={2} title="Request a quote, or buy outright">
+          Set the tonnage and say whether you need retirement in your own name. On projects we hold, that is a Stripe
+          checkout and you are done. On everything else we come back with a firm price and the serial numbers, and
+          nothing is charged until you accept.
         </Step>
         <Step n={3} title="Use the credit for your claim">
-          Compatible with SBTi, VCMI, CSRD and CDP reporting requirements. Registry, methodology, vintage and serial
-          numbers are all on the certificate.
+          Registry-issued credits carry everything SBTi, VCMI, CSRD and CDP reporting expects — registry, methodology,
+          vintage and serial numbers, all on the certificate. Self-verified credits are not registry-issued and are not
+          suitable for those frameworks; tell us if compliance matters and we will quote registry-issued only.
         </Step>
       </Section>
 
@@ -37,15 +42,16 @@ export default function HowItWorks() {
           Submit your project, registry ID and asking price. Our team checks the registry record and methodology rigour.
         </Step>
         <Step n={2} title="Get approved">
-          We screen for additionality, permanence, methodology, and co-benefit substance. Typical review takes 5 business days.
+          Registry-backed projects are checked against the public registry record. Self-verified projects are published
+          with your documentation attached and labelled as such. Typical review takes 5 business days.
         </Step>
-        <Step n={3} title="Sell with a 4% fee">
-          We charge 4% on credits sold — no upfront listing fee. Payouts settle weekly via Stripe.
+        <Step n={3} title={`Sell with a fee of ${FEE_PCT}`}>
+          We charge {FEE_PCT} on credits sold — no upfront listing fee. Payouts settle weekly via Stripe.
         </Step>
       </Section>
 
       <Section title="Pricing & fees">
-        <p>Prime Origins charges a flat <strong>4% platform fee</strong> on top of the listed credit price, paid by the buyer at checkout.</p>
+        <p>Prime Origins charges a flat <strong>platform fee of {FEE_PCT}</strong> on top of the credit price, paid by the buyer at checkout or on the quote. It covers sourcing, registry transfer and retirement coordination, and the retirement certificate.</p>
         <p className="mt-2">For institutional orders ({'>'}1,000 tCO₂e) we offer custom pricing and forward contracts.
           <Link href="/sell" className="text-forest-700 underline ml-1">Talk to us</Link>.</p>
       </Section>
