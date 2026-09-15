@@ -64,7 +64,7 @@ export default function SellPage() {
       <p className="mt-3 text-forest-700/85">
         Atlas accepts both <strong>registry-verified</strong> credits (Verra, Gold Standard, ACR, Puro.earth,
         Climate Action Reserve) and <strong>self-verified</strong> credits where you provide your own documentation.
-        Every project is manually reviewed before going live.
+        Registry-backed projects are checked against the public registry record; self-verified listings are published with your documentation attached and labelled as self-verified.
       </p>
 
       <div className="mt-8 rounded-2xl border border-forest-100 bg-white p-2 inline-flex">
