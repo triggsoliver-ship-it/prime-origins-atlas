@@ -7,7 +7,12 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://primeoriginsatlas.
 
 export default function HomePage() {
   const featured = getFeaturedListings();
+  // The catalogue total, which is what the projects could supply — not stock
+  // Atlas holds. Labelled "Tonnes listed" for that reason.
   const totalTonnes = listings.reduce((s, l) => s + l.tonnesAvailable, 0);
+  // Not every listing has been through Prime Origins vetting — self-verified
+  // ones are the developer's own word. Count them rather than implying all are.
+  const vettedCount = listings.filter((l) => l.tier === 'prime-origins-verified').length;
 
   const orgJsonLd = {
     '@context': 'https://schema.org',
@@ -51,7 +56,8 @@ export default function HomePage() {
           <p className="reveal reveal-delay-2 mt-5 text-lg md:text-xl text-sand-100/85 max-w-2xl">
             A curated marketplace for high-integrity carbon credits — from major registries (Verra, Gold Standard,
             ACR, Puro.earth) and directly from <strong className="text-white">self-verified</strong> project
-            developers. Every listing is vetted, traceable, and retirable.
+            developers. Tell us what you need and we source it, with the registry serial numbers confirmed in
+            writing before you pay a penny.
           </p>
           <div className="reveal reveal-delay-3 mt-8 flex flex-wrap gap-3">
             <Link href="/browse" className="btn-primary bg-sand-50 text-forest-900 hover:bg-white shadow-lift">
@@ -62,9 +68,9 @@ export default function HomePage() {
             </Link>
           </div>
           <dl className="reveal reveal-delay-4 mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl">
-            <Stat label="Vetted projects" value={String(listings.length)} />
-            <Stat label="Tonnes available" value={`${(totalTonnes / 1000).toFixed(0)}k`} />
-            <Stat label="Registries supported" value="5" />
+            <Stat label="Projects listed" value={String(listings.length)} />
+            <Stat label="Prime Origins vetted" value={String(vettedCount)} />
+            <Stat label="Tonnes listed" value={`${(totalTonnes / 1000).toFixed(0)}k`} />
             <Stat label="Countries" value={String(new Set(listings.map((l) => l.country)).size)} />
           </dl>
         </div>
@@ -95,12 +101,12 @@ export default function HomePage() {
               body="Choose between Prime Origins Verified credits (registered with Verra, Gold Standard, ACR, Puro.earth, or Climate Action Reserve) or Self-Verified credits with transparent developer documentation. Filter by tier when you browse."
             />
             <Pillar
-              title="Quality-filtered"
-              body="Every project — registry-backed or self-verified — is manually reviewed for additionality, permanence, methodology rigour, and co-benefit substance before going live."
+              title="Labelled, not laundered"
+              body="Registry-backed listings carry public serial numbers and third-party validation. Self-verified listings publish the developer's own documentation in full, marked as exactly that. Every listing says which it is, so you are never guessing what you are buying."
             />
             <Pillar
-              title="Retirement on request"
-              body="Buy and retire in a single flow. We handle registry retirement and send you the certificate within 48 hours."
+              title="Priced before you commit"
+              body="Request a quote and we come back with a firm price against a named project — registry, vintage and serial numbers included. Nothing is charged until you accept, and we handle the registry retirement in your name once it is."
             />
           </div>
         </div>
@@ -110,7 +116,7 @@ export default function HomePage() {
       <section className="container-narrow py-16">
         <div className="text-center max-w-2xl mx-auto mb-10">
           <h2 className="text-2xl md:text-3xl font-semibold text-forest-900">Two ways to source credits on Atlas</h2>
-          <p className="mt-2 text-forest-700/80">Both tiers are vetted by Prime Origins. The difference is who issued the underlying verification.</p>
+          <p className="mt-2 text-forest-700/80">The difference is who issued the underlying verification — and every listing is labelled with which.</p>
         </div>
         <div className="grid md:grid-cols-2 gap-6">
           <TierCard
@@ -131,9 +137,9 @@ export default function HomePage() {
             title="Direct from developers"
             body="Smaller projects and innovative methodologies that aren't yet on a major registry. Developers provide their own documentation — coordinates, sampling reports, COAs — which we publish transparently so buyers can review."
             bullets={[
-              'Full developer documentation on the listing',
+              'Developer documentation published in full, unedited',
               'Coordinates and on-the-ground evidence',
-              'Manually reviewed by Prime Origins before listing',
+              'Clearly labelled so it is never mistaken for registry-issued',
               'Suited to voluntary action and pilot programmes'
             ]}
           />
@@ -145,12 +151,12 @@ export default function HomePage() {
 
       {/* CTA */}
       <section className="container-narrow py-20 text-center">
-        <h2 className="text-3xl md:text-4xl font-semibold text-forest-900">Start retiring credits with confidence.</h2>
+        <h2 className="text-3xl md:text-4xl font-semibold text-forest-900">Get a real price, against a real project.</h2>
         <p className="mt-3 text-forest-700/80 max-w-xl mx-auto">
-          Whether you're hitting a net-zero target or sourcing for a portfolio mandate, Atlas gets you to verified, claimable credits faster.
+          Whether you're hitting a net-zero target or sourcing for a portfolio mandate, tell us the volume, vintage and whether you need retirement in your own name. You'll get a firm quote and the paperwork to check before you commit.
         </p>
         <div className="mt-7 flex justify-center gap-3">
-          <Link href="/browse" className="btn-primary">Browse the catalog</Link>
+          <Link href="/browse" className="btn-primary">Browse the catalogue</Link>
           <Link href="/how-it-works" className="btn-secondary">How it works</Link>
         </div>
       </section>

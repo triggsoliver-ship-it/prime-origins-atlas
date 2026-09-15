@@ -3,6 +3,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getListing, listings, categoryLabels } from '@/lib/listings';
+import { isSaleable } from '@/lib/saleable';
 import BuyPanel from '@/components/BuyPanel';
 import ProjectMap from '@/components/ProjectMap';
 
@@ -16,7 +17,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const l = getListing(slug);
   if (!l) return { title: 'Listing not found' };
   const title = `${l.projectName} — ${l.registry} ${l.vintage} Carbon Credits | £${l.pricePerTonne}/tCO₂e`;
-  const description = `${l.summary} Buy ${l.projectName} carbon credits from £${l.pricePerTonne.toFixed(2)} per tonne. ${l.registry}, ${l.country}, vintage ${l.vintage}. Retirement included.`;
+  // Only say "buy" and promise retirement where Atlas actually holds the
+  // credits. Everything else is sourced to order, and the search snippet is a
+  // promise like any other.
+  const held = isSaleable(l.id);
+  const description = held
+    ? `${l.summary} Buy ${l.projectName} carbon credits from £${l.pricePerTonne.toFixed(2)} per tonne. ${l.registry}, ${l.country}, vintage ${l.vintage}. Retirement included.`
+    : `${l.summary} Request a quote for ${l.projectName} carbon credits, indicative £${l.pricePerTonne.toFixed(2)} per tonne. ${l.registry}, ${l.country}, vintage ${l.vintage}. Sourced to order with registry serial numbers confirmed before payment.`;
   return {
     title,
     description,
@@ -47,6 +54,12 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
   const listing = getListing(slug);
   if (!listing) notFound();
 
+  // Atlas only holds stock for ids in lib/saleable.ts. Everything else is
+  // sourced to order, and both the page copy and the structured data have to
+  // say so — telling Google "InStock" about credits we do not hold is the same
+  // false promise as printing it on the page.
+  const inStock = isSaleable(listing.id);
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -60,7 +73,9 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
       url: `/listings/${listing.slug}`,
       priceCurrency: 'GBP',
       price: listing.pricePerTonne,
-      availability: listing.tonnesAvailable > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      availability: inStock
+        ? (listing.tonnesAvailable > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock')
+        : 'https://schema.org/LimitedAvailability',
       itemCondition: 'https://schema.org/NewCondition'
     },
     additionalProperty: [
@@ -69,7 +84,11 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
       { '@type': 'PropertyValue', name: 'Methodology', value: listing.methodology },
       { '@type': 'PropertyValue', name: 'Vintage', value: String(listing.vintage) },
       { '@type': 'PropertyValue', name: 'Country', value: listing.country },
-      { '@type': 'PropertyValue', name: 'Tonnes available', value: String(listing.tonnesAvailable) }
+      {
+        '@type': 'PropertyValue',
+        name: inStock ? 'Tonnes available' : 'Indicative project volume',
+        value: String(listing.tonnesAvailable)
+      }
     ]
   };
 
@@ -104,7 +123,10 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
               <Field label="Methodology" value={listing.methodology} />
               <Field label="Vintage" value={String(listing.vintage)} />
               <Field label="Total issued" value={`${listing.totalIssued.toLocaleString()} tCO₂e`} />
-              <Field label="Available" value={`${listing.tonnesAvailable.toLocaleString()} tCO₂e`} />
+              <Field
+                label={inStock ? 'Available' : 'Indicative volume'}
+                value={`${listing.tonnesAvailable.toLocaleString()} tCO₂e`}
+              />
               {listing.bufferPoolPct !== undefined && <Field label="Buffer pool" value={`${listing.bufferPoolPct}%`} />}
               <Field label="Retirement" value={listing.retirementSupported ? 'Supported' : 'On request'} />
             </dl>
@@ -162,8 +184,16 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
               <Check label={`Registered under ${listing.registry} — public serial numbers available`} />
               <Check label={`Methodology: ${listing.methodology}`} />
               {listing.bufferPoolPct ? <Check label={`${listing.bufferPoolPct}% contribution to permanence buffer pool`} /> : null}
-              <Check label="Listing reviewed by Prime Origins for additionality, permanence and co-benefit substance" />
-              <Check label="Retirement certificate provided within 48h of purchase" />
+              {listing.tier === 'prime-origins-verified' ? (
+                <Check label="Listing reviewed by Prime Origins for additionality, permanence and co-benefit substance" />
+              ) : (
+                <Check label="Listed by the developer and not independently reviewed by Prime Origins — check the documents before committing" />
+              )}
+              {inStock ? (
+                <Check label="Retirement certificate provided within 48h of purchase" />
+              ) : (
+                <Check label="Retirement handled on your behalf, with the certificate issued once the registry transfer completes" />
+              )}
             </ul>
           </section>
         </div>
