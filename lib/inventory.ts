@@ -1,5 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { listings, getListingById } from '@/lib/listings';
+import { isSaleable } from '@/lib/saleable';
 
 const URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -18,25 +19,8 @@ const SERVICE = process.env.SUPABASE_SERVICE_ROLE_KEY;
  */
 export const inventoryEnabled = Boolean(URL && SERVICE);
 
-/**
- * Listings Atlas can actually deliver.
- *
- * The catalogue in lib/listings.ts was seeded with well-known real-world
- * projects as illustration. Those are NOT credits Prime Origins holds, and on
- * 2026-09-15 one of them (Rimba Raya, po-006) was bought for real: 6 tCO2e,
- * paid, with a 48-hour retirement promise against a project whose Verra
- * account is suspended and which has no remaining supply.
- *
- * Nothing is saleable until it is listed here. Add an id only once the credits
- * behind it genuinely exist and can be retired on the registry.
- */
-const SALEABLE_LISTING_IDS = new Set<string>([
-  // e.g. 'po-025' once PNZ Carbon have confirmed issuance and documents
-]);
-
-export function isSaleable(listingId: string): boolean {
-  return SALEABLE_LISTING_IDS.has(listingId);
-}
+// Re-exported so existing callers can keep importing it from here.
+export { isSaleable };
 
 // Next.js patches global fetch and will cache these reads in its persistent
 // Data Cache, which survives redeploys. Stock that is cached is stock that is

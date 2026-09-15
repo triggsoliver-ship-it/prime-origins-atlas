@@ -3,6 +3,7 @@ import Stripe from 'stripe';
 import { randomUUID } from 'crypto';
 import { getListingById } from '@/lib/listings';
 import { reserve, release, attachSession } from '@/lib/inventory';
+import { feeInPence, PLATFORM_FEE_LABEL } from '@/lib/pricing';
 
 export const runtime = 'nodejs';
 
@@ -36,15 +37,14 @@ export async function POST(req: Request) {
     if (!held.ok) {
       const message =
         held.reason === 'not_saleable'
-          ? 'This project is not currently available to buy. Please get in touch and we will tell you what we can source.'
+          ? 'This project is sourced to order rather than held in stock. Request a quote and we will come back with a firm price and serial numbers.'
           : held.available > 0
           ? `Only ${held.available.toLocaleString()} tCO₂e are still available on this project.`
           : 'These credits have just sold out.';
       return NextResponse.json({ error: message, available: held.available }, { status: 409 });
     }
 
-    const subtotalPence = Math.round(listing.pricePerTonne * qty * 100);
-    const feePence = Math.round(subtotalPence * 0.04);
+    const feePence = feeInPence(listing.pricePerTonne, qty);
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || `${new URL(req.url).origin}`;
 
     // Atlas resells credits originated by third-party developers and takes a
@@ -74,7 +74,7 @@ export async function POST(req: Request) {
           price_data: {
             currency: 'gbp',
             unit_amount: feePence,
-            product_data: { name: 'Prime Origins platform fee (4%)' }
+            product_data: { name: `Prime Origins ${PLATFORM_FEE_LABEL.toLowerCase()}` }
           }
         }
       ],

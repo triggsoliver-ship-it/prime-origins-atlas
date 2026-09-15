@@ -4,9 +4,10 @@ import { sendAdminEmail, fieldsToHtml, escapeHtml } from '@/lib/email';
 export const runtime = 'nodejs';
 
 /**
- * Inquiry endpoint — captures "Talk to us" leads from homepage and listing pages.
- * Sends an email to ADMIN_EMAIL via Resend (when RESEND_API_KEY is set) and also
- * forwards to any configured webhook for redundancy.
+ * Enquiry endpoint — captures "Talk to us" leads and, since the catalogue moved
+ * to sourcing-to-order, the quote requests that are now Atlas's main way of
+ * taking business. Sends an email to ADMIN_EMAIL via Resend (when
+ * RESEND_API_KEY is set) and forwards to any configured webhook for redundancy.
  */
 export async function POST(req: Request) {
   try {
@@ -16,31 +17,39 @@ export async function POST(req: Request) {
       if (!data[k]) return NextResponse.json({ error: `Missing field: ${k}` }, { status: 400 });
     }
 
+    const isQuote = data.type === 'quote';
     const payload = {
-      type: 'inquiry',
-      received_at: new Date().toISOString(),
-      ...data
+      ...data,
+      type: isQuote ? 'quote' : 'inquiry',
+      received_at: new Date().toISOString()
     };
 
-    console.log('[Atlas inquiry]', JSON.stringify(payload, null, 2));
+    console.log(isQuote ? '[Atlas quote]' : '[Atlas inquiry]', JSON.stringify(payload, null, 2));
 
     // Send email
     const subjectBits = [
-      `New Atlas enquiry from ${data.name}`,
-      data.company ? `(${data.company})` : '',
-      data.listingName ? `— ${data.listingName}` : ''
+      isQuote ? 'QUOTE REQUEST' : 'New Atlas enquiry',
+      isQuote && data.tonnes ? `${Number(data.tonnes).toLocaleString()} t` : '',
+      data.listingName ? `— ${data.listingName}` : '',
+      `— ${data.name}`,
+      data.company ? `(${data.company})` : ''
     ].filter(Boolean).join(' ');
 
     const html = `
       <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto">
-        <h2 style="color:#173a27">New Atlas enquiry</h2>
-        <p style="color:#3a8b58">A new "Talk to us" submission has come in.</p>
+        <h2 style="color:#173a27">${isQuote ? 'Quote request' : 'New Atlas enquiry'}</h2>
+        <p style="color:#3a8b58">${isQuote
+          ? 'A buyer has asked for a firm price. Source it, check the margin, then reply with price, vintage and serial numbers.'
+          : 'A new "Talk to us" submission has come in.'}</p>
         ${fieldsToHtml({
           Name: data.name,
           Email: data.email,
           Company: data.company || '',
-          'Tonnes of interest': data.tonnes || '',
-          'About listing': data.listingName || 'General enquiry',
+          Volume: data.tonnes ? `${Number(data.tonnes).toLocaleString()} tCO2e` : '',
+          Project: data.listingName || 'General enquiry',
+          Registry: data.registry || '',
+          Retirement: data.retirement || '',
+          'Needed by': data.deadline || '',
           'Listing ID': data.listingId || '',
           Message: data.message,
           Received: payload.received_at
@@ -50,7 +59,23 @@ export async function POST(req: Request) {
         </p>
       </div>
     `;
-    const text = `New Atlas enquiry\n\nName: ${data.name}\nEmail: ${data.email}\nCompany: ${data.company || '-'}\nTonnes: ${data.tonnes || '-'}\nListing: ${data.listingName || '-'}\nMessage:\n${data.message}\n\nReceived: ${payload.received_at}`;
+    const text = [
+      isQuote ? 'QUOTE REQUEST' : 'New Atlas enquiry',
+      '',
+      `Name: ${data.name}`,
+      `Email: ${data.email}`,
+      `Company: ${data.company || '-'}`,
+      `Volume: ${data.tonnes ? `${data.tonnes} tCO2e` : '-'}`,
+      `Project: ${data.listingName || '-'}`,
+      `Registry: ${data.registry || '-'}`,
+      `Retirement: ${data.retirement || '-'}`,
+      `Needed by: ${data.deadline || '-'}`,
+      '',
+      'Message:',
+      String(data.message),
+      '',
+      `Received: ${payload.received_at}`
+    ].join('\n');
 
     const emailResult = await sendAdminEmail({ subject: subjectBits, html, text, replyTo: data.email });
     if (!emailResult.sent) {
