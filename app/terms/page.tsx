@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { PLATFORM_FEE_RATE } from '@/lib/pricing';
 import { legal } from '@/lib/legal';
 
 export const metadata: Metadata = {
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default function TermsPage() {
+  const feePct = `${Number.isInteger(PLATFORM_FEE_RATE * 100) ? PLATFORM_FEE_RATE * 100 : (PLATFORM_FEE_RATE * 100).toFixed(1)}%`;
   return (
     <div className="container-narrow py-12 max-w-3xl prose prose-forest">
       <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">Terms of Service</h1>
@@ -35,18 +37,18 @@ export default function TermsPage() {
       </Section>
 
       <Section title="6. Buying carbon credits">
-        <p>Credit listings show price per tonne CO₂ equivalent (tCO₂e), vintage, registry, methodology and additional metadata. Prices are quoted in US dollars (USD) unless otherwise stated and exclude any applicable taxes. A 4% platform fee is added to the credit price at checkout.</p>
-        <p>Orders are processed via Stripe. Payment is captured at the point of order. Where you elect retirement at checkout, Prime Origins will arrange retirement on the underlying registry within 48 business hours and provide you with the certificate by email.</p>
+        <p>Credit listings show price per tonne CO₂ equivalent (tCO₂e), vintage, registry, methodology and additional metadata. Prices are quoted in pounds sterling (GBP) unless otherwise stated and exclude any applicable taxes. Where Prime Origins does not hold the credits, the listed price is indicative and the binding price is the one given in a written quote. A platform fee of {feePct} is added to the credit price at checkout or on the quote.</p>
+        <p>Where Prime Origins holds the credits, orders are processed via Stripe, payment is captured at the point of order, and if you elect retirement we will arrange it on the underlying registry within 48 business hours and provide the certificate by email. Where credits are sourced to order, no payment is taken until you accept a written quote identifying the project, vintage and serial numbers, and retirement follows the registry transfer on the timescale stated in that quote.</p>
         <p>Because carbon credits are non-tangible commodities and retirement is irreversible, all sales are final unless required otherwise by law.</p>
       </Section>
 
       <Section title="7. Selling / listing credits">
         <p>Project developers may apply to list credits via the seller application form. All listings are subject to manual review and approval by Prime Origins. We may decline any application at our sole discretion. Sellers warrant that they have full legal title to the credits being listed and that all submitted documentation is accurate and complete.</p>
-        <p>Sellers agree to a 4% platform fee on credits sold via Atlas. Payouts settle on a schedule set by Prime Origins.</p>
+        <p>Sellers agree to a platform fee of {feePct} on credits sold via Atlas. Payouts settle on a schedule set by Prime Origins.</p>
       </Section>
 
       <Section title="8. Quality, additionality, and our role">
-        <p>Prime Origins reviews each listing against a five-pillar framework (additionality, permanence, methodology rigour, co-benefit substance, traceability). Our review is a curation step, not a financial or environmental guarantee. We do not warrant the climate outcomes of any individual credit. Buyers are responsible for their own due diligence, particularly where credits will be used in regulated disclosure (SBTi, VCMI, CSRD, CDP).</p>
+        <p>Listings marked &quot;Prime Origins Verified&quot; have been checked against the public registry record for the project identifier, methodology, vintage and verification status. Listings marked &quot;Self-Verified&quot; are published with the developer&apos;s own documentation and have not been independently verified by Prime Origins. In neither case is our review a financial or environmental guarantee, and we do not warrant the climate outcomes of any individual credit. Buyers are responsible for their own due diligence, particularly where credits will be used in regulated disclosure (SBTi, VCMI, CSRD, CDP), for which Self-Verified credits are not suitable.</p>
         <p>Self-Verified credits rely on documentation provided by the project developer. Buyers should review the linked documentation before purchase.</p>
       </Section>
 
