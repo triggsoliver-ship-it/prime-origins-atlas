@@ -22,7 +22,7 @@ export const listings: Listing[] = [
     summary: 'Protects 200,000 hectares of dryland forest between two Kenyan national parks while employing 350+ local rangers.',
     description:
       'The Kasigau Corridor REDD+ project safeguards a vital wildlife migration route connecting Tsavo East and Tsavo West National Parks. The project has reduced deforestation by over 95% in the project area and supports more than 100,000 community members through education, water, and livelihoods programs.',
-    imageUrl: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true,
@@ -48,7 +48,7 @@ export const listings: Listing[] = [
     summary: 'Durable removal credits from the world\'s first commercial direct air capture and storage facility.',
     description:
       'Orca captures CO₂ directly from the atmosphere using geothermal power and mineralizes it in basalt rock via Carbfix technology, achieving permanent storage. Issuance is verified under the Puro Standard for CO₂ Removal.',
-    imageUrl: 'https://images.unsplash.com/photo-1473773508845-188df298d2d1?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true,
@@ -73,7 +73,7 @@ export const listings: Listing[] = [
     summary: 'Efficient cookstoves cutting charcoal use 50%+ across Ghanaian households — better health, lower emissions.',
     description:
       'Gyapa distributes locally-made efficient cookstoves that reduce charcoal consumption by 50% or more compared to traditional stoves. The project has reached over 1 million households, with verified emissions reductions and significant indoor air quality improvements.',
-    imageUrl: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -98,7 +98,7 @@ export const listings: Listing[] = [
     summary: 'Protects 300,000 ha of Congo Basin rainforest, home to bonobos and 50,000+ community members.',
     description:
       'One of the largest REDD+ projects in the world, Mai Ndombe protects critical rainforest in the Congo Basin while delivering health, education, and agricultural support to surrounding communities.',
-    imageUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -123,7 +123,7 @@ export const listings: Listing[] = [
     summary: 'Forest residue converted to biochar — durable carbon storage in agricultural soils across the West Coast.',
     description:
       'Pacific Biochar converts forestry residues from wildfire fuel-reduction operations into stable biochar applied to California vineyards and orchards. Storage is durable on a >100-year timescale.',
-    imageUrl: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true,
@@ -150,7 +150,7 @@ export const listings: Listing[] = [
     summary: 'Orangutan refuge on peatland in Borneo — the first project triple-validated under all 17 SDGs.',
     description:
       'Rimba Raya protects 64,000 hectares of carbon-rich tropical peatland, providing critical refuge for endangered Bornean orangutans while delivering measurable benefits across all 17 UN Sustainable Development Goals.',
-    imageUrl: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -175,7 +175,7 @@ export const listings: Listing[] = [
     summary: 'Grid-connected wind farm displacing coal generation in western India.',
     description:
       'A 200 MW wind installation in Gujarat displacing emissions from the predominantly coal-fueled Indian grid. Gold Standard certified with verified community impact.',
-    imageUrl: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -199,7 +199,7 @@ export const listings: Listing[] = [
     summary: 'Macroalgae-based ocean carbon removal with deep-sea sinking for durable storage.',
     description:
       'Running Tide grows macroalgae on biodegradable buoys seeded with alkaline limestone. The buoys sink to the deep ocean where carbon is stored on multi-century timescales while restoring ocean chemistry.',
-    imageUrl: 'https://images.unsplash.com/photo-1530053969600-caed2596d242?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -225,7 +225,7 @@ export const listings: Listing[] = [
     summary: 'Indigenous-led Amazon conservation across 350,000+ hectares of primary rainforest.',
     description:
       'The Pariri project is co-developed with the Munduruku people, protecting one of the most biodiverse regions of the Brazilian Amazon while supporting traditional livelihoods.',
-    imageUrl: 'https://images.unsplash.com/photo-1500354960784-987d10b03d22?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -250,7 +250,7 @@ export const listings: Listing[] = [
     summary: 'Crushed basalt spread on UK farmland sequesters CO₂ as it weathers — 10,000+ year storage.',
     description:
       'UNDO spreads finely-crushed basalt on agricultural land. As the rock weathers naturally, it draws CO₂ from the atmosphere and locks it away as stable bicarbonate. Co-benefits include soil de-acidification and improved yields.',
-    imageUrl: 'https://images.unsplash.com/photo-1535912559178-bb46760ad0fa?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -275,7 +275,7 @@ export const listings: Listing[] = [
     summary: 'Captures methane from a Dallas landfill — converted to renewable natural gas for the grid.',
     description:
       'Methane (28× more potent than CO₂ on a 100-year basis) is captured from the McCommas Bluff landfill and converted into renewable natural gas, displacing fossil natural gas demand.',
-    imageUrl: 'https://images.unsplash.com/photo-1473773386757-42beed09bb7b?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -300,7 +300,7 @@ export const listings: Listing[] = [
     summary: 'Cover cropping and reduced tillage across 320 ha of arable land — third-party soil sampling included.',
     description:
       'A co-operative of three farms in the South Downs implementing cover crops, reduced-tillage and rotational grazing. Soil carbon is sampled annually by an independent UK lab. Self-verified credits — full sampling reports and methodology available from the developer on request.',
-    imageUrl: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'self-verified',
     retirementSupported: true,
@@ -327,7 +327,7 @@ export const listings: Listing[] = [
     summary: '420 smallholder farms intercropping native species with coffee and spices — biomass tracked annually.',
     description:
       'A self-verified agroforestry programme covering 420 smallholder plots in Wayanad. Tree biomass is measured annually using allometric equations adapted from CDM AR-AMS0007. Verification documentation is available directly from the co-operative on request.',
-    imageUrl: 'https://images.unsplash.com/photo-1518495973542-4542c06a5843?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'self-verified',
     retirementSupported: true,
@@ -355,7 +355,7 @@ export const listings: Listing[] = [
     summary: 'Restored mangrove forests sequester carbon at high rates while protecting coastal communities.',
     description:
       'Replanting and protecting 2,400 hectares of mangrove forest in typhoon-prone coastal communities. Blue carbon storage rates 3-5× higher per hectare than terrestrial forests.',
-    imageUrl: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true,
@@ -382,7 +382,7 @@ export const listings: Listing[] = [
     summary: 'Protects 149,800 ha of deep tropical peatland — one of the largest peat-swamp REDD+ projects in the world.',
     description:
       'The Katingan Mentaya project conserves a vast peat-swamp ecosystem in Central Kalimantan, preventing the release of an estimated 7.5 million tCO₂e per year through avoided drainage and fire. The project is independently rated and partners with surrounding Dayak communities on agroforestry and small-business livelihoods.',
-    imageUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -408,7 +408,7 @@ export const listings: Listing[] = [
     summary: 'WCS-operated REDD+ in eastern Cambodia — protects 166,983 ha for the indigenous Bunong people and 75 threatened species.',
     description:
       'Keo Seima protects mosaic forest landscapes that are home to the indigenous Bunong people and globally important biodiversity including yellow-cheeked crested gibbons. Triple-validated under CCB Gold for climate, community and biodiversity.',
-    imageUrl: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true,
@@ -435,7 +435,7 @@ export const listings: Listing[] = [
     summary: 'Buffer-zone REDD+ around two flagship Peruvian Amazon reserves, scaling sustainable Brazil-nut harvesting.',
     description:
       'Tambopata-Bahuaja protects 573,000 hectares of buffer zone around two of Peru\'s most biodiverse national parks. The project pioneered the Brazil-nut agroforestry model that gives local concessionaires a forest-positive livelihood.',
-    imageUrl: 'https://images.unsplash.com/photo-1500354960784-987d10b03d22?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -461,7 +461,7 @@ export const listings: Listing[] = [
     summary: 'CCB Triple Gold REDD+ project in the Brazilian state of Acre — 39,300 ha of Amazon rainforest under protection.',
     description:
       'Envira Amazonia is a CCB Triple Gold (climate, community, biodiversity) project protecting Amazon rainforest in Acre and providing alternative livelihoods to smallholders through sustainable harvesting agreements.',
-    imageUrl: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -485,7 +485,7 @@ export const listings: Listing[] = [
     summary: 'Fuel-efficient cookstoves distributed across Ugandan households, cutting biomass use 40-60%.',
     description:
       'A large-scale Programme of Activities distributing improved cookstoves across Uganda. Reduces fuelwood demand, indoor air pollution, and women\'s daily collection time. Gold Standard certified with verified emissions reductions.',
-    imageUrl: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -509,7 +509,7 @@ export const listings: Listing[] = [
     summary: 'Programme deploying clean cookstoves across Mozambican communities — verified under Gold Standard.',
     description:
       'Distribution of efficient cookstoves to households across Mozambique, paired with monitoring of usage rates and biomass consumption. Issuance under Gold Standard\'s technology-and-practice methodology.',
-    imageUrl: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -533,7 +533,7 @@ export const listings: Listing[] = [
     summary: 'Household water purification devices that displace wood-fuel boiling — health + emissions co-benefits.',
     description:
       'Distribution of household water filters that remove pathogens without the need for boiling, cutting both fuelwood demand and waterborne illness. Issued under Gold Standard\'s Safe Water Supply methodology.',
-    imageUrl: 'https://images.unsplash.com/photo-1497486751825-1233686d5d80?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -558,7 +558,7 @@ export const listings: Listing[] = [
     summary: 'Engineered biomass burial in oxygen-free underground vaults — durable CO₂ removal certified by Puro.earth.',
     description:
       'Fasera takes residual woody biomass and stores it in engineered, oxygen-free underground vaults that prevent decay and methane release. The Puro Terrestrial Biomass Storage methodology certifies storage durability on a >100-year timescale.',
-    imageUrl: 'https://images.unsplash.com/photo-1574263867128-b94beea1dee5?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -584,7 +584,7 @@ export const listings: Listing[] = [
     summary: 'CCP-eligible soil-carbon credits from regenerative practices on Central Valley cropland.',
     description:
       'Multi-farm soil enrichment programme implementing cover crops, reduced tillage, and nutrient-management changes across cropland in California\'s Central Valley. Issued under CAR\'s Soil Enrichment Protocol — CCP-eligible for 2026.',
-    imageUrl: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -610,7 +610,7 @@ export const listings: Listing[] = [
     summary: 'Community-managed forest carbon in Mexico\'s Sierra Madre Occidental, under CAR\'s CCP-approved protocol.',
     description:
       'Improved forest management across communal "ejido" lands in the Sierra Madre Occidental of Jalisco. Combines selective harvesting with conservation set-asides. Issued under CAR\'s Mexico Forest Protocol v3.0 — CCP-approved with conditions in 2026.',
-    imageUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -634,7 +634,7 @@ export const listings: Listing[] = [
     summary: 'Retrofit of UK housing stock — every credit carries a quantified social value alongside the verified emission reduction.',
     description:
       'PNZ Carbon originates verified carbon credits from the decarbonisation of UK housing stock, delivered with housing associations and their retrofit programmes. Alongside the emission reduction, each credit carries a social value figure quantified using the UK Social Value Bank developed by HACT (Housing Associations Charitable Trust) with Simetrica-Jacobs — an approach recognised in HM Treasury\'s Green Book. Credits are issued under Verra\'s Verified Carbon Standard using VM0008, the building weatherization methodology. For UK buyers this offers domestic, near-sourced abatement with a defensible social-impact narrative attached.',
-    imageUrl: 'https://images.unsplash.com/photo-1778448063789-4106abda4f45?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true,
