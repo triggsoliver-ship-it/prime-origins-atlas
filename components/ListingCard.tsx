@@ -3,6 +3,7 @@ import Image from 'next/image';
 import type { Listing } from '@/lib/types';
 import { categoryLabels } from '@/lib/listings';
 import { isSaleable } from '@/lib/saleable';
+import ProjectPlate from './ProjectPlate';
 
 export default function ListingCard({ listing }: { listing: Listing }) {
   // Only projects Atlas actually holds advertise a tonnage. Everything else is
@@ -16,24 +17,28 @@ export default function ListingCard({ listing }: { listing: Listing }) {
       className="group flex flex-col overflow-hidden rounded-2xl border border-forest-100 bg-white shadow-soft transition-all duration-300 hover:border-forest-200 hover:shadow-lift motion-safe:hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-forest-500 focus-visible:ring-offset-2 focus-visible:ring-offset-sand-50"
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-forest-100">
-        <Image
-          src={listing.imageUrl}
-          alt={listing.projectName}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.06]"
-        />
+        {listing.imageUrl ? (
+          <Image
+            src={listing.imageUrl}
+            alt={listing.projectName}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="object-cover transition-transform duration-700 ease-out motion-safe:group-hover:scale-[1.06]"
+          />
+        ) : (
+          <ProjectPlate listing={listing} compact />
+        )}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-forest-900/35 via-transparent to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80" aria-hidden />
         <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
           <span className="chip backdrop-blur bg-white/85 shadow-sm">{categoryLabels[listing.category]}</span>
           {listing.tier === 'prime-origins-verified' && (
-            <span className="chip bg-forest-700 text-white shadow-sm">Registry-issued</span>
+            <span className="chip-solid shadow-sm">Registry-issued</span>
           )}
           {listing.tier === 'self-verified' && (
-            <span className="chip bg-amber-500 text-white shadow-sm">Self-Verified</span>
+            <span className="chip-warn shadow-sm">Self-Verified</span>
           )}
           {listing.unitType === 'piu' && (
-            <span className="chip bg-amber-500 text-white shadow-sm">Pending units</span>
+            <span className="chip-warn shadow-sm">Pending units</span>
           )}
         </div>
       </div>
@@ -47,12 +52,12 @@ export default function ListingCard({ listing }: { listing: Listing }) {
           <span className="chip-outline">{listing.registry}</span>
           <span className="chip-outline">Vintage {listing.vintage}</span>
         </div>
-        <div className="mt-2 flex items-end justify-between border-t border-forest-100 pt-3">
-          <div>
+        <div className="mt-2 flex flex-wrap items-end justify-between gap-x-3 gap-y-1 border-t border-forest-100 pt-3">
+          <div className="min-w-0">
             <p className="text-[11px] uppercase tracking-wider text-forest-600">{inStock ? 'From' : 'Indicative'}</p>
-            <p className="text-lg font-semibold text-forest-900">£{listing.pricePerTonne.toFixed(2)}<span className="text-xs font-normal text-forest-700">/tCO₂e</span></p>
+            <p className="whitespace-nowrap text-lg font-semibold text-forest-900">£{listing.pricePerTonne.toFixed(2)}<span className="text-xs font-normal text-forest-700">/tCO₂e</span></p>
           </div>
-          <span className="inline-flex items-center gap-1 text-xs font-medium text-forest-700/80 transition-all group-hover:text-forest-700 group-hover:gap-1.5">
+          <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-xs font-medium text-forest-700/80 transition-all group-hover:text-forest-700 group-hover:gap-1.5">
             {inStock ? `${listing.tonnesAvailable.toLocaleString()} t available` : 'Quote on request'}
             <span aria-hidden className="transition-transform motion-safe:group-hover:translate-x-0.5">→</span>
           </span>

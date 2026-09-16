@@ -6,6 +6,7 @@ import { getListing, listings, categoryLabels } from '@/lib/listings';
 import { isSaleable } from '@/lib/saleable';
 import BuyPanel from '@/components/BuyPanel';
 import ProjectMap from '@/components/ProjectMap';
+import ProjectPlate from '@/components/ProjectPlate';
 
 export function generateStaticParams() {
   return listings.map((l) => ({ slug: l.slug }));
@@ -43,9 +44,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description,
       type: 'website',
       url: `/listings/${l.slug}`,
-      images: [{ url: l.imageUrl, alt: l.projectName }]
+      ...(l.imageUrl ? { images: [{ url: l.imageUrl, alt: l.projectName }] } : {})
     },
-    twitter: { card: 'summary_large_image', title, description, images: [l.imageUrl] }
+    twitter: { card: 'summary_large_image', title, description, ...(l.imageUrl ? { images: [l.imageUrl] } : {}) }
   };
 }
 
@@ -69,7 +70,7 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
     '@type': 'Product',
     name: listing.projectName,
     description: listing.description,
-    image: listing.imageUrl,
+    ...(listing.imageUrl ? { image: listing.imageUrl } : {}),
     brand: { '@type': 'Organization', name: listing.developer },
     category: `Carbon Credits / ${categoryLabels[listing.category]}`,
     offers: {
@@ -104,16 +105,20 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
       <div className="mt-6 grid lg:grid-cols-[1.4fr_1fr] gap-10">
         <div>
           <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-forest-100">
-            <Image src={listing.imageUrl} alt={listing.projectName} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 60vw" />
+            {listing.imageUrl ? (
+              <Image src={listing.imageUrl} alt={listing.projectName} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 60vw" priority />
+            ) : (
+              <ProjectPlate listing={listing} />
+            )}
           </div>
 
           <div className="mt-6">
             <div className="flex flex-wrap gap-2 mb-3">
               <span className="chip">{categoryLabels[listing.category]}</span>
               <span className="chip">{listing.registry}</span>
-              {listing.tier === 'prime-origins-verified' && <span className="chip bg-forest-700 text-white">Registry-issued</span>}
-              {listing.unitType === 'piu' && <span className="chip bg-amber-500 text-white">Pending units</span>}
-              {listing.tier === 'self-verified' && <span className="chip bg-amber-500 text-white">Self-Verified</span>}
+              {listing.tier === 'prime-origins-verified' && <span className="chip-solid">Registry-issued</span>}
+              {listing.unitType === 'piu' && <span className="chip-warn">Pending units</span>}
+              {listing.tier === 'self-verified' && <span className="chip-warn">Self-Verified</span>}
             </div>
             <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">{listing.projectName}</h1>
             <p className="mt-1 text-forest-700">{listing.developer} · {listing.country}{listing.region ? `, ${listing.region}` : ''}</p>

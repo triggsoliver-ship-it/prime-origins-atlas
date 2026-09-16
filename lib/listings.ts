@@ -667,7 +667,7 @@ export const listings: Listing[] = [
     summary: '254.29 hectares of new woodland in Northumberland, England, planted in 2017 and predicted to remove 92,441 tCO₂e over the project\'s life.',
     description:
       'Doddington North is a Woodland Carbon Code woodland creation project on 254.29 hectares in Northumberland, England, registered as 104000000026630 and planted in 2017. Its predicted sequestration over the project duration is 92,441 tCO₂e. Units from it are Pending Issuance Units: a promise to deliver a verified Woodland Carbon Unit in future, not a credit that can yet be reported against emissions. Twenty per cent of the project\'s units go to the Woodland Carbon Code buffer, which covers losses across the scheme. The Code does not publish how many units any individual project still has unsold, so the volume available here is confirmed with the developer when we quote.',
-    imageUrl: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true,
@@ -699,7 +699,7 @@ export const listings: Listing[] = [
     summary: '76.76 hectares of new woodland in Cumbria, England, planted in 2020 and predicted to remove 33,331 tCO₂e over the project\'s life.',
     description:
       'Lowther 2 is a Woodland Carbon Code woodland creation project on 76.76 hectares in Cumbria, England, registered as 104000000026520 and planted in 2020. Its predicted sequestration over the project duration is 33,331 tCO₂e. Units from it are Pending Issuance Units: a promise to deliver a verified Woodland Carbon Unit in future, not a credit that can yet be reported against emissions. Twenty per cent of the project\'s units go to the Woodland Carbon Code buffer, which covers losses across the scheme. The Code does not publish how many units any individual project still has unsold, so the volume available here is confirmed with the developer when we quote.',
-    imageUrl: 'https://images.unsplash.com/photo-1473773508845-188df298d2d1?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true,
@@ -731,7 +731,7 @@ export const listings: Listing[] = [
     summary: '17.4 hectares of new woodland in North Yorkshire, England, planted in 2020 and predicted to remove 14,114 tCO₂e over the project\'s life.',
     description:
       'Tom\'s Wood is a Woodland Carbon Code woodland creation project on 17.4 hectares in North Yorkshire, England, registered as 104000000026404 and planted in 2020. Its predicted sequestration over the project duration is 14,114 tCO₂e. Units from it are Pending Issuance Units: a promise to deliver a verified Woodland Carbon Unit in future, not a credit that can yet be reported against emissions. Twenty per cent of the project\'s units go to the Woodland Carbon Code buffer, which covers losses across the scheme. The Code does not publish how many units any individual project still has unsold, so the volume available here is confirmed with the developer when we quote.',
-    imageUrl: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -762,7 +762,7 @@ export const listings: Listing[] = [
     summary: '19 hectares of new woodland in Northumberland, England, planted in 2021 and predicted to remove 11,810 tCO₂e over the project\'s life.',
     description:
       'Sarah\'s Wood is a Woodland Carbon Code woodland creation project on 19 hectares in Northumberland, England, registered as 104000000026816 and planted in 2021. Its predicted sequestration over the project duration is 11,810 tCO₂e. Units from it are Pending Issuance Units: a promise to deliver a verified Woodland Carbon Unit in future, not a credit that can yet be reported against emissions. Twenty per cent of the project\'s units go to the Woodland Carbon Code buffer, which covers losses across the scheme. The Code does not publish how many units any individual project still has unsold, so the volume available here is confirmed with the developer when we quote.',
-    imageUrl: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -793,7 +793,7 @@ export const listings: Listing[] = [
     summary: '108.22 hectares of new woodland in Highlands, Scotland, planted in 2020 and predicted to remove 20,468 tCO₂e over the project\'s life.',
     description:
       'Acheilidh is a Woodland Carbon Code woodland creation project on 108.22 hectares in Highlands, Scotland, registered as 104000000027083 and planted in 2020. Its predicted sequestration over the project duration is 20,468 tCO₂e. Units from it are Pending Issuance Units: a promise to deliver a verified Woodland Carbon Unit in future, not a credit that can yet be reported against emissions. Twenty per cent of the project\'s units go to the Woodland Carbon Code buffer, which covers losses across the scheme. The Code does not publish how many units any individual project still has unsold, so the volume available here is confirmed with the developer when we quote.',
-    imageUrl: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true,
@@ -825,7 +825,7 @@ export const listings: Listing[] = [
     summary: '57 hectares of new woodland in Scottish Borders, Scotland, planted in 2018 and predicted to remove 11,842 tCO₂e over the project\'s life.',
     description:
       'Talla & Gameshope 2 is a Woodland Carbon Code woodland creation project on 57 hectares in Scottish Borders, Scotland, registered as 104000000026525 and planted in 2018. Its predicted sequestration over the project duration is 11,842 tCO₂e. Units from it are Pending Issuance Units: a promise to deliver a verified Woodland Carbon Unit in future, not a credit that can yet be reported against emissions. Twenty per cent of the project\'s units go to the Woodland Carbon Code buffer, which covers losses across the scheme. The Code does not publish how many units any individual project still has unsold, so the volume available here is confirmed with the developer when we quote.',
-    imageUrl: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true,
@@ -857,7 +857,7 @@ export const listings: Listing[] = [
     summary: '41.8 hectares of new woodland in Ross-shire, Scotland, planted in 2021 and predicted to remove 12,840 tCO₂e over the project\'s life.',
     description:
       'Camusluinie is a Woodland Carbon Code woodland creation project on 41.8 hectares in Ross-shire, Scotland, registered as 104000000027229 and planted in 2021. Its predicted sequestration over the project duration is 12,840 tCO₂e. Units from it are Pending Issuance Units: a promise to deliver a verified Woodland Carbon Unit in future, not a credit that can yet be reported against emissions. Twenty per cent of the project\'s units go to the Woodland Carbon Code buffer, which covers losses across the scheme. The Code does not publish how many units any individual project still has unsold, so the volume available here is confirmed with the developer when we quote.',
-    imageUrl: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true,
@@ -889,7 +889,7 @@ export const listings: Listing[] = [
     summary: '31.68 hectares of new woodland in Scottish Borders, Scotland, planted in 2021 and predicted to remove 6,291 tCO₂e over the project\'s life.',
     description:
       'Cathpair is a Woodland Carbon Code woodland creation project on 31.68 hectares in Scottish Borders, Scotland, registered as 104000000027226 and planted in 2021. Its predicted sequestration over the project duration is 6,291 tCO₂e. Units from it are Pending Issuance Units: a promise to deliver a verified Woodland Carbon Unit in future, not a credit that can yet be reported against emissions. Twenty per cent of the project\'s units go to the Woodland Carbon Code buffer, which covers losses across the scheme. The Code does not publish how many units any individual project still has unsold, so the volume available here is confirmed with the developer when we quote.',
-    imageUrl: 'https://images.unsplash.com/photo-1530053969600-caed2596d242?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -920,7 +920,7 @@ export const listings: Listing[] = [
     summary: '31 hectares of new woodland in Argyll & Bute, Scotland, planted in 2019 and predicted to remove 12,261 tCO₂e over the project\'s life.',
     description:
       'Glenorchy Farm is a Woodland Carbon Code woodland creation project on 31 hectares in Argyll & Bute, Scotland, registered as 104000000016117 and planted in 2019. Its predicted sequestration over the project duration is 12,261 tCO₂e. Units from it are Pending Issuance Units: a promise to deliver a verified Woodland Carbon Unit in future, not a credit that can yet be reported against emissions. Twenty per cent of the project\'s units go to the Woodland Carbon Code buffer, which covers losses across the scheme. The Code does not publish how many units any individual project still has unsold, so the volume available here is confirmed with the developer when we quote.',
-    imageUrl: 'https://images.unsplash.com/photo-1500354960784-987d10b03d22?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -951,7 +951,7 @@ export const listings: Listing[] = [
     summary: '20 hectares of new woodland in Highland Perthshire, Scotland, planted in 2019 and predicted to remove 8,943 tCO₂e over the project\'s life.',
     description:
       'Wester Coshieville is a Woodland Carbon Code woodland creation project on 20 hectares in Highland Perthshire, Scotland, registered as 104000000026346 and planted in 2019. Its predicted sequestration over the project duration is 8,943 tCO₂e. Units from it are Pending Issuance Units: a promise to deliver a verified Woodland Carbon Unit in future, not a credit that can yet be reported against emissions. Twenty per cent of the project\'s units go to the Woodland Carbon Code buffer, which covers losses across the scheme. The Code does not publish how many units any individual project still has unsold, so the volume available here is confirmed with the developer when we quote.',
-    imageUrl: 'https://images.unsplash.com/photo-1535912559178-bb46760ad0fa?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -982,7 +982,7 @@ export const listings: Listing[] = [
     summary: '9.64 hectares of new woodland in Scottish Borders, Scotland, planted in 2019 and predicted to remove 5,272 tCO₂e over the project\'s life.',
     description:
       'Bowshiel Wood is a Woodland Carbon Code woodland creation project on 9.64 hectares in Scottish Borders, Scotland, registered as 104000000027021 and planted in 2019. Its predicted sequestration over the project duration is 5,272 tCO₂e. Units from it are Pending Issuance Units: a promise to deliver a verified Woodland Carbon Unit in future, not a credit that can yet be reported against emissions. Twenty per cent of the project\'s units go to the Woodland Carbon Code buffer, which covers losses across the scheme. The Code does not publish how many units any individual project still has unsold, so the volume available here is confirmed with the developer when we quote.',
-    imageUrl: 'https://images.unsplash.com/photo-1473773386757-42beed09bb7b?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true
@@ -1013,7 +1013,7 @@ export const listings: Listing[] = [
     summary: '73.4 hectares of new woodland in Bannau Brycheiniog, Wales, planted in 2020 and predicted to remove 28,909 tCO₂e over the project\'s life.',
     description:
       'Bryn Arw is a Woodland Carbon Code woodland creation project on 73.4 hectares in Bannau Brycheiniog, Wales, registered as 104000000027223 and planted in 2020. Its predicted sequestration over the project duration is 28,909 tCO₂e. Units from it are Pending Issuance Units: a promise to deliver a verified Woodland Carbon Unit in future, not a credit that can yet be reported against emissions. Twenty per cent of the project\'s units go to the Woodland Carbon Code buffer, which covers losses across the scheme. The Code does not publish how many units any individual project still has unsold, so the volume available here is confirmed with the developer when we quote.',
-    imageUrl: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=70',
+    imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
     retirementSupported: true,
