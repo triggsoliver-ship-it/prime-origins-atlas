@@ -1,5 +1,37 @@
 import type { Listing } from './types';
 
+/**
+ * The catalogue.
+ *
+ * A listing here is a claim that Prime Origins could source these credits if a
+ * buyer asked. Seven projects were removed on 2026-09-16 because they failed
+ * that test:
+ *
+ *   Rimba Raya          Verra account suspended after a concession licence
+ *                       dispute, effectively no remaining supply. This is the
+ *                       one that got bought for real and had to be refunded.
+ *   Mai Ndombe REDD+    No credits issued since 2022; Verra inactivated its
+ *                       methodology and the replacement baseline data does not
+ *                       exist.
+ *   Running Tide        The company ceased operations in June 2024.
+ *   Pariri Amazon       No registry record found under that name, and the
+ *                       developer's Verra account was suspended in June 2024.
+ *   McCommas Bluff      Not locatable on ACR, and the operator of record is
+ *                       not the company named on the listing.
+ *   Visayas Mangrove    No registered project found under that name.
+ *   Sierra Madre        No registered project found, and the real Sierra Madre
+ *                       forest carbon work is in Luzon, not Mexico.
+ *
+ * Before adding anything here, satisfy three things:
+ *
+ *   1. The project exists on a registry and you have its ID and URL.
+ *   2. The registry has not suspended it and the developer is still trading.
+ *   3. You could actually get hold of the credits if someone ordered them.
+ *
+ * Listing a project you cannot evidence is a larger commercial and legal
+ * exposure than any integrity criticism of a project you can.
+ */
+
 export const listings: Listing[] = [
   {
     id: 'po-001',
@@ -79,31 +111,6 @@ export const listings: Listing[] = [
     retirementSupported: true
   },
   {
-    id: 'po-004',
-    slug: 'mai-ndombe-redd',
-    projectName: 'Mai Ndombe REDD+',
-    developer: 'Wildlife Works',
-    category: 'nature-based',
-    registry: 'Verra',
-    methodology: 'VM0007 REDD+ MF',
-    projectId: 'VCS-934',
-    vintage: 2022,
-    country: 'DR Congo',
-    pricePerTonne: 8.15,
-    tonnesAvailable: 95000,
-    totalIssued: 8200000,
-    bufferPoolPct: 22,
-    cobenefits: ['Bonobo habitat protection', 'Community health clinics', 'Schools'],
-    sdgs: [1, 3, 4, 13, 15],
-    summary: 'Protects 300,000 ha of Congo Basin rainforest, home to bonobos and 50,000+ community members.',
-    description:
-      'One of the largest REDD+ projects in the world, Mai Ndombe protects critical rainforest in the Congo Basin while delivering health, education, and agricultural support to surrounding communities.',
-    imageUrl: '',
-    verified: true,
-    tier: 'prime-origins-verified',
-    retirementSupported: true
-  },
-  {
     id: 'po-005',
     slug: 'pacific-biochar-california',
     projectName: 'Pacific Biochar Carbon Removal',
@@ -128,32 +135,6 @@ export const listings: Listing[] = [
     tier: 'prime-origins-verified',
     retirementSupported: true,
     featured: true
-  },
-  {
-    id: 'po-006',
-    slug: 'rimba-raya-borneo',
-    projectName: 'Rimba Raya Biodiversity Reserve',
-    developer: 'InfiniteEARTH',
-    category: 'nature-based',
-    registry: 'Verra',
-    methodology: 'VM0007 REDD+ MF',
-    projectId: 'VCS-674',
-    vintage: 2023,
-    country: 'Indonesia',
-    region: 'Central Kalimantan',
-    pricePerTonne: 12.22,
-    tonnesAvailable: 32000,
-    totalIssued: 3800000,
-    bufferPoolPct: 20,
-    cobenefits: ['Orangutan habitat', 'Peatland protection', 'All 17 SDGs validated'],
-    sdgs: [1, 2, 3, 4, 5, 13, 14, 15, 17],
-    summary: 'Orangutan refuge on peatland in Borneo — the first project triple-validated under all 17 SDGs.',
-    description:
-      'Rimba Raya protects 64,000 hectares of carbon-rich tropical peatland, providing critical refuge for endangered Bornean orangutans while delivering measurable benefits across all 17 UN Sustainable Development Goals.',
-    imageUrl: '',
-    verified: true,
-    tier: 'prime-origins-verified',
-    retirementSupported: true
   },
   {
     id: 'po-007',
@@ -181,56 +162,6 @@ export const listings: Listing[] = [
     retirementSupported: true
   },
   {
-    id: 'po-008',
-    slug: 'running-tide-kelp',
-    projectName: 'Running Tide Ocean Carbon',
-    developer: 'Running Tide',
-    category: 'engineered-removal',
-    registry: 'Puro.earth',
-    methodology: 'Ocean Alkalinity & Biomass Sinking',
-    projectId: 'PURO-OCN-042',
-    vintage: 2025,
-    country: 'Iceland',
-    pricePerTonne: 177.72,
-    tonnesAvailable: 3200,
-    totalIssued: 9500,
-    cobenefits: ['Ocean alkalinity restoration', 'Deep-sea storage'],
-    sdgs: [13, 14],
-    summary: 'Macroalgae-based ocean carbon removal with deep-sea sinking for durable storage.',
-    description:
-      'Running Tide grows macroalgae on biodegradable buoys seeded with alkaline limestone. The buoys sink to the deep ocean where carbon is stored on multi-century timescales while restoring ocean chemistry.',
-    imageUrl: '',
-    verified: true,
-    tier: 'prime-origins-verified',
-    retirementSupported: true
-  },
-  {
-    id: 'po-009',
-    slug: 'amazonia-pariri',
-    projectName: 'Pariri Amazon Conservation',
-    developer: 'Carbonext',
-    category: 'nature-based',
-    registry: 'Verra',
-    methodology: 'VM0015',
-    projectId: 'VCS-2613',
-    vintage: 2024,
-    country: 'Brazil',
-    region: 'Pará',
-    pricePerTonne: 9.77,
-    tonnesAvailable: 41000,
-    totalIssued: 6700000,
-    bufferPoolPct: 25,
-    cobenefits: ['Indigenous land rights', 'Açaí economy', 'Jaguar habitat'],
-    sdgs: [1, 10, 13, 15],
-    summary: 'Indigenous-led Amazon conservation across 350,000+ hectares of primary rainforest.',
-    description:
-      'The Pariri project is co-developed with the Munduruku people, protecting one of the most biodiverse regions of the Brazilian Amazon while supporting traditional livelihoods.',
-    imageUrl: '',
-    verified: true,
-    tier: 'prime-origins-verified',
-    retirementSupported: true
-  },
-  {
     id: 'po-010',
     slug: 'cquestr8-rock-weathering',
     projectName: 'Enhanced Rock Weathering — UK Croplands',
@@ -250,31 +181,6 @@ export const listings: Listing[] = [
     summary: 'Crushed basalt spread on UK farmland sequesters CO₂ as it weathers — 10,000+ year storage.',
     description:
       'UNDO spreads finely-crushed basalt on agricultural land. As the rock weathers naturally, it draws CO₂ from the atmosphere and locks it away as stable bicarbonate. Co-benefits include soil de-acidification and improved yields.',
-    imageUrl: '',
-    verified: true,
-    tier: 'prime-origins-verified',
-    retirementSupported: true
-  },
-  {
-    id: 'po-011',
-    slug: 'methane-capture-landfill-texas',
-    projectName: 'McCommas Bluff Landfill Methane Capture',
-    developer: 'EDF Renewables',
-    category: 'renewable-energy',
-    registry: 'ACR',
-    methodology: 'ACR Landfill Gas Destruction v1.1',
-    projectId: 'ACR-380',
-    vintage: 2024,
-    country: 'United States',
-    region: 'Texas',
-    pricePerTonne: 5.55,
-    tonnesAvailable: 28000,
-    totalIssued: 410000,
-    cobenefits: ['Methane abatement', 'Renewable natural gas'],
-    sdgs: [7, 11, 13],
-    summary: 'Captures methane from a Dallas landfill — converted to renewable natural gas for the grid.',
-    description:
-      'Methane (28× more potent than CO₂ on a 100-year basis) is captured from the McCommas Bluff landfill and converted into renewable natural gas, displacing fossil natural gas demand.',
     imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
@@ -333,33 +239,6 @@ export const listings: Listing[] = [
     retirementSupported: true,
     latitude: 11.69,
     longitude: 76.13
-  },
-  {
-    id: 'po-012',
-    slug: 'mangrove-restoration-philippines',
-    projectName: 'Visayas Mangrove Restoration',
-    developer: 'WorldView Impact',
-    category: 'nature-based',
-    registry: 'Verra',
-    methodology: 'VM0033 Tidal Wetland Restoration',
-    projectId: 'VCS-2876',
-    vintage: 2024,
-    country: 'Philippines',
-    region: 'Eastern Visayas',
-    pricePerTonne: 15.55,
-    tonnesAvailable: 8500,
-    totalIssued: 145000,
-    bufferPoolPct: 30,
-    cobenefits: ['Coastal protection', 'Fisheries recovery', 'Typhoon resilience'],
-    sdgs: [1, 13, 14, 15],
-    summary: 'Restored mangrove forests sequester carbon at high rates while protecting coastal communities.',
-    description:
-      'Replanting and protecting 2,400 hectares of mangrove forest in typhoon-prone coastal communities. Blue carbon storage rates 3-5× higher per hectare than terrestrial forests.',
-    imageUrl: '',
-    verified: true,
-    tier: 'prime-origins-verified',
-    retirementSupported: true,
-    featured: true
   },
   {
     id: 'po-015',
@@ -584,32 +463,6 @@ export const listings: Listing[] = [
     summary: 'CCP-eligible soil-carbon credits from regenerative practices on Central Valley cropland.',
     description:
       'Multi-farm soil enrichment programme implementing cover crops, reduced tillage, and nutrient-management changes across cropland in California\'s Central Valley. Issued under CAR\'s Soil Enrichment Protocol — CCP-eligible for 2026.',
-    imageUrl: '',
-    verified: true,
-    tier: 'prime-origins-verified',
-    retirementSupported: true
-  },
-  {
-    id: 'po-024',
-    slug: 'sierra-madre-mexico-forest',
-    projectName: 'Sierra Madre Community Forest Protocol',
-    developer: 'Pronatura México',
-    category: 'nature-based',
-    registry: 'Climate Action Reserve',
-    methodology: 'Mexico Forest Protocol v3.0',
-    projectId: 'CAR-MXF-088',
-    vintage: 2024,
-    country: 'Mexico',
-    region: 'Jalisco',
-    pricePerTonne: 12.96,
-    tonnesAvailable: 14000,
-    totalIssued: 320000,
-    bufferPoolPct: 22,
-    cobenefits: ['Ejido community land tenure', 'Watershed protection', 'Endemic species'],
-    sdgs: [1, 10, 13, 15],
-    summary: 'Community-managed forest carbon in Mexico\'s Sierra Madre Occidental, under CAR\'s CCP-approved protocol.',
-    description:
-      'Improved forest management across communal "ejido" lands in the Sierra Madre Occidental of Jalisco. Combines selective harvesting with conservation set-asides. Issued under CAR\'s Mexico Forest Protocol v3.0 — CCP-approved with conditions in 2026.',
     imageUrl: '',
     verified: true,
     tier: 'prime-origins-verified',
@@ -1026,15 +879,9 @@ const coords: Record<string, [number, number]> = {
   'po-001': [-3.85, 38.65],     // Kasigau, Kenya
   'po-002': [64.05, -21.40],    // Hellisheidi, Iceland
   'po-003': [7.95, -1.03],      // Ghana centroid
-  'po-004': [-2.50, 18.30],     // Mai Ndombe, DRC
   'po-005': [38.50, -121.50],   // California
-  'po-006': [-2.65, 112.50],    // Central Kalimantan, Borneo
   'po-007': [22.30, 71.20],     // Gujarat, India
-  'po-008': [64.13, -21.95],    // Iceland
-  'po-009': [-3.50, -52.50],    // Pará, Brazil
   'po-010': [56.50, -4.20],     // Scotland
-  'po-011': [32.65, -96.70],    // Dallas
-  'po-012': [11.50, 125.00],    // Eastern Visayas, Philippines
   'po-015': [-2.07, 113.30],    // Katingan, Central Kalimantan
   'po-016': [12.30, 106.90],    // Mondulkiri, Cambodia
   'po-017': [-12.83, -69.35],   // Madre de Dios, Peru

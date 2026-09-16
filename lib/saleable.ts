@@ -7,6 +7,10 @@
  * paid for, against a project whose Verra account is suspended and which has
  * no remaining supply. That order had to be refunded.
  *
+ * That listing has since been deleted from the catalogue outright. Blocking a
+ * sale is not enough on its own: a project Atlas cannot deliver should not be
+ * on the site at all, quote route or otherwise.
+ *
  * Nothing is card-payable until its id appears in this set. Add an id only
  * once the credits behind it genuinely exist and can be retired on the
  * registry: issuance confirmed, serial numbers held, documents on file.
