@@ -14,6 +14,9 @@ export default function HomePage() {
   // "Vetted" was claiming a review process the seeded catalogue never had;
   // registry-issued is a fact about the listing that a buyer can check.
   const registryIssuedCount = listings.filter((l) => l.tier === 'prime-origins-verified').length;
+  const ukCount = listings.filter(
+    (l) => l.registry === 'Woodland Carbon Code' || l.registry === 'Peatland Code'
+  ).length;
 
   const orgJsonLd = {
     '@context': 'https://schema.org',
@@ -71,8 +74,8 @@ export default function HomePage() {
           <dl className="reveal reveal-delay-4 mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl">
             <Stat label="Projects listed" value={String(listings.length)} />
             <Stat label="Registry-issued" value={String(registryIssuedCount)} />
+            <Stat label="UK woodland" value={String(ukCount)} />
             <Stat label="Tonnes listed" value={`${(totalTonnes / 1000).toFixed(0)}k`} />
-            <Stat label="Countries" value={String(new Set(listings.map((l) => l.country)).size)} />
           </dl>
         </div>
       </section>
@@ -81,8 +84,12 @@ export default function HomePage() {
       <section className="container-narrow py-16">
         <div className="flex items-end justify-between mb-8">
           <div>
-            <h2 className="reveal text-2xl md:text-3xl font-semibold text-forest-900">Featured projects</h2>
-            <p className="mt-2 text-forest-700/80">Hand-picked listings across nature-based, engineered, and community categories.</p>
+            <h2 className="reveal text-2xl md:text-3xl font-semibold text-forest-900">UK woodland, and the wider market</h2>
+            <p className="mt-2 text-forest-700/80 max-w-xl">
+              New: Woodland Carbon Code projects you can source domestically, listed with their registry number,
+              planted area and predicted removal. Units from them are pending issuance &mdash; the listing says so
+              plainly, because that changes what you can claim.
+            </p>
           </div>
           <Link href="/browse" className="hidden md:inline text-sm font-medium text-forest-700 hover:text-forest-600">View all →</Link>
         </div>

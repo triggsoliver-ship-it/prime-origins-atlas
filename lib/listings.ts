@@ -670,7 +670,8 @@ export const listings: Listing[] = [
     imageUrl: 'https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=1400&q=70',
     verified: true,
     tier: 'prime-origins-verified',
-    retirementSupported: true
+    retirementSupported: true,
+    featured: true
   },
   {
     id: 'po-027',
@@ -701,7 +702,8 @@ export const listings: Listing[] = [
     imageUrl: 'https://images.unsplash.com/photo-1473773508845-188df298d2d1?auto=format&fit=crop&w=1400&q=70',
     verified: true,
     tier: 'prime-origins-verified',
-    retirementSupported: true
+    retirementSupported: true,
+    featured: true
   },
   {
     id: 'po-028',
@@ -794,7 +796,8 @@ export const listings: Listing[] = [
     imageUrl: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=70',
     verified: true,
     tier: 'prime-origins-verified',
-    retirementSupported: true
+    retirementSupported: true,
+    featured: true
   },
   {
     id: 'po-031',
@@ -825,7 +828,8 @@ export const listings: Listing[] = [
     imageUrl: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1400&q=70',
     verified: true,
     tier: 'prime-origins-verified',
-    retirementSupported: true
+    retirementSupported: true,
+    featured: true
   },
   {
     id: 'po-032',
@@ -856,7 +860,8 @@ export const listings: Listing[] = [
     imageUrl: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1400&q=70',
     verified: true,
     tier: 'prime-origins-verified',
-    retirementSupported: true
+    retirementSupported: true,
+    featured: true
   },
   {
     id: 'po-033',
@@ -1011,7 +1016,8 @@ export const listings: Listing[] = [
     imageUrl: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=1400&q=70',
     verified: true,
     tier: 'prime-origins-verified',
-    retirementSupported: true
+    retirementSupported: true,
+    featured: true
   }
 ];
 
@@ -1054,7 +1060,12 @@ export function getListingById(id: string): Listing | undefined {
 }
 
 export function getFeaturedListings(): Listing[] {
-  return listings.filter((l) => l.featured);
+  // UK woodland first. It is the supply Atlas can actually source and the
+  // reason a UK buyer would choose us over an international marketplace, so
+  // it should not sit below five overseas projects on the front page.
+  const featured = listings.filter((l) => l.featured);
+  const isUk = (l: Listing) => l.registry === 'Woodland Carbon Code' || l.registry === 'Peatland Code';
+  return [...featured.filter(isUk), ...featured.filter((l) => !isUk(l))];
 }
 
 export const categoryLabels: Record<string, string> = {
