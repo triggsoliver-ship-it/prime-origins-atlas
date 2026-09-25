@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'Prime Origins Atlas — Verified Carbon Credit Marketplace';
+export const alt = 'Prime Origins Atlas — Carbon Credit Marketplace';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -46,16 +46,16 @@ export default async function OpengraphImage() {
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <h1 style={{ fontSize: 76, fontWeight: 600, lineHeight: 1.05, margin: 0, maxWidth: 1000 }}>
-            Carbon credits, traced to the source.
+            Carbon projects, traced to the source.
           </h1>
           <p style={{ fontSize: 28, color: '#dcefe0', marginTop: 24, maxWidth: 900, lineHeight: 1.3 }}>
-            High-integrity carbon credits from Verra, Gold Standard, ACR, Puro.earth and self-verified developers.
+            Registry-issued credits, UK Woodland Carbon Code units and developer self-verified projects.
           </p>
         </div>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 20, color: '#bbdec5' }}>
           <span>primeoriginsatlas.org</span>
-          <span>Verified · Traceable · Retirable</span>
+          <span>Registry · Unit type · Verification status</span>
         </div>
       </div>
     ),

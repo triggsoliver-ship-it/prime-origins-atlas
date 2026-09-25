@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Browse Verified Carbon Credits — Verra, Gold Standard, Self-Verified',
+  title: 'Browse Carbon Projects — Registries, UK Woodland, Self-Verified',
   description:
-    'Browse vetted carbon credits across Verra, Gold Standard, ACR, Puro.earth and self-verified projects. Filter by category, registry, vintage and price. Buy and retire from $4.80/tCO₂e.',
+    'Browse registry-issued carbon credits, UK Woodland Carbon Code Pending Issuance Units and developer self-verified projects. Filter by unit type, category, registry, year and indicative price. Atlas holds no stock — availability is confirmed on request.',
   alternates: { canonical: '/browse' },
   openGraph: {
-    title: 'Browse Carbon Credits | Prime Origins Atlas',
-    description: 'Filter and buy high-integrity carbon credits from major registries and self-verified developers.',
+    title: 'Browse Carbon Projects | Prime Origins Atlas',
+    description: 'Filter by unit type, registry and category. Every listing states what instrument it offers and what has been verified.',
     url: '/browse'
   }
 };
