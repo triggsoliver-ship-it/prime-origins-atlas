@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import EcosystemMenu from './EcosystemMenu';
 
 export default function Header() {
   return (
@@ -13,14 +14,20 @@ export default function Header() {
           </span>
         </Link>
         <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-forest-800">
-          <Link href="/browse" className="relative transition-colors hover:text-forest-600 after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-forest-500 after:transition-all after:duration-300 hover:after:w-full">Browse credits</Link>
+          <Link href="/browse" className="relative transition-colors hover:text-forest-600 after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-forest-500 after:transition-all after:duration-300 hover:after:w-full">Browse projects</Link>
           <Link href="/how-it-works" className="relative transition-colors hover:text-forest-600 after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-forest-500 after:transition-all after:duration-300 hover:after:w-full">How it works</Link>
           <Link href="/sell" className="relative transition-colors hover:text-forest-600 after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-forest-500 after:transition-all after:duration-300 hover:after:w-full">List your project</Link>
           <Link href="/about" className="relative transition-colors hover:text-forest-600 after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-forest-500 after:transition-all after:duration-300 hover:after:w-full">About</Link>
+          <EcosystemMenu />
         </nav>
         <div className="flex items-center gap-3">
-          <Link href="/sell" className="hidden sm:inline-flex btn-secondary !py-2">For sellers</Link>
-          <Link href="/browse" className="btn-primary !py-2">Buy credits</Link>
+          {/* btn-secondary sets display:inline-flex in a later layer than the
+              `hidden` utility, so the class alone never hid this below sm and
+              the two buttons wrapped their own labels on a phone. */}
+          <span className="hidden sm:block">
+            <Link href="/sell" className="btn-secondary !py-2 whitespace-nowrap">For sellers</Link>
+          </span>
+          <Link href="/browse" className="btn-primary !py-2 whitespace-nowrap">Get a quote</Link>
         </div>
       </div>
     </header>

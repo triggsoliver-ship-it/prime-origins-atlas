@@ -1,21 +1,22 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { ECOSYSTEM, GROUP } from '@/lib/ecosystem';
 
 export default function Footer() {
   return (
     <footer className="mt-24 border-t border-forest-100 bg-white">
-      <div className="container-narrow grid grid-cols-2 md:grid-cols-4 gap-8 py-12">
+      <div className="container-narrow grid grid-cols-2 gap-8 py-12 md:grid-cols-5">
         <div className="col-span-2 md:col-span-1">
           <div className="flex items-center gap-3">
             <Image src="/logo.png" alt="Prime Origins" width={40} height={40} className="h-10 w-auto object-contain" />
             <span className="text-sm font-semibold text-forest-900">Prime Origins Atlas</span>
           </div>
           <p className="mt-3 text-sm text-forest-700/80">
-            High-integrity carbon credits, vetted and traceable to source.
+            Carbon credits and UK woodland units, each listed with its registry, unit type and verification status.
           </p>
         </div>
         <FooterCol title="Marketplace" links={[
-          { label: 'Browse credits', href: '/browse' },
+          { label: 'Browse projects', href: '/browse' },
           { label: 'List a project', href: '/sell' },
           { label: 'Pricing & fees', href: '/how-it-works' }
         ]} />
@@ -26,17 +27,39 @@ export default function Footer() {
         ]} />
         <FooterCol title="Company" links={[
           { label: 'About', href: '/about' },
-          { label: 'Parent company', href: 'https://www.primeorigins.org', external: true },
+          { label: `${GROUP.name} — ${GROUP.role}`, href: GROUP.url, external: true },
           { label: 'Contact', href: 'mailto:oliver@primeorigins.org' },
           { label: 'Terms', href: '/terms' },
           { label: 'Privacy', href: '/privacy' },
           { label: 'Cookies', href: '/cookies' }
         ]} />
+        <div className="col-span-2 md:col-span-1">
+          <h4 className="text-xs uppercase tracking-[0.18em] text-forest-600 font-semibold">Ecosystem</h4>
+          <ul className="mt-3 space-y-2.5 text-sm">
+            {ECOSYSTEM.map((s) => (
+              <li key={s.url}>
+                {s.current ? (
+                  <span aria-current="page" className="block">
+                    <span className="block font-semibold text-forest-900">{s.name}</span>
+                    <span className="block text-[11px] leading-snug text-forest-700/70">
+                      {s.role} &middot; <span className="text-forest-600">you are here</span>
+                    </span>
+                  </span>
+                ) : (
+                  <a href={s.url} target="_blank" rel="noreferrer" className="block transition-colors hover:text-forest-600">
+                    <span className="text-forest-800">{s.name}</span>
+                    <span className="block text-[11px] leading-snug text-forest-700/70">{s.role}</span>
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       <div className="border-t border-forest-100 py-5">
         <div className="container-narrow flex flex-col md:flex-row gap-2 md:items-center md:justify-between text-xs text-forest-700/70">
           <span>© {new Date().getFullYear()} Prime Origins Limited. Company number 15775663. Registered office: 128 City Road, London, EC1V 2NX.</span>
-          <span>Listings shown are illustrative — final transactions settle on the underlying registry.</span>
+          <span>Atlas holds no stock. Prices are indicative and availability is confirmed on request.</span>
           <span>
             Site designed by{' '}
             <a

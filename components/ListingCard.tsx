@@ -2,14 +2,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Listing } from '@/lib/types';
 import { categoryLabels } from '@/lib/listings';
-import { isSaleable } from '@/lib/saleable';
+import { availabilityShort, isIndicativePrice, isUkCode, statusChip } from '@/lib/status';
 import ProjectPlate from './ProjectPlate';
 
 export default function ListingCard({ listing }: { listing: Listing }) {
-  // Only projects Atlas actually holds advertise a tonnage. Everything else is
-  // sourced to order, and saying "88,000 t available" on a card that leads to a
-  // quote form is exactly the promise that got a real order refunded.
-  const inStock = isSaleable(listing.id);
+  // One status chip, from lib/status.ts. This card used to render a
+  // "Registry-issued" badge and a "Pending units" badge side by side, which
+  // told the buyer two opposite things about the same listing.
+  const status = statusChip(listing);
 
   return (
     <Link
@@ -29,17 +29,12 @@ export default function ListingCard({ listing }: { listing: Listing }) {
           <ProjectPlate listing={listing} compact />
         )}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-forest-900/35 via-transparent to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-80" aria-hidden />
-        <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
+        {/* Only the category sits on the image. The status chip is the longest
+            label on the card ("Pending Issuance Units") and overlapped the
+            plate's place name when both were anchored here, so it moved down
+            into the fact row where it has the card's full width. */}
+        <div className="pointer-events-none absolute left-3 top-3">
           <span className="chip backdrop-blur bg-white/85 shadow-sm">{categoryLabels[listing.category]}</span>
-          {listing.tier === 'prime-origins-verified' && (
-            <span className="chip-solid shadow-sm">Registry-issued</span>
-          )}
-          {listing.tier === 'self-verified' && (
-            <span className="chip-warn shadow-sm">Self-Verified</span>
-          )}
-          {listing.unitType === 'piu' && (
-            <span className="chip-warn shadow-sm">Pending units</span>
-          )}
         </div>
       </div>
       <div className="flex flex-col p-5 gap-3">
@@ -49,16 +44,21 @@ export default function ListingCard({ listing }: { listing: Listing }) {
         </div>
         <p className="text-sm text-forest-800/90 line-clamp-2">{listing.summary}</p>
         <div className="flex flex-wrap gap-1.5">
+          <span className={status.tone === 'solid' ? 'chip-solid' : 'chip-warn'}>{status.label}</span>
           <span className="chip-outline">{listing.registry}</span>
-          <span className="chip-outline">Vintage {listing.vintage}</span>
+          <span className="chip-outline">
+            {isUkCode(listing)
+              ? `Planted ${listing.plantingYear ?? listing.vintage}`
+              : `Vintage ${listing.vintage}`}
+          </span>
         </div>
         <div className="mt-2 flex flex-wrap items-end justify-between gap-x-3 gap-y-1 border-t border-forest-100 pt-3">
           <div className="min-w-0">
-            <p className="text-[11px] uppercase tracking-wider text-forest-600">{inStock ? 'From' : 'Indicative'}</p>
+            <p className="text-[11px] uppercase tracking-wider text-forest-600">{isIndicativePrice(listing) ? 'Indicative' : 'From'}</p>
             <p className="whitespace-nowrap text-lg font-semibold text-forest-900">£{listing.pricePerTonne.toFixed(2)}<span className="text-xs font-normal text-forest-700">/tCO₂e</span></p>
           </div>
           <span className="inline-flex shrink-0 items-center gap-1 whitespace-nowrap text-xs font-medium text-forest-700/80 transition-all group-hover:text-forest-700 group-hover:gap-1.5">
-            {inStock ? `${listing.tonnesAvailable.toLocaleString()} t available` : 'Quote on request'}
+            {availabilityShort(listing)}
             <span aria-hidden className="transition-transform motion-safe:group-hover:translate-x-0.5">→</span>
           </span>
         </div>
