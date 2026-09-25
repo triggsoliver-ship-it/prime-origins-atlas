@@ -64,9 +64,10 @@ export default function SellPage() {
       <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">List your project on Atlas</h1>
       <p className="mt-3 text-forest-700/85">
         Atlas lists <strong>registry-backed</strong> projects (Verra, Gold Standard, ACR, Puro.earth, Climate Action
-        Reserve, and the UK Woodland Carbon Code and Peatland Code) alongside <strong>developer self-verified</strong>
-        projects where you supply your own documentation. Registry-backed projects are checked against the public
-        registry record; self-verified listings are published with your documentation attached and labelled as such.
+        Reserve, and the UK Woodland Carbon Code and Peatland Code) alongside{' '}
+        <strong>developer self-verified</strong> projects where you supply your own documentation. Registry-backed
+        projects are checked against the public registry record; self-verified listings are published with your
+        documentation attached and labelled as such.
         Where a project offers Pending Issuance Units rather than issued credits, the listing says so throughout.
       </p>
       <p className="mt-3 rounded-xl border border-forest-100 bg-forest-50/60 px-4 py-3 text-sm leading-relaxed text-forest-800">
