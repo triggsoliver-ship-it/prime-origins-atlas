@@ -2,46 +2,83 @@
 
 import { useMemo, useState } from 'react';
 import ListingCard from '@/components/ListingCard';
-import { listings, categoryLabels, tierLabels } from '@/lib/listings';
-import type { ProjectCategory, Registry, VerificationTier } from '@/lib/types';
+import { listings, categoryLabels } from '@/lib/listings';
+import { unitKindOf, type UnitKind } from '@/lib/status';
+import type { ProjectCategory, Registry } from '@/lib/types';
 
-const allRegistries: Registry[] = ['Verra', 'Gold Standard', 'ACR', 'Puro.earth', 'Climate Action Reserve', 'Self-Verified'];
+/**
+ * Every registry in the catalogue. The Woodland Carbon Code and Peatland Code
+ * were missing from this list, so 12 of the 30 projects on the site could not
+ * be filtered by registry at all.
+ */
+const allRegistries: Registry[] = [
+  'Woodland Carbon Code',
+  'Peatland Code',
+  'Verra',
+  'Gold Standard',
+  'ACR',
+  'Puro.earth',
+  'Climate Action Reserve',
+  'Self-Verified'
+];
 const allCategories: ProjectCategory[] = ['nature-based', 'engineered-removal', 'renewable-energy', 'community'];
-const allTiers: VerificationTier[] = ['prime-origins-verified', 'self-verified'];
+
+/**
+ * This filter used to offer "Prime Origins Verified" vs "Self-Verified", which
+ * told a buyer nothing about what they were actually buying and implied Atlas
+ * had verified something. What a buyer needs to filter on is the instrument.
+ */
+const unitKindFilters: { kind: UnitKind; label: string; hint: string }[] = [
+  { kind: 'issued-credit', label: 'Issued credits', hint: 'Verified and issued on a public registry' },
+  { kind: 'pending-unit', label: 'Pending Issuance Units', hint: 'A promise of future verified UK removal' },
+  { kind: 'self-reported-unit', label: 'Developer self-verified', hint: 'Developer documentation only, no registry' }
+];
 
 export default function BrowsePage() {
   const [query, setQuery] = useState('');
   const [cats, setCats] = useState<ProjectCategory[]>([]);
   const [regs, setRegs] = useState<Registry[]>([]);
-  const [tiers, setTiers] = useState<VerificationTier[]>([]);
+  const [kinds, setKinds] = useState<UnitKind[]>([]);
   const [minVintage, setMinVintage] = useState<number | ''>('');
   const [maxPrice, setMaxPrice] = useState<number | ''>('');
-  const [sort, setSort] = useState<'price-asc' | 'price-desc' | 'vintage-desc' | 'tonnes-desc'>('price-asc');
+  const [sort, setSort] = useState<'price-asc' | 'price-desc' | 'year-desc' | 'name-asc'>('price-asc');
 
   const filtered = useMemo(() => {
     let r = listings.filter((l) => {
       if (query && !`${l.projectName} ${l.country} ${l.developer} ${l.summary}`.toLowerCase().includes(query.toLowerCase())) return false;
       if (cats.length && !cats.includes(l.category)) return false;
       if (regs.length && !regs.includes(l.registry)) return false;
-      if (tiers.length && !tiers.includes(l.tier)) return false;
-      if (minVintage !== '' && l.vintage < Number(minVintage)) return false;
+      if (kinds.length && !kinds.includes(unitKindOf(l))) return false;
+      if (minVintage !== '' && (l.plantingYear ?? l.vintage) < Number(minVintage)) return false;
       if (maxPrice !== '' && l.pricePerTonne > Number(maxPrice)) return false;
       return true;
     });
-    r = r.sort((a, b) => {
+    // "Most tonnes available" used to sort on listing.tonnesAvailable, which is
+    // zero for every UK project and is not Atlas inventory for any of the rest.
+    // Sorting a catalogue by a number that means nothing is worse than not
+    // offering the sort, so it is gone.
+    r = [...r].sort((a, b) => {
       if (sort === 'price-asc') return a.pricePerTonne - b.pricePerTonne;
       if (sort === 'price-desc') return b.pricePerTonne - a.pricePerTonne;
-      if (sort === 'vintage-desc') return b.vintage - a.vintage;
-      return b.tonnesAvailable - a.tonnesAvailable;
+      if (sort === 'year-desc') return (b.plantingYear ?? b.vintage) - (a.plantingYear ?? a.vintage);
+      return a.projectName.localeCompare(b.projectName);
     });
     return r;
-  }, [query, cats, regs, tiers, minVintage, maxPrice, sort]);
+  }, [query, cats, regs, kinds, minVintage, maxPrice, sort]);
 
   return (
     <div className="container-narrow py-10 md:py-14">
       <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">Browse carbon credits</h1>
-        <p className="mt-2 text-forest-700/80">Filter by project type, registry, vintage, and price.</p>
+        <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">Browse projects</h1>
+        <p className="mt-2 text-forest-700/80">
+          Filter by unit type, project category, registry, year and price.
+        </p>
+        <p className="mt-3 max-w-2xl rounded-xl border border-forest-100 bg-forest-50/60 px-4 py-3 text-sm leading-relaxed text-forest-800">
+          Atlas holds no stock. Every price shown is indicative and every volume is confirmed with the developer when
+          we quote. Not everything here is an issued carbon credit &mdash; the UK woodland projects offer{' '}
+          <strong>Pending Issuance Units</strong>, which are a promise of future verified removal and cannot be used
+          to report against emissions yet. Each card says which it is.
+        </p>
       </div>
 
       <div className="grid lg:grid-cols-[280px_1fr] gap-8">
@@ -57,14 +94,15 @@ export default function BrowsePage() {
             />
           </FilterBox>
 
-          <FilterBox label="Verification tier">
-            <div className="space-y-1.5">
-              {allTiers.map((t) => (
+          <FilterBox label="Unit type">
+            <div className="space-y-2">
+              {unitKindFilters.map((f) => (
                 <Checkbox
-                  key={t}
-                  label={tierLabels[t]}
-                  checked={tiers.includes(t)}
-                  onChange={(v) => setTiers(v ? [...tiers, t] : tiers.filter((x) => x !== t))}
+                  key={f.kind}
+                  label={f.label}
+                  hint={f.hint}
+                  checked={kinds.includes(f.kind)}
+                  onChange={(v) => setKinds(v ? [...kinds, f.kind] : kinds.filter((x) => x !== f.kind))}
                 />
               ))}
             </div>
@@ -96,7 +134,7 @@ export default function BrowsePage() {
             </div>
           </FilterBox>
 
-          <FilterBox label="Vintage (min year)">
+          <FilterBox label="Vintage or planting year (from)">
             <input
               type="number"
               value={minVintage}
@@ -106,7 +144,7 @@ export default function BrowsePage() {
             />
           </FilterBox>
 
-          <FilterBox label="Max price per tonne (GBP)">
+          <FilterBox label="Max indicative price per tonne (GBP)">
             <input
               type="number"
               value={maxPrice}
@@ -117,7 +155,7 @@ export default function BrowsePage() {
           </FilterBox>
 
           <button
-            onClick={() => { setQuery(''); setCats([]); setRegs([]); setTiers([]); setMinVintage(''); setMaxPrice(''); }}
+            onClick={() => { setQuery(''); setCats([]); setRegs([]); setKinds([]); setMinVintage(''); setMaxPrice(''); }}
             className="text-xs font-medium text-forest-700 underline underline-offset-2"
           >
             Reset filters
@@ -135,8 +173,8 @@ export default function BrowsePage() {
             >
               <option value="price-asc">Price: low to high</option>
               <option value="price-desc">Price: high to low</option>
-              <option value="vintage-desc">Newest vintage</option>
-              <option value="tonnes-desc">Most tonnes available</option>
+              <option value="year-desc">Most recent vintage or planting</option>
+              <option value="name-asc">Project name (A–Z)</option>
             </select>
           </div>
           {filtered.length === 0 ? (
@@ -163,16 +201,24 @@ function FilterBox({ label, children }: { label: string; children: React.ReactNo
   );
 }
 
-function Checkbox({ label, checked, onChange }: { label: string; checked: boolean; onChange: (v: boolean) => void }) {
+function Checkbox({
+  label,
+  hint,
+  checked,
+  onChange
+}: { label: string; hint?: string; checked: boolean; onChange: (v: boolean) => void }) {
   return (
-    <label className="flex items-center gap-2 text-sm text-forest-800 cursor-pointer">
+    <label className="flex items-start gap-2 text-sm text-forest-800 cursor-pointer">
       <input
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="h-4 w-4 rounded border-forest-300 text-forest-700 focus:ring-forest-500"
+        className="mt-0.5 h-4 w-4 shrink-0 rounded border-forest-300 text-forest-700 focus:ring-forest-500"
       />
-      {label}
+      <span>
+        {label}
+        {hint && <span className="block text-[11px] leading-snug text-forest-700/70">{hint}</span>}
+      </span>
     </label>
   );
 }
