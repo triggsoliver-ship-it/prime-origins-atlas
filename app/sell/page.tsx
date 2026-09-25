@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { FEE_POLICY_SUMMARY } from '@/lib/pricing';
 
 type DocEntry = { id: string; label: string; mode: 'upload' | 'url'; file?: File; url?: string };
 
@@ -51,8 +52,8 @@ export default function SellPage() {
         <div className="mx-auto h-14 w-14 grid place-items-center rounded-full bg-forest-700 text-white text-2xl">✓</div>
         <h1 className="mt-6 text-3xl font-semibold text-forest-900">Application received</h1>
         <p className="mt-3 text-forest-700/85 max-w-xl mx-auto">
-          Thanks for submitting your project to Prime Origins Atlas. Our vetting team will review your submission
-          and supporting documents. Expect to hear back within 5 business days.
+          Thanks for submitting your project to Prime Origins Atlas. We will check the registry record and read your
+          supporting documents, and come back to you within 5 business days.
         </p>
       </div>
     );
@@ -62,17 +63,22 @@ export default function SellPage() {
     <div className="container-narrow py-12 max-w-3xl">
       <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">List your project on Atlas</h1>
       <p className="mt-3 text-forest-700/85">
-        Atlas accepts both <strong>registry-verified</strong> credits (Verra, Gold Standard, ACR, Puro.earth,
-        Climate Action Reserve) and <strong>self-verified</strong> credits where you provide your own documentation.
-        Registry-backed projects are checked against the public registry record; self-verified listings are published with your documentation attached and labelled as self-verified.
+        Atlas lists <strong>registry-backed</strong> projects (Verra, Gold Standard, ACR, Puro.earth, Climate Action
+        Reserve, and the UK Woodland Carbon Code and Peatland Code) alongside <strong>developer self-verified</strong>
+        projects where you supply your own documentation. Registry-backed projects are checked against the public
+        registry record; self-verified listings are published with your documentation attached and labelled as such.
+        Where a project offers Pending Issuance Units rather than issued credits, the listing says so throughout.
+      </p>
+      <p className="mt-3 rounded-xl border border-forest-100 bg-forest-50/60 px-4 py-3 text-sm leading-relaxed text-forest-800">
+        <strong>Nothing is deducted from you.</strong> {FEE_POLICY_SUMMARY}
       </p>
 
       <div className="mt-8 rounded-2xl border border-forest-100 bg-white p-2 inline-flex">
         <TierBtn active={tier === 'prime-origins-verified'} onClick={() => setTier('prime-origins-verified')}>
-          Registry-verified
+          Registry-backed
         </TierBtn>
         <TierBtn active={tier === 'self-verified'} onClick={() => setTier('self-verified')}>
-          Self-verified
+          Developer self-verified
         </TierBtn>
       </div>
 
@@ -95,15 +101,28 @@ export default function SellPage() {
             placeholder={tier === 'prime-origins-verified' ? 'e.g. VCS-2613, GS-852' : 'e.g. your internal ID'}
           />
           {tier === 'prime-origins-verified' ? (
-            <Select name="registry" label="Registry" required options={['Verra', 'Gold Standard', 'ACR', 'Puro.earth', 'Climate Action Reserve']} />
+            <Select
+              name="registry"
+              label="Registry or code"
+              required
+              options={[
+                'Woodland Carbon Code',
+                'Peatland Code',
+                'Verra',
+                'Gold Standard',
+                'ACR',
+                'Puro.earth',
+                'Climate Action Reserve'
+              ]}
+            />
           ) : (
             <Field name="registry" label="Registry" defaultValue="Self-Verified" readOnly />
           )}
           <Select name="category" label="Category" required options={['nature-based', 'engineered-removal', 'renewable-energy', 'community']} />
           <Field name="country" label="Country" required />
           <Field name="region" label="Region (optional)" />
-          <Field name="vintage" label="Vintage year" type="number" required placeholder="2026" />
-          <Field name="tonnesAvailable" label="Tonnes available" type="number" required placeholder="10000" />
+          <Field name="vintage" label="Vintage or planting year" type="number" required placeholder="2026" />
+          <Field name="tonnesAvailable" label="Tonnes you can supply" type="number" required placeholder="10000" />
           <Field name="pricePerTonne" label="Asking price (GBP / tCO₂e)" type="number" required placeholder="15" />
           <Field name="methodology" label="Methodology" required placeholder={tier === 'prime-origins-verified' ? 'e.g. VM0007 REDD+ MF' : 'Describe your methodology'} />
         </div>
@@ -116,8 +135,8 @@ export default function SellPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-forest-800 mb-1">Project summary <span className="text-forest-600">*</span></label>
-          <textarea name="summary" required rows={4} placeholder="What does the project do? Methodology highlights, co-benefits, why it's high-integrity…" className="w-full rounded-lg border border-forest-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500" />
+          <label htmlFor="sell-summary" className="block text-sm font-medium text-forest-800 mb-1">Project summary <span className="text-forest-600">*</span></label>
+          <textarea id="sell-summary" name="summary" required rows={4} placeholder="What does the project do? Methodology highlights, co-benefits, why it's high-integrity…" className="w-full rounded-lg border border-forest-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500" />
         </div>
 
         <h2 className="text-lg font-semibold text-forest-900 pt-2">Verification documents</h2>
@@ -191,20 +210,24 @@ function TierBtn({ active, onClick, children }: { active: boolean; onClick: () =
   );
 }
 
+/* Every label here was a bare <label> with no htmlFor, so a screen reader
+   announced an unlabelled field and clicking a label did nothing. */
 function Field({ name, label, type = 'text', required, placeholder, defaultValue, readOnly, step }: { name: string; label: string; type?: string; required?: boolean; placeholder?: string; defaultValue?: string; readOnly?: boolean; step?: string }) {
+  const id = `sell-${name}`;
   return (
     <div>
-      <label className="block text-sm font-medium text-forest-800 mb-1">{label}{required && <span className="text-forest-600"> *</span>}</label>
-      <input name={name} type={type} required={required} placeholder={placeholder} defaultValue={defaultValue} readOnly={readOnly} step={step} className={`w-full rounded-lg border border-forest-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500 ${readOnly ? 'bg-forest-50' : ''}`} />
+      <label htmlFor={id} className="block text-sm font-medium text-forest-800 mb-1">{label}{required && <span className="text-forest-600"> *</span>}</label>
+      <input id={id} name={name} type={type} required={required} placeholder={placeholder} defaultValue={defaultValue} readOnly={readOnly} step={step} className={`w-full rounded-lg border border-forest-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500 ${readOnly ? 'bg-forest-50' : ''}`} />
     </div>
   );
 }
 
 function Select({ name, label, options, required }: { name: string; label: string; options: string[]; required?: boolean }) {
+  const id = `sell-${name}`;
   return (
     <div>
-      <label className="block text-sm font-medium text-forest-800 mb-1">{label}{required && <span className="text-forest-600"> *</span>}</label>
-      <select name={name} required={required} defaultValue="" className="w-full rounded-lg border border-forest-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500">
+      <label htmlFor={id} className="block text-sm font-medium text-forest-800 mb-1">{label}{required && <span className="text-forest-600"> *</span>}</label>
+      <select id={id} name={name} required={required} defaultValue="" className="w-full rounded-lg border border-forest-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500">
         <option value="" disabled>Choose…</option>
         {options.map((o) => <option key={o} value={o}>{o}</option>)}
       </select>
