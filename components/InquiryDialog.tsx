@@ -9,6 +9,10 @@ export type InquiryContext = {
   retire?: boolean;
   registry?: string;
   unitType?: 'piu' | 'wcu';
+  /** From lib/status.ts, so the enquiry names the same instrument as the page. */
+  unitKind?: 'issued-credit' | 'pending-unit' | 'self-reported-unit';
+  /** The listing's full status line, e.g. "Registry-listed project · Pending Issuance Units". */
+  unitLabel?: string;
 };
 
 /**
@@ -64,12 +68,15 @@ export default function InquiryDialog({
     if (context?.registry) payload.registry = context.registry;
     if (isQuote) {
       payload.type = 'quote';
-      if (context?.unitType) {
-        payload.unitType = context.unitType === 'piu' ? 'Pending Issuance Units' : 'Verified Woodland Carbon Units';
-      }
-      payload.retirement = context?.unitType === 'piu'
-        ? 'N/A — pending units are assigned, not retired'
-        : context?.retire ? 'Yes — retire in buyer name' : 'No — transfer only';
+      if (context?.unitLabel) payload.unitType = context.unitLabel;
+      payload.retirement =
+        context?.unitKind === 'pending-unit'
+          ? 'N/A — pending units are assigned, not retired'
+          : context?.unitKind === 'self-reported-unit'
+          ? 'N/A — not on a registry, cancellation evidence to be confirmed with the developer'
+          : context?.retire
+          ? 'Yes — retire in buyer name'
+          : 'No — transfer only';
     }
 
     try {
@@ -104,7 +111,7 @@ export default function InquiryDialog({
             </h3>
             <p className="mt-2 text-sm text-forest-700">
               {isQuote
-                ? 'We’ll come back with a firm price, vintage and registry serial numbers within one business day. Nothing is charged until you accept.'
+                ? 'We’ll come back within one business day with a firm price, the unit type and the registry position — including serial numbers where the units have been issued. Nothing is charged until you accept.'
                 : 'Expect a reply from our team within one business day.'}
             </p>
             <button onClick={onClose} className="btn-primary mt-6">Close</button>
@@ -116,7 +123,7 @@ export default function InquiryDialog({
             </h3>
             <p className="mt-1 text-sm text-forest-700">
               {isQuote
-                ? 'Tell us what you need and we’ll source it. A firm price and the serial numbers come back to you before any payment is taken.'
+                ? 'Tell us what you need and we’ll source it. A firm price, the unit type and the registry position come back to you in writing before any payment is taken.'
                 : 'For portfolio enquiries, large orders (1,000+ tonnes), forward contracts or general questions.'}
             </p>
 
@@ -126,10 +133,22 @@ export default function InquiryDialog({
                 {isQuote && typeof context.tonnes === 'number' && (
                   <p className="mt-1"><span className="text-forest-700/80">Volume:</span> <strong>{context.tonnes.toLocaleString()} tCO₂e</strong></p>
                 )}
-                {isQuote && context.unitType === 'piu' && (
-                  <p className="mt-1"><span className="text-forest-700/80">Unit type:</span> <strong>Pending Issuance Units</strong></p>
+                {isQuote && context.unitLabel && (
+                  <p className="mt-1"><span className="text-forest-700/80">Unit type:</span> <strong>{context.unitLabel}</strong></p>
                 )}
-                {isQuote && context.unitType !== 'piu' && (
+                {isQuote && context.unitKind === 'pending-unit' && (
+                  <p className="mt-1">
+                    <span className="text-forest-700/80">Retirement:</span>{' '}
+                    <strong>Not applicable — pending units are assigned, not retired</strong>
+                  </p>
+                )}
+                {isQuote && context.unitKind === 'self-reported-unit' && (
+                  <p className="mt-1">
+                    <span className="text-forest-700/80">Retirement:</span>{' '}
+                    <strong>No registry retirement — evidence confirmed with the developer</strong>
+                  </p>
+                )}
+                {isQuote && context.unitKind === 'issued-credit' && (
                   <p className="mt-1">
                     <span className="text-forest-700/80">Retirement:</span>{' '}
                     <strong>{context.retire ? `Yes, in your name on the ${context.registry ?? 'registry'}` : 'No, transfer only'}</strong>
