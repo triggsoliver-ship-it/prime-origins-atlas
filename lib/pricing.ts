@@ -52,7 +52,57 @@ export function netAfterWorstCaseStripe(total: number): number {
 }
 
 export function gbp(n: number): string {
-  return `£${n.toFixed(2)}`;
+  return `£${n.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+/* ------------------------------------------------------------------ *
+ * The fee policy, in words, from the same constant the maths uses.
+ *
+ * /how-it-works used to say two different things: the seller section said
+ * Atlas "charges 8% on credits sold", and the pricing section said the buyer
+ * pays 8% on top. Those describe different commercial deals, and only one of
+ * them is implemented.
+ *
+ * What app/api/checkout/route.ts actually does is build two Stripe line items
+ * — the credits at the listed price × tonnes, and one platform fee line at 8%
+ * of that subtotal. Nothing is deducted from the seller anywhere in the
+ * codebase. So the implemented and intended policy is a single buyer-paid fee
+ * added on top, and the seller wording was the bug.
+ *
+ * Every public statement about the fee reads from here.
+ * ------------------------------------------------------------------ */
+
+export const PLATFORM_FEE_PCT = formatPct(PLATFORM_FEE_RATE);
+
+/** Who pays it. */
+export const PLATFORM_FEE_PAYER = 'buyer' as const;
+
+/** What it is calculated on. */
+export const PLATFORM_FEE_BASIS = 'the credit price multiplied by the number of tonnes';
+
+/** One sentence, used verbatim in buyer copy, seller copy and the FAQ. */
+export const FEE_POLICY_SUMMARY =
+  `Atlas charges one platform fee of ${PLATFORM_FEE_PCT}. It is added on top of the price the seller sets and is ` +
+  `paid by the buyer. The seller receives the listed price in full — there is no listing fee and no separate ` +
+  `seller commission.`;
+
+/** What the fee does NOT include. The quote adds no tax and no other charge. */
+export const FEE_EXCLUSIONS = [
+  'VAT or any other tax, which is not added to the quote and is confirmed separately where it applies',
+  'registry transfer or account fees charged by the registry itself',
+  'any currency conversion your own bank or card issuer applies'
+];
+
+/** A worked example, computed from the live rate so it can never drift. */
+export function feeWorkedExample(pricePerTonne = 25, tonnes = 100) {
+  const q = quoteFor(pricePerTonne, tonnes);
+  return {
+    pricePerTonne,
+    tonnes,
+    ...q,
+    sellerReceives: q.subtotal,
+    atlasReceives: q.fee
+  };
 }
 
 function formatPct(rate: number): string {

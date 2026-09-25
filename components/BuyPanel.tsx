@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import type { Listing } from '@/lib/types';
-import { PLATFORM_FEE_LABEL, gbp, quoteFor } from '@/lib/pricing';
+import { PLATFORM_FEE_LABEL, PLATFORM_FEE_RATE, gbp, quoteFor } from '@/lib/pricing';
+import { retirementExplainer, statusLabel, unitKindOf, unitNoun } from '@/lib/status';
 import InquiryDialog from './InquiryDialog';
 
 /**
@@ -42,7 +43,9 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
     return () => { cancelled = true; };
   }, [listing.id]);
 
-  const isPending = listing.unitType === 'piu';
+  const kind = unitKindOf(listing);
+  const isPending = kind === 'pending-unit';
+  const noRegistry = kind === 'self-reported-unit';
   const canBuy = saleable === true && available > 0;
   const soldOut = saleable === true && available <= 0;
   const { subtotal, fee, total } = quoteFor(listing.pricePerTonne, tonnes);
@@ -94,7 +97,7 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
               ? `${available.toLocaleString()} available`
               : soldOut
               ? 'Sold out'
-              : 'Sourced to order'}
+              : 'Availability confirmed on request'}
           </p>
         </div>
 
@@ -125,14 +128,14 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
           </div>
         </div>
 
-        {isPending ? (
+        {isPending || noRegistry ? (
           /* A Pending Issuance Unit cannot be retired — there is nothing
-             verified to retire yet. Offering a retirement tickbox here would
-             promise something the registry will not do. */
+             verified to retire yet — and a self-verified project has no
+             registry to retire on. Offering a retirement tickbox in either
+             case promises something that will not happen. */
           <p className="mt-4 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2.5 text-xs leading-relaxed text-forest-900">
-            <strong>Pending units are assigned, not retired.</strong> We assign them to you on the UK Land Carbon
-            Registry so the sale is on the public record. They can be retired once the project passes verification
-            and they convert to Woodland Carbon Units.
+            <strong>{isPending ? 'Pending units are assigned, not retired.' : 'No registry retirement available.'}</strong>{' '}
+            {retirementExplainer(listing)}
           </p>
         ) : (
           <label className="mt-4 flex items-start gap-2 text-sm text-forest-800 cursor-pointer">
@@ -147,7 +150,10 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
         )}
 
         <dl className="mt-5 space-y-1.5 text-sm border-t border-forest-100 pt-4">
-          <Row label={`Credits (${tonnes.toLocaleString()} × ${gbp(listing.pricePerTonne)})`} value={gbp(subtotal)} />
+          <Row
+            label={`${unitNoun(listing)} (${tonnes.toLocaleString()} × ${gbp(listing.pricePerTonne)})`}
+            value={gbp(subtotal)}
+          />
           <Row label={PLATFORM_FEE_LABEL} value={gbp(fee)} />
           <div className="border-t border-forest-100 pt-2 mt-1">
             <Row
@@ -155,6 +161,12 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
               value={<strong className="text-forest-900">{gbp(total)}</strong>}
             />
           </div>
+          <p className="pt-1 text-[11px] leading-relaxed text-forest-700/80">
+            The {(PLATFORM_FEE_RATE * 100).toFixed(0)}% fee is Atlas&rsquo;s only charge. It is added on top of the
+            price the seller sets and paid by you at checkout; the seller receives the listed price in full. VAT,
+            registry transfer fees and any currency conversion your bank applies are not included in this figure and
+            are confirmed in writing before you pay.
+          </p>
         </dl>
 
         {canBuy ? (
@@ -180,7 +192,9 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
               {soldOut
                 ? 'This allocation has gone. We can usually source more from the same project — tell us what you need.'
                 : isPending
-                ? 'Indicative price is the 2025 UK market average. We confirm the real price and how many units this project has left with the developer before you commit to anything.'
+                ? 'The indicative price is the 2025 UK market average, not a figure from this developer. We confirm the real price and how many pending units this project has left before you commit to anything.'
+                : noRegistry
+                ? 'We source this project to order and confirm with the developer what measurement and cancellation evidence they can provide, in writing, before any payment is taken.'
                 : 'We source this project to order. You will get a firm price, vintage and registry serial numbers in writing before any payment is taken.'}
             </p>
           </>
@@ -203,9 +217,11 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
           listingId: listing.id,
           listingName: listing.projectName,
           tonnes,
-          retire: isPending ? false : retire,
+          retire: isPending || noRegistry ? false : retire,
           registry: listing.registry,
-          unitType: listing.unitType
+          unitType: listing.unitType,
+          unitKind: kind,
+          unitLabel: statusLabel(listing)
         }}
       />
     </aside>

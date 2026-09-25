@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "rm -rf .tmp-test && tsc -p tsconfig.test.json && node --test \".tmp-test/test/**/*.test.js\""
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.108.0",

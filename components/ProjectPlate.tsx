@@ -1,4 +1,5 @@
 import type { Listing } from '@/lib/types';
+import { isUkCode, unitKindOf } from '@/lib/status';
 
 /**
  * Stands in for a photograph on every listing, because we do not have one for
@@ -32,20 +33,34 @@ const PALETTE: Record<string, { from: string; via: string; to: string }> = {
 
 export default function ProjectPlate({ listing, compact = false }: { listing: Listing; compact?: boolean }) {
   const c = PALETTE[listing.category] ?? PALETTE['nature-based'];
-  const isUkCode = listing.registry === 'Woodland Carbon Code' || listing.registry === 'Peatland Code';
+  const ukCode = isUkCode(listing);
+  // "Issued" is a claim about a registry. A self-verified project has no
+  // registry, so its tonnage is the developer's own figure and is labelled as
+  // exactly that — on the plate as well as in the detail table.
+  const kind = unitKindOf(listing);
 
   const facts: Array<{ k: string; v: string }> = [];
-  if (isUkCode) {
+  if (ukCode) {
     if (listing.areaHectares !== undefined) facts.push({ k: 'Area', v: `${listing.areaHectares.toLocaleString()} ha` });
     if (listing.predictedTonnes !== undefined) facts.push({ k: 'Predicted', v: `${listing.predictedTonnes.toLocaleString()} t` });
     if (listing.plantingYear !== undefined) facts.push({ k: 'Planted', v: String(listing.plantingYear) });
   } else {
     facts.push({ k: 'Vintage', v: String(listing.vintage) });
-    if (listing.totalIssued > 0) facts.push({ k: 'Issued', v: `${listing.totalIssued.toLocaleString()} t` });
+    if (listing.totalIssued > 0) {
+      facts.push({
+        k: kind === 'self-reported-unit' ? 'Dev. estimate' : 'Issued',
+        v: `${listing.totalIssued.toLocaleString()} t`
+      });
+    }
     if (listing.bufferPoolPct !== undefined) facts.push({ k: 'Buffer', v: `${listing.bufferPoolPct}%` });
   }
 
+  // On a card the plate is ~240px tall with a chip row across the top, so a
+  // three-line place name ("North Yorkshire, England, United Kingdom") ran up
+  // underneath the chips. The region already names the country for UK
+  // listings, so compact mode shows the narrower of the two and clamps it.
   const place = listing.region ? `${listing.region}, ${listing.country}` : listing.country;
+  const compactPlace = listing.region ?? listing.country;
 
   return (
     <div
@@ -72,15 +87,15 @@ export default function ProjectPlate({ listing, compact = false }: { listing: Li
         ))}
       </svg>
 
-      <div className={`relative flex h-full flex-col justify-end ${compact ? 'px-4 pb-4 pt-16' : 'p-6 md:p-7'}`}>
+      <div className={`relative flex h-full flex-col justify-end ${compact ? 'px-4 pb-4 pt-12' : 'p-6 md:p-7'}`}>
         {/* On a card the registry is already shown as an outline chip lower down,
             and the category/tier chips wrap to two rows on longer labels and
             cover this line. Show it on the detail page only. */}
         {!compact && (
           <p className="text-[10px] uppercase tracking-[0.14em] text-white/60">{listing.registry}</p>
         )}
-        <p className={`font-semibold leading-tight text-white ${compact ? 'text-base' : 'mt-1 text-2xl md:text-3xl'}`}>
-          {place}
+        <p className={`font-semibold leading-tight text-white ${compact ? 'line-clamp-2 text-base' : 'mt-1 text-2xl md:text-3xl'}`}>
+          {compact ? compactPlace : place}
         </p>
 
         {facts.length > 0 && (

@@ -47,3 +47,5 @@ financial_models/
 *.bak
 *.swp
 *.tmp
+.tmp-test
+*.tsbuildinfo

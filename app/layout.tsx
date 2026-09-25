@@ -15,11 +15,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Prime Origins Atlas — Buy Verified Carbon Credits | Carbon Credit Marketplace',
+    default: 'Prime Origins Atlas — Carbon Credits & UK Woodland Units | Carbon Marketplace',
     template: '%s | Prime Origins Atlas'
   },
   description:
-    'Buy high-integrity carbon credits from Verra, Gold Standard, ACR, Puro.earth & self-verified projects. Transparent prices, registry-traceable, retirement included. SBTi, VCMI & CSRD ready.',
+    'Registry-issued carbon credits from Verra, Gold Standard, ACR, Puro.earth and Climate Action Reserve, UK Woodland Carbon Code Pending Issuance Units, and developer self-verified projects. Every listing states its registry, unit type and verification status.',
   keywords: [
     'carbon credit marketplace',
     'buy carbon credits',
@@ -32,9 +32,10 @@ export const metadata: Metadata = {
     'carbon removal credits',
     'nature-based carbon credits',
     'self-verified carbon credits',
-    'high-integrity carbon credits',
-    'SBTi carbon credits',
-    'CSRD carbon credits',
+    'Woodland Carbon Code',
+    'Pending Issuance Units',
+    'UK woodland carbon',
+    'Peatland Code',
     'carbon credit retirement',
     'Prime Origins',
     'Atlas marketplace'
@@ -56,15 +57,15 @@ export const metadata: Metadata = {
     locale: 'en_GB',
     url: SITE_URL,
     siteName: 'Prime Origins Atlas',
-    title: 'Prime Origins Atlas — Verified Carbon Credit Marketplace',
+    title: 'Prime Origins Atlas — Carbon Credit & UK Woodland Marketplace',
     description:
-      'High-integrity carbon credits from major registries and self-verified developers. Traceable, retirable, compliance-ready.',
-    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Prime Origins Atlas — Verified Carbon Credit Marketplace' }]
+      'Registry-issued carbon credits, UK Woodland Carbon Code Pending Issuance Units and developer self-verified projects — each listed with its registry, unit type and verification status.',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Prime Origins Atlas — Carbon Credit Marketplace' }]
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Prime Origins Atlas — Carbon Credit Marketplace',
-    description: 'High-integrity, traceable, retirable carbon credits — registry-verified and self-verified.',
+    description: 'Registry-issued credits, UK Pending Issuance Units and self-verified projects. Every listing says which it is.',
     images: ['/opengraph-image']
   },
   robots: {
@@ -85,12 +86,10 @@ const structuredData = {
       url: SITE_URL,
       logo: `${SITE_URL}/logo.png`,
       description:
-        'A marketplace for high-integrity carbon credits from Verra, Gold Standard, ACR, Puro.earth, Climate Action Reserve and self-verified project developers.',
-      parentOrganization: {
-        '@type': 'Organization',
-        name: 'Prime Origins',
-        url: 'https://www.primeorigins.org'
-      }
+        'A marketplace for registry-issued carbon credits from Verra, Gold Standard, ACR, Puro.earth and Climate Action Reserve, UK Woodland Carbon Code Pending Issuance Units, and developer self-verified projects.'
+      // No parentOrganization: the Prime Origins ecosystem is a brand
+      // relationship shown in the navigation, and asserting a legal parent in
+      // structured data would state a corporate fact this site cannot evidence.
     },
     {
       '@type': 'WebSite',

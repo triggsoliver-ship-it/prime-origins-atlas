@@ -2,21 +2,21 @@ import Link from 'next/link';
 import ListingCard from '@/components/ListingCard';
 import TalkToUs from '@/components/TalkToUs';
 import { getFeaturedListings, listings } from '@/lib/listings';
+import { catalogueStats, compactTonnes } from '@/lib/status';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://primeoriginsatlas.org';
 
 export default function HomePage() {
   const featured = getFeaturedListings();
-  // The catalogue total, which is what the projects could supply — not stock
-  // Atlas holds. Labelled "Tonnes listed" for that reason.
-  const totalTonnes = listings.reduce((s, l) => s + l.tonnesAvailable, 0);
-  // This counts where credits came from, not that anyone here reviewed them.
-  // "Vetted" was claiming a review process the seeded catalogue never had;
-  // registry-issued is a fact about the listing that a buyer can check.
-  const registryIssuedCount = listings.filter((l) => l.tier === 'prime-origins-verified').length;
-  const ukCount = listings.filter(
-    (l) => l.registry === 'Woodland Carbon Code' || l.registry === 'Peatland Code'
-  ).length;
+  /**
+   * Every figure in the hero comes from catalogueStats(), computed from the
+   * catalogue itself. The previous row counted `tier === 'prime-origins-verified'`
+   * as "Registry-issued", which swept all 12 Woodland Carbon Code projects into
+   * the issued-credit total even though their units are pending issuance — and
+   * it printed a "Tonnes listed" figure that was the sum of a field meaning
+   * nothing on two-thirds of the catalogue.
+   */
+  const stats = catalogueStats(listings);
 
   const orgJsonLd = {
     '@context': 'https://schema.org',
@@ -24,9 +24,11 @@ export default function HomePage() {
     name: 'Prime Origins Atlas',
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
-    parentOrganization: { '@type': 'Organization', name: 'Prime Origins', url: 'https://www.primeorigins.org' },
-    description: 'A curated marketplace for high-integrity carbon credits — from major registries and self-verified developers.',
-    sameAs: ['https://www.primeorigins.org']
+    // No parentOrganization claim: Atlas sits in the Prime Origins ecosystem,
+    // which is a brand relationship. Asserting a legal parent in structured
+    // data would be stating a corporate fact this site cannot evidence.
+    description:
+      'A marketplace for registry-issued carbon credits and UK Woodland Carbon Code Pending Issuance Units, each listed with its registry, unit type and verification status.'
   };
   const websiteJsonLd = {
     '@context': 'https://schema.org',
@@ -52,31 +54,55 @@ export default function HomePage() {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-sand-50/90 to-transparent" aria-hidden />
         <div className="container-narrow relative py-20 md:py-28 text-sand-50">
           <span className="chip reveal bg-white/15 text-sand-50 border border-white/20 backdrop-blur">
-            On-chain origin · Full transparency
+            Every listing says what it is
           </span>
           <h1 className="reveal reveal-delay-1 mt-5 text-4xl md:text-6xl font-semibold tracking-tight max-w-3xl text-balance">
-            Carbon credits, traced to the source.
+            Carbon projects, traced to the source.
           </h1>
           <p className="reveal reveal-delay-2 mt-5 text-lg md:text-xl text-sand-100/85 max-w-2xl">
-            A curated marketplace for high-integrity carbon credits — from major registries (Verra, Gold Standard,
-            ACR, Puro.earth) and directly from <strong className="text-white">self-verified</strong> project
-            developers. Tell us what you need and we source it, with the registry serial numbers confirmed in
-            writing before you pay a penny.
+            Registry-issued credits from Verra, Gold Standard, ACR, Puro.earth and Climate Action Reserve; UK
+            woodland <strong className="text-white">Pending Issuance Units</strong> under the Woodland Carbon Code;
+            and projects listed on their developer&rsquo;s own documentation. Each one is labelled with its registry,
+            its unit type and what has actually been verified &mdash; because those three things decide what you can
+            claim.
           </p>
           <div className="reveal reveal-delay-3 mt-8 flex flex-wrap gap-3">
             <Link href="/browse" className="btn-primary bg-sand-50 text-forest-900 hover:bg-white shadow-lift">
-              Browse credits →
+              Browse projects →
             </Link>
             <Link href="/sell" className="btn-secondary border-sand-50 text-sand-50 hover:bg-white/10">
               List your project
             </Link>
           </div>
           <dl className="reveal reveal-delay-4 mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl">
-            <Stat label="Projects listed" value={String(listings.length)} />
-            <Stat label="Registry-issued" value={String(registryIssuedCount)} />
-            <Stat label="UK woodland" value={String(ukCount)} />
-            <Stat label="Tonnes listed" value={`${(totalTonnes / 1000).toFixed(0)}k`} />
+            <Stat
+              label="Projects listed"
+              value={String(stats.totalProjects)}
+              note={`across ${stats.countries} countries`}
+            />
+            <Stat
+              label="With issued credits"
+              value={String(stats.projectsWithIssuedCredits)}
+              note="verified and issued on a registry"
+            />
+            <Stat
+              label="UK woodland projects"
+              value={String(stats.ukCodeProjects)}
+              note="Pending Issuance Units, not yet verified"
+            />
+            <Stat
+              label="Availability"
+              value="On request"
+              note="Atlas holds no stock of its own"
+            />
           </dl>
+          <p className="reveal reveal-delay-4 mt-6 max-w-2xl text-sm leading-relaxed text-sand-100/70">
+            Reading those numbers: the {stats.projectsWithIssuedCredits} registry-issued projects have been issued{' '}
+            {compactTonnes(stats.issuedTonnesLifetime)} tCO₂e in total by their registries over the projects&rsquo;
+            whole lifetimes, and the {stats.ukCodeProjects} UK woodland projects forecast{' '}
+            {stats.predictedTonnesLifetime.toLocaleString()} tCO₂e of removal over theirs. Neither figure is stock for
+            sale. We confirm what is actually available, and at what price, with the developer when we quote.
+          </p>
         </div>
       </section>
 
@@ -86,12 +112,13 @@ export default function HomePage() {
           <div>
             <h2 className="reveal text-2xl md:text-3xl font-semibold text-forest-900">UK woodland, and the wider market</h2>
             <p className="mt-2 text-forest-700/80 max-w-xl">
-              New: Woodland Carbon Code projects you can source domestically, listed with their registry number,
-              planted area and predicted removal. Units from them are pending issuance &mdash; the listing says so
-              plainly, because that changes what you can claim.
+              Woodland Carbon Code projects you can source domestically, listed with their registry number, planted
+              area and predicted removal. Their units are <strong>Pending Issuance Units</strong> &mdash; a promise of
+              future verified removal, which cannot yet be used to report against emissions. Every card says which
+              instrument it is offering.
             </p>
           </div>
-          <Link href="/browse" className="hidden md:inline text-sm font-medium text-forest-700 hover:text-forest-600">View all →</Link>
+          <Link href="/browse" className="hidden md:inline text-sm font-medium text-forest-700 hover:text-forest-600">View all {stats.totalProjects} →</Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {featured.map((l) => (
@@ -105,16 +132,16 @@ export default function HomePage() {
         <div className="container-narrow py-16">
           <div className="grid md:grid-cols-3 gap-10">
             <Pillar
-              title="Two-tier verification"
-              body="Choose between Prime Origins Verified credits (registered with Verra, Gold Standard, ACR, Puro.earth, or Climate Action Reserve) or Self-Verified credits with transparent developer documentation. Filter by tier when you browse."
+              title="The instrument is named"
+              body="An issued credit, a Pending Issuance Unit and a developer's own measurement are three different things, and only the first is a verified carbon credit. Every listing states which one it is offering, on the card and on the page. You can filter the whole catalogue by it."
             />
             <Pillar
-              title="Labelled, not laundered"
-              body="Registry-backed listings carry public serial numbers and third-party validation. Self-verified listings publish the developer's own documentation in full, marked as exactly that. Every listing says which it is, so you are never guessing what you are buying."
+              title="Suitability is yours to judge"
+              body="Each listing identifies its registry or developer documentation, unit type and verification status. Buyers should assess whether the units and proposed use meet the requirements applicable to their organisation and claim. Atlas does not issue, verify or certify anything itself."
             />
             <Pillar
               title="Priced before you commit"
-              body="Request a quote and we come back with a firm price against a named project — registry, vintage and serial numbers included. Nothing is charged until you accept, and we handle the registry retirement in your name once it is."
+              body="Atlas holds no stock, so every price here is indicative. Request a quote and we come back with a firm price against a named project, stating the unit type and the registry position — including serial numbers where the units have been issued. Nothing is charged until you accept in writing."
             />
           </div>
         </div>
@@ -123,32 +150,46 @@ export default function HomePage() {
       {/* Tiers explained */}
       <section className="container-narrow py-16">
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <h2 className="text-2xl md:text-3xl font-semibold text-forest-900">Two ways to source credits on Atlas</h2>
-          <p className="mt-2 text-forest-700/80">The difference is who issued the underlying verification — and every listing is labelled with which.</p>
+          <h2 className="text-2xl md:text-3xl font-semibold text-forest-900">Three instruments, and they are not interchangeable</h2>
+          <p className="mt-2 text-forest-700/80">
+            What you may claim depends on which of these you buy. Every listing is labelled with one of them.
+          </p>
         </div>
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid gap-6 md:grid-cols-3">
           <TierCard
             badgeColor="bg-forest-700"
-            badge="✓ Prime Origins Verified"
-            title="Registry-issued credits"
-            body="Credits issued under Verra, Gold Standard, ACR, Puro.earth, or Climate Action Reserve. Public serial numbers, formal methodologies, third-party validation and verification. Best for corporate buyers with strict compliance requirements (SBTi, VCMI, CSRD, CDP)."
+            badge="Registry-issued"
+            title="Issued carbon credits"
+            body="Units already verified and issued under Verra, Gold Standard, ACR, Puro.earth or Climate Action Reserve. Public serial numbers, a published methodology, third-party validation and verification."
             bullets={[
               'Public registry serial numbers',
-              'Independently validated & verified',
-              'Buffer-pool contributions where applicable',
-              'Suitable for compliance reporting'
+              'Independently validated and verified',
+              'Buffer-pool contribution where the methodology requires one',
+              'Retired in your name on the registry'
             ]}
           />
           <TierCard
             badgeColor="bg-amber-500"
-            badge="Self-Verified"
-            title="Direct from developers"
-            body="Smaller projects and innovative methodologies that aren't yet on a major registry. Developers provide their own documentation — coordinates, sampling reports, COAs — which we publish transparently so buyers can review."
+            badge="Pending Issuance Units"
+            title="UK woodland, not yet verified"
+            body="The Woodland Carbon Code's own definition: a promise to deliver a Woodland Carbon Unit in future, based on predicted removal. It is not guaranteed, so it cannot be used to report against UK-based emissions."
             bullets={[
-              'Developer documentation published in full, unedited',
-              'Coordinates and on-the-ground evidence',
-              'Clearly labelled so it is never mistaken for registry-issued',
-              'Suited to voluntary action and pilot programmes'
+              'Project registered and validated under the Woodland Carbon Code',
+              'Assigned to you on the UK Land Carbon Registry, not retired',
+              'Converts to a Woodland Carbon Unit at verification',
+              'Supports a credible statement about funding UK woodland creation'
+            ]}
+          />
+          <TierCard
+            badgeColor="bg-amber-500"
+            badge="Self-verified"
+            title="Developer documentation only"
+            body="Smaller projects and newer methodologies not on a registry. The developer supplies its own evidence — coordinates, sampling reports, certificates of analysis — which we publish unedited."
+            bullets={[
+              "Developer's documentation published in full",
+              'Not verified by a third party and not registry-issued',
+              'No registry retirement available',
+              'Labelled so it is never mistaken for an issued credit'
             ]}
           />
         </div>
@@ -161,7 +202,7 @@ export default function HomePage() {
       <section className="container-narrow py-20 text-center">
         <h2 className="text-3xl md:text-4xl font-semibold text-forest-900">Get a real price, against a real project.</h2>
         <p className="mt-3 text-forest-700/80 max-w-xl mx-auto">
-          Whether you're hitting a net-zero target or sourcing for a portfolio mandate, tell us the volume, vintage and whether you need retirement in your own name. You'll get a firm quote and the paperwork to check before you commit.
+          Tell us the volume, the vintage and whether you need the units retired in your own name. You will get a firm price against a named project, with the unit type and registry position stated in writing, before you commit to anything.
         </p>
         <div className="mt-7 flex justify-center gap-3">
           <Link href="/browse" className="btn-primary">Browse the catalogue</Link>
@@ -172,11 +213,20 @@ export default function HomePage() {
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+/**
+ * A figure is only auditable if its scope is printed with it. `note` is not
+ * decoration — it is the difference between "16" and "16 projects whose units
+ * a registry has verified and issued".
+ */
+function Stat({ label, value, note }: { label: string; value: string; note?: string }) {
+  // A word-value like "On request" needs a smaller size than a two-digit
+  // number, or it wraps and throws the row's baselines out.
+  const isWordy = value.length > 4;
   return (
     <div className="border-l-2 border-white/15 pl-3">
-      <dd className="text-3xl font-semibold tracking-tight">{value}</dd>
+      <dd className={`font-semibold tracking-tight ${isWordy ? 'text-xl leading-snug' : 'text-3xl'}`}>{value}</dd>
       <dt className="mt-1 text-xs uppercase tracking-wider text-sand-100/70">{label}</dt>
+      {note && <p className="mt-1 text-[11px] leading-snug text-sand-100/55">{note}</p>}
     </div>
   );
 }
