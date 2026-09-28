@@ -18,7 +18,9 @@ const config: Config = {
           600: '#2a6e44',
           700: '#235838',
           800: '#1d472f',
-          900: '#173a27'
+          900: '#173a27',
+          /** Darkest footer band, matching primeoriginsglobal.org's #0A1410. */
+          950: '#0a1410'
         },
         sand: {
           50: '#fbf8f3',
