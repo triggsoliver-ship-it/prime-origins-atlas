@@ -73,15 +73,15 @@ export default function FAQ() {
   return (
     <div className="container-narrow py-12 max-w-3xl">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
-      <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">Frequently asked questions</h1>
+      <h1 className="text-3xl md:text-4xl font-semibold text-sand-50">Frequently asked questions</h1>
       <div className="mt-8 space-y-3">
         {faqs.map((f) => (
-          <details key={f.q} className="rounded-2xl border border-forest-100 bg-white p-5 group">
-            <summary className="cursor-pointer font-medium text-forest-900 list-none flex justify-between items-start gap-4">
+          <details key={f.q} className="rounded-2xl border border-white/10 bg-forest-900/60 p-5 group">
+            <summary className="cursor-pointer font-medium text-sand-50 list-none flex justify-between items-start gap-4">
               {f.q}
-              <span className="text-forest-600 transition group-open:rotate-45 text-xl leading-none select-none">+</span>
+              <span className="text-gold-400 transition group-open:rotate-45 text-xl leading-none select-none">+</span>
             </summary>
-            <p className="mt-3 text-sm leading-relaxed text-forest-800">{f.a}</p>
+            <p className="mt-3 text-sm leading-relaxed text-sand-100/80">{f.a}</p>
           </details>
         ))}
       </div>
