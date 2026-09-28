@@ -105,6 +105,15 @@ const structuredData = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-GB">
+      <head>
+        {/* Fraunces (headings) + Inter (body) — same pairing and provider as
+            primeoriginsglobal.org and primeorigins.org, so Atlas's typography
+            matches the rest of the group instead of the default system font. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* eslint-disable-next-line @next/next/no-page-custom-font -- this is the root layout; the rule is a false positive under the App Router */}
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+      </head>
       <body className="min-h-screen flex flex-col">
         <a href="#main-content" className="skip-link">Skip to main content</a>
         <script
