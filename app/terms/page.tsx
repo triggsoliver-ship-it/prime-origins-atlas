@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <div className="container-narrow py-12 max-w-3xl prose prose-forest">
-      <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">Terms of Service</h1>
-      <p className="text-sm text-forest-700/70 mt-2">Last updated: {legal.lastUpdated}</p>
+      <h1 className="text-3xl md:text-4xl font-semibold text-sand-50">Terms of Service</h1>
+      <p className="text-sm text-sand-100/55 mt-2">Last updated: {legal.lastUpdated}</p>
 
       <Section title="1. About these terms">
         <p>These Terms of Service (&quot;Terms&quot;) govern your use of the {legal.tradingName} marketplace operated by {legal.companyName} (&quot;Prime Origins&quot;, &quot;we&quot;, &quot;us&quot;), accessible at {legal.websiteUrl}. By accessing or using the marketplace you agree to be bound by these Terms.</p>
@@ -86,8 +86,8 @@ export default function TermsPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mt-8">
-      <h2 className="text-xl font-semibold text-forest-900 mb-2">{title}</h2>
-      <div className="space-y-3 text-forest-800 text-sm leading-relaxed">{children}</div>
+      <h2 className="text-xl font-semibold text-sand-50 mb-2">{title}</h2>
+      <div className="space-y-3 text-sand-100/80 text-sm leading-relaxed">{children}</div>
     </section>
   );
 }
