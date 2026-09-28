@@ -119,11 +119,11 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
   return (
     <div className="container-narrow py-10">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Link href="/browse" className="text-sm text-forest-700 hover:text-forest-600">← Back to browse</Link>
+      <Link href="/browse" className="text-sm text-sand-100/70 hover:text-gold-400">← Back to browse</Link>
 
       <div className="mt-6 grid lg:grid-cols-[1.4fr_1fr] gap-10">
         <div>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-forest-100">
+          <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-white/10">
             {listing.imageUrl ? (
               <Image src={listing.imageUrl} alt={listing.projectName} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 60vw" priority />
             ) : (
@@ -136,35 +136,35 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
               <span className="chip">{categoryLabels[listing.category]}</span>
               <span className={status.tone === 'solid' ? 'chip-solid' : 'chip-warn'}>{statusLabel(listing)}</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">{listing.projectName}</h1>
-            <p className="mt-1 text-forest-700">{listing.developer} · {listing.country}{listing.region ? `, ${listing.region}` : ''}</p>
-            <p className="mt-5 text-forest-800 leading-relaxed">{listing.description}</p>
+            <h1 className="text-3xl md:text-4xl font-semibold text-sand-50">{listing.projectName}</h1>
+            <p className="mt-1 text-sand-100/75">{listing.developer} · {listing.country}{listing.region ? `, ${listing.region}` : ''}</p>
+            <p className="mt-5 text-sand-100/85 leading-relaxed">{listing.description}</p>
 
             {isPending && (
-              <div className="mt-6 rounded-2xl border-l-4 border-amber-500 bg-amber-50 p-5">
-                <p className="text-[11px] uppercase tracking-wider text-amber-700 font-semibold">
+              <div className="mt-6 rounded-2xl border-l-4 border-amber-500 bg-amber-500/10 p-5">
+                <p className="text-[11px] uppercase tracking-wider text-amber-300 font-semibold">
                   This listing offers Pending Issuance Units, not carbon credits
                 </p>
-                <p className="mt-2 text-sm leading-relaxed text-forest-900">
+                <p className="mt-2 text-sm leading-relaxed text-sand-50">
                   The Woodland Carbon Code defines a Pending Issuance Unit as &ldquo;a promise to deliver a Woodland
                   Carbon Unit in the future, based on predicted carbon dioxide equivalent removal&rdquo;.{' '}
                   <strong>It is not guaranteed, so it cannot be used to report against UK-based emissions.</strong>{' '}
                   Only a verified Woodland Carbon Unit can do that &mdash; and not against overseas emissions, or
                   emissions from international aviation or shipping.
                 </p>
-                <p className="mt-2 text-sm leading-relaxed text-forest-800">
+                <p className="mt-2 text-sm leading-relaxed text-sand-100/80">
                   What it is good for: the Code&rsquo;s own position is that pending units let a company make a
                   credible statement about supporting UK woodland creation, and they lock in future removals at
                   today&rsquo;s price. Units convert to Woodland Carbon Units once the woodland is found to be
                   performing well at verification &mdash; first at year five, then at least every ten years.
                 </p>
-                <p className="mt-3 text-xs text-forest-700">
+                <p className="mt-3 text-xs text-sand-100/65">
                   Source:{' '}
                   <a
                     href="https://www.woodlandcarboncode.org.uk/what-you-can-buy"
                     target="_blank"
                     rel="noreferrer"
-                    className="underline underline-offset-2"
+                    className="text-gold-400 underline underline-offset-2"
                   >
                     Woodland Carbon Code &mdash; What you can buy
                   </a>
@@ -174,8 +174,8 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
           </div>
 
           <section className="mt-10">
-            <h2 className="text-xl font-semibold text-forest-900 mb-3">Project details</h2>
-            <dl className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-4 rounded-2xl border border-forest-100 bg-white p-6">
+            <h2 className="text-xl font-semibold text-sand-50 mb-3">Project details</h2>
+            <dl className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-4 rounded-2xl border border-white/10 bg-forest-900/60 p-6">
               <Field label="Registry" value={listing.registry} />
               <Field label="Project ID" value={listing.projectId} />
               <Field label="Methodology" value={listing.methodology} />
@@ -208,12 +208,12 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
           </section>
 
           <section className="mt-10">
-            <h2 className="text-xl font-semibold text-forest-900 mb-3">Co-benefits</h2>
+            <h2 className="text-xl font-semibold text-sand-50 mb-3">Co-benefits</h2>
             <div className="flex flex-wrap gap-2">
               {listing.cobenefits.map((c) => <span key={c} className="chip-outline">{c}</span>)}
             </div>
             <div className="mt-4 flex flex-wrap gap-1.5">
-              <span className="text-xs uppercase tracking-wider text-forest-600 mr-1 self-center">SDGs:</span>
+              <span className="text-xs uppercase tracking-wider text-gold-400 mr-1 self-center">SDGs:</span>
               {listing.sdgs.map((n) => (
                 <span key={n} className="inline-grid h-7 w-7 place-items-center rounded-full bg-forest-700 text-white text-xs font-semibold">{n}</span>
               ))}
@@ -222,16 +222,16 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
 
           {listing.latitude !== undefined && listing.longitude !== undefined && (
             <section className="mt-10">
-              <h2 className="text-xl font-semibold text-forest-900 mb-3">Project location</h2>
+              <h2 className="text-xl font-semibold text-sand-50 mb-3">Project location</h2>
               <ProjectMap lat={listing.latitude} lng={listing.longitude} name={listing.projectName} />
-              <p className="text-xs text-forest-700/70 mt-2">{listing.latitude.toFixed(4)}°, {listing.longitude.toFixed(4)}° — {listing.country}{listing.region ? `, ${listing.region}` : ''}</p>
+              <p className="text-xs text-sand-100/60 mt-2">{listing.latitude.toFixed(4)}°, {listing.longitude.toFixed(4)}° — {listing.country}{listing.region ? `, ${listing.region}` : ''}</p>
             </section>
           )}
 
           {listing.documents && listing.documents.length > 0 && (
             <section className="mt-10">
-              <h2 className="text-xl font-semibold text-forest-900 mb-3">Verification documents</h2>
-              <p className="text-sm text-forest-700 mb-3">
+              <h2 className="text-xl font-semibold text-sand-50 mb-3">Verification documents</h2>
+              <p className="text-sm text-sand-100/75 mb-3">
                 {listing.tier === 'self-verified'
                   ? 'These documents are provided directly by the project developer. Prime Origins has not independently verified the contents — buyers should review carefully.'
                   : 'Supporting documents from the registry record, checked by Prime Origins. Prime Origins does not itself verify or certify the underlying units.'}
@@ -239,13 +239,13 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
               <ul className="space-y-2">
                 {listing.documents.map((d) => (
                   <li key={d.url}>
-                    <a href={d.url} target="_blank" rel="noreferrer" className="flex items-center gap-3 rounded-xl border border-forest-100 bg-white px-4 py-3 hover:bg-forest-50 transition">
+                    <a href={d.url} target="_blank" rel="noreferrer" className="flex items-center gap-3 rounded-xl border border-white/10 bg-forest-900/60 px-4 py-3 hover:bg-white/5 transition">
                       <span className="grid h-9 w-9 place-items-center rounded-lg bg-forest-700 text-white text-xs font-semibold">PDF</span>
                       <span className="flex-1">
-                        <span className="block text-sm font-medium text-forest-900">{d.label}</span>
-                        {d.filename && <span className="block text-xs text-forest-700/70">{d.filename}</span>}
+                        <span className="block text-sm font-medium text-sand-50">{d.label}</span>
+                        {d.filename && <span className="block text-xs text-sand-100/60">{d.filename}</span>}
                       </span>
-                      <span className="text-forest-600">↗</span>
+                      <span className="text-gold-400">↗</span>
                     </a>
                   </li>
                 ))}
@@ -254,8 +254,8 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
           )}
 
           <section className="mt-10">
-            <h2 className="text-xl font-semibold text-forest-900 mb-3">Quality assurance</h2>
-            <ul className="space-y-2 text-sm text-forest-800">
+            <h2 className="text-xl font-semibold text-sand-50 mb-3">Quality assurance</h2>
+            <ul className="space-y-2 text-sm text-sand-100/80">
               <Check label={assuranceLabel(listing)} />
               <Check label={`Methodology: ${listing.methodology}`} />
               {listing.bufferPoolPct ? (
@@ -283,9 +283,9 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
 function Field({ label, value, note }: { label: string; value: string; note?: string }) {
   return (
     <div>
-      <dt className="text-[11px] uppercase tracking-wider text-forest-600">{label}</dt>
-      <dd className="text-sm font-medium text-forest-900 mt-0.5">{value}</dd>
-      {note && <p className="mt-1 text-[11px] leading-snug text-forest-700/75">{note}</p>}
+      <dt className="text-[11px] uppercase tracking-wider text-sand-100/55">{label}</dt>
+      <dd className="text-sm font-medium text-sand-50 mt-0.5">{value}</dd>
+      {note && <p className="mt-1 text-[11px] leading-snug text-sand-100/60">{note}</p>}
     </div>
   );
 }
@@ -293,7 +293,7 @@ function Field({ label, value, note }: { label: string; value: string; note?: st
 function Check({ label }: { label: string }) {
   return (
     <li className="flex gap-2">
-      <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-forest-600" />
+      <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-gold-500" />
       <span>{label}</span>
     </li>
   );
