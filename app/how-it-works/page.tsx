@@ -21,8 +21,8 @@ export const metadata: Metadata = {
 export default function HowItWorks() {
   return (
     <div className="container-narrow py-12 max-w-3xl">
-      <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">How Atlas works</h1>
-      <p className="mt-3 text-forest-700/85">
+      <h1 className="text-3xl md:text-4xl font-semibold text-sand-50">How Atlas works</h1>
+      <p className="mt-3 text-sand-100/80">
         Atlas connects buyers &mdash; corporates with net-zero targets, traders and intermediaries &mdash; with
         project developers. Atlas holds no stock of its own: every price on the site is indicative, and availability
         is confirmed with the developer when we quote.
@@ -73,15 +73,15 @@ export default function HowItWorks() {
           coordination, and the retirement record.
         </p>
 
-        <div className="mt-4 rounded-2xl border border-forest-100 bg-white p-5">
-          <h3 className="text-sm font-semibold text-forest-900">Worked example</h3>
+        <div className="mt-4 rounded-2xl border border-white/10 bg-forest-900/60 p-5">
+          <h3 className="text-sm font-semibold text-sand-50">Worked example</h3>
           <dl className="mt-3 space-y-1.5 text-sm">
             <FeeRow
               label={`Credits (${example.tonnes} tCO₂e × ${gbp(example.pricePerTonne)})`}
               value={gbp(example.subtotal)}
             />
             <FeeRow label={`Platform fee (${FEE_PCT} of ${gbp(example.subtotal)})`} value={gbp(example.fee)} />
-            <div className="border-t border-forest-100 pt-2 mt-1">
+            <div className="border-t border-white/10 pt-2 mt-1">
               <FeeRow label={<strong>Buyer pays</strong>} value={<strong>{gbp(example.total)}</strong>} />
             </div>
             <div className="pt-1">
@@ -89,29 +89,29 @@ export default function HowItWorks() {
               <FeeRow label="Atlas receives" value={gbp(example.atlasReceives)} />
             </div>
           </dl>
-          <p className="mt-3 text-xs leading-relaxed text-forest-700/85">
+          <p className="mt-3 text-xs leading-relaxed text-sand-100/70">
             The same arithmetic runs on the quote panel and at checkout, from one constant, so the figure you are
             shown is the figure that is charged.
           </p>
         </div>
 
         <div className="mt-4">
-          <h3 className="text-sm font-semibold text-forest-900">What the quoted total does not include</h3>
-          <ul className="mt-2 space-y-1.5 text-sm text-forest-800">
+          <h3 className="text-sm font-semibold text-sand-50">What the quoted total does not include</h3>
+          <ul className="mt-2 space-y-1.5 text-sm text-sand-100/80">
             {FEE_EXCLUSIONS.map((x) => (
               <li key={x} className="flex gap-2">
-                <span className="mt-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-forest-600" />
+                <span className="mt-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gold-500" />
                 <span>{x}</span>
               </li>
             ))}
           </ul>
-          <p className="mt-2 text-sm text-forest-800">
+          <p className="mt-2 text-sm text-sand-100/80">
             Any charge that does apply is set out in writing before you confirm. Nothing else is added at checkout.
           </p>
         </div>
 
         <p className="mt-4">For institutional orders ({'>'}1,000 tCO₂e) we quote custom pricing and forward contracts.
-          <Link href="/sell" className="text-forest-700 underline ml-1">Talk to us</Link>.</p>
+          <Link href="/sell" className="text-gold-400 underline ml-1">Talk to us</Link>.</p>
       </Section>
 
       <Section title="Registries and codes on Atlas">
@@ -125,10 +125,10 @@ export default function HowItWorks() {
             'Puro.earth',
             'Climate Action Reserve'
           ].map((r) => (
-            <li key={r} className="rounded-xl border border-forest-100 bg-white px-3 py-2 text-sm">{r}</li>
+            <li key={r} className="rounded-xl border border-white/10 bg-forest-900/60 px-3 py-2 text-sm text-sand-100/85">{r}</li>
           ))}
         </ul>
-        <p className="mt-3 text-sm text-forest-700/85">
+        <p className="mt-3 text-sm text-sand-100/80">
           Projects listed on the developer&rsquo;s own documentation are not on any registry, and are labelled
           &ldquo;Developer self-verified&rdquo; throughout the site.
         </p>
@@ -140,8 +140,8 @@ export default function HowItWorks() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mt-12">
-      <h2 className="text-xl font-semibold text-forest-900">{title}</h2>
-      <div className="mt-3 space-y-3 text-forest-800">{children}</div>
+      <h2 className="text-xl font-semibold text-sand-50">{title}</h2>
+      <div className="mt-3 space-y-3 text-sand-100/80">{children}</div>
     </section>
   );
 }
@@ -149,18 +149,18 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function FeeRow({ label, value }: { label: React.ReactNode; value: React.ReactNode }) {
   return (
     <div className="flex justify-between gap-4">
-      <dt className="text-forest-700">{label}</dt>
-      <dd className="whitespace-nowrap tabular-nums text-forest-900">{value}</dd>
+      <dt className="text-sand-100/70">{label}</dt>
+      <dd className="whitespace-nowrap tabular-nums text-sand-50">{value}</dd>
     </div>
   );
 }
 
 function Step({ n, title, children }: { n: number; title: string; children: React.ReactNode }) {
   return (
-    <div className="flex gap-4 rounded-2xl border border-forest-100 bg-white p-5">
-      <span className="shrink-0 grid h-9 w-9 place-items-center rounded-full bg-forest-700 text-white text-sm font-semibold">{n}</span>
+    <div className="flex gap-4 rounded-2xl border border-white/10 bg-forest-900/60 p-5">
+      <span className="shrink-0 grid h-9 w-9 place-items-center rounded-full bg-gold-600 text-white text-sm font-semibold">{n}</span>
       <div>
-        <h3 className="font-semibold text-forest-900">{title}</h3>
+        <h3 className="font-semibold text-sand-50">{title}</h3>
         <p className="mt-1 text-sm leading-relaxed">{children}</p>
       </div>
     </div>
