@@ -50,8 +50,8 @@ export default function SellPage() {
     return (
       <div className="container-narrow py-20 text-center">
         <div className="mx-auto h-14 w-14 grid place-items-center rounded-full bg-forest-700 text-white text-2xl">✓</div>
-        <h1 className="mt-6 text-3xl font-semibold text-forest-900">Application received</h1>
-        <p className="mt-3 text-forest-700/85 max-w-xl mx-auto">
+        <h1 className="mt-6 text-3xl font-semibold text-sand-50">Application received</h1>
+        <p className="mt-3 text-sand-100/80 max-w-xl mx-auto">
           Thanks for submitting your project to Prime Origins Atlas. We will check the registry record and read your
           supporting documents, and come back to you within 5 business days.
         </p>
@@ -61,20 +61,20 @@ export default function SellPage() {
 
   return (
     <div className="container-narrow py-12 max-w-3xl">
-      <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">List your project on Atlas</h1>
-      <p className="mt-3 text-forest-700/85">
-        Atlas lists <strong>registry-backed</strong> projects (Verra, Gold Standard, ACR, Puro.earth, Climate Action
+      <h1 className="text-3xl md:text-4xl font-semibold text-sand-50">List your project on Atlas</h1>
+      <p className="mt-3 text-sand-100/80">
+        Atlas lists <strong className="text-sand-50">registry-backed</strong> projects (Verra, Gold Standard, ACR, Puro.earth, Climate Action
         Reserve, and the UK Woodland Carbon Code and Peatland Code) alongside{' '}
-        <strong>developer self-verified</strong> projects where you supply your own documentation. Registry-backed
+        <strong className="text-sand-50">developer self-verified</strong> projects where you supply your own documentation. Registry-backed
         projects are checked against the public registry record; self-verified listings are published with your
         documentation attached and labelled as such.
         Where a project offers Pending Issuance Units rather than issued credits, the listing says so throughout.
       </p>
-      <p className="mt-3 rounded-xl border border-forest-100 bg-forest-50/60 px-4 py-3 text-sm leading-relaxed text-forest-800">
-        <strong>Nothing is deducted from you.</strong> {FEE_POLICY_SUMMARY}
+      <p className="mt-3 rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm leading-relaxed text-sand-100/85">
+        <strong className="text-sand-50">Nothing is deducted from you.</strong> {FEE_POLICY_SUMMARY}
       </p>
 
-      <div className="mt-8 rounded-2xl border border-forest-100 bg-white p-2 inline-flex">
+      <div className="mt-8 rounded-2xl border border-white/10 bg-forest-900/60 p-2 inline-flex">
         <TierBtn active={tier === 'prime-origins-verified'} onClick={() => setTier('prime-origins-verified')}>
           Registry-backed
         </TierBtn>
@@ -83,8 +83,8 @@ export default function SellPage() {
         </TierBtn>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-6 rounded-2xl border border-forest-100 bg-white p-6 md:p-8 space-y-6">
-        <h2 className="text-lg font-semibold text-forest-900">About your organisation</h2>
+      <form onSubmit={handleSubmit} className="mt-6 rounded-2xl border border-white/10 bg-forest-900/60 p-6 md:p-8 space-y-6">
+        <h2 className="text-lg font-semibold text-sand-50">About your organisation</h2>
         <div className="grid md:grid-cols-2 gap-4">
           <Field name="orgName" label="Organisation name" required />
           <Field name="contactName" label="Your name" required />
@@ -92,7 +92,7 @@ export default function SellPage() {
           <Field name="phone" label="Phone (optional)" />
         </div>
 
-        <h2 className="text-lg font-semibold text-forest-900 pt-2">About the project</h2>
+        <h2 className="text-lg font-semibold text-sand-50 pt-2">About the project</h2>
         <div className="grid md:grid-cols-2 gap-4">
           <Field name="projectName" label="Project name" required />
           <Field
@@ -128,20 +128,20 @@ export default function SellPage() {
           <Field name="methodology" label="Methodology" required placeholder={tier === 'prime-origins-verified' ? 'e.g. VM0007 REDD+ MF' : 'Describe your methodology'} />
         </div>
 
-        <h2 className="text-lg font-semibold text-forest-900 pt-2">Project location</h2>
-        <p className="text-sm text-forest-700/85 -mt-3">Pin the project's central point so buyers see it on a map.</p>
+        <h2 className="text-lg font-semibold text-sand-50 pt-2">Project location</h2>
+        <p className="text-sm text-sand-100/70 -mt-3">Pin the project's central point so buyers see it on a map.</p>
         <div className="grid md:grid-cols-2 gap-4">
           <Field name="latitude" label="Latitude" type="number" step="any" required placeholder="e.g. 50.85" />
           <Field name="longitude" label="Longitude" type="number" step="any" required placeholder="e.g. 0.10" />
         </div>
 
         <div>
-          <label htmlFor="sell-summary" className="block text-sm font-medium text-forest-800 mb-1">Project summary <span className="text-forest-600">*</span></label>
-          <textarea id="sell-summary" name="summary" required rows={4} placeholder="What does the project do? Methodology highlights, co-benefits, why it's high-integrity…" className="w-full rounded-lg border border-forest-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500" />
+          <label htmlFor="sell-summary" className="block text-sm font-medium text-sand-100/90 mb-1">Project summary <span className="text-gold-400">*</span></label>
+          <textarea id="sell-summary" name="summary" required rows={4} placeholder="What does the project do? Methodology highlights, co-benefits, why it's high-integrity…" className="w-full rounded-lg border border-white/15 bg-forest-900/50 px-3 py-2 text-sm text-sand-50 placeholder:text-sand-100/40 focus:outline-none focus:ring-2 focus:ring-gold-500" />
         </div>
 
-        <h2 className="text-lg font-semibold text-forest-900 pt-2">Verification documents</h2>
-        <p className="text-sm text-forest-700/85 -mt-3">
+        <h2 className="text-lg font-semibold text-sand-50 pt-2">Verification documents</h2>
+        <p className="text-sm text-sand-100/70 -mt-3">
           {tier === 'self-verified'
             ? 'Required: upload or link to your COA, soil/biomass reports, methodology disclosure, or any third-party validation.'
             : 'Optional: validation/verification reports, PDDs, or other supporting documents.'}
@@ -149,20 +149,20 @@ export default function SellPage() {
 
         <div className="space-y-3">
           {docs.map((d, idx) => (
-            <div key={d.id} className="rounded-xl border border-forest-100 p-4">
+            <div key={d.id} className="rounded-xl border border-white/10 p-4">
               <div className="flex gap-3 items-start">
                 <input
                   type="text"
                   value={d.label}
                   onChange={(e) => updateDoc(d.id, { label: e.target.value })}
                   placeholder={`Document ${idx + 1} label (e.g. Certificate of Analysis)`}
-                  className="flex-1 rounded-lg border border-forest-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500"
+                  className="flex-1 rounded-lg border border-white/15 bg-forest-900/50 px-3 py-2 text-sm text-sand-50 placeholder:text-sand-100/40 focus:outline-none focus:ring-2 focus:ring-gold-500"
                 />
-                <button type="button" onClick={() => removeDoc(d.id)} className="text-xs text-forest-600 px-2">Remove</button>
+                <button type="button" onClick={() => removeDoc(d.id)} className="text-xs text-gold-400 px-2">Remove</button>
               </div>
               <div className="mt-3 flex gap-1.5 text-xs">
-                <button type="button" onClick={() => updateDoc(d.id, { mode: 'upload' })} className={`px-3 py-1 rounded-full ${d.mode === 'upload' ? 'bg-forest-700 text-white' : 'bg-forest-50 text-forest-700'}`}>Upload file</button>
-                <button type="button" onClick={() => updateDoc(d.id, { mode: 'url' })} className={`px-3 py-1 rounded-full ${d.mode === 'url' ? 'bg-forest-700 text-white' : 'bg-forest-50 text-forest-700'}`}>Paste URL</button>
+                <button type="button" onClick={() => updateDoc(d.id, { mode: 'upload' })} className={`px-3 py-1 rounded-full ${d.mode === 'upload' ? 'bg-forest-700 text-white' : 'bg-white/10 text-sand-100/80'}`}>Upload file</button>
+                <button type="button" onClick={() => updateDoc(d.id, { mode: 'url' })} className={`px-3 py-1 rounded-full ${d.mode === 'url' ? 'bg-forest-700 text-white' : 'bg-white/10 text-sand-100/80'}`}>Paste URL</button>
               </div>
               <div className="mt-3">
                 {d.mode === 'upload' ? (
@@ -170,7 +170,7 @@ export default function SellPage() {
                     type="file"
                     accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.kml,.geojson"
                     onChange={(e) => updateDoc(d.id, { file: e.target.files?.[0] })}
-                    className="block w-full text-sm text-forest-800 file:mr-3 file:rounded-lg file:border-0 file:bg-forest-700 file:px-3 file:py-1.5 file:text-white"
+                    className="block w-full text-sm text-sand-100/85 file:mr-3 file:rounded-lg file:border-0 file:bg-forest-700 file:px-3 file:py-1.5 file:text-white"
                   />
                 ) : (
                   <input
@@ -178,18 +178,18 @@ export default function SellPage() {
                     value={d.url || ''}
                     onChange={(e) => updateDoc(d.id, { url: e.target.value })}
                     placeholder="https://drive.google.com/… or https://your-host/file.pdf"
-                    className="w-full rounded-lg border border-forest-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500"
+                    className="w-full rounded-lg border border-white/15 bg-forest-900/50 px-3 py-2 text-sm text-sand-50 placeholder:text-sand-100/40 focus:outline-none focus:ring-2 focus:ring-gold-500"
                   />
                 )}
               </div>
             </div>
           ))}
-          <button type="button" onClick={addDoc} className="text-sm text-forest-700 font-medium hover:text-forest-600">+ Add another document</button>
+          <button type="button" onClick={addDoc} className="text-sm text-gold-400 font-medium hover:text-gold-300">+ Add another document</button>
         </div>
 
-        {error && <p className="text-sm text-red-600">{error}</p>}
-        <div className="flex items-center justify-between pt-2 border-t border-forest-100">
-          <p className="text-xs text-forest-700/70 max-w-xs">By submitting you authorise Prime Origins to verify the information provided.</p>
+        {error && <p className="text-sm text-red-400">{error}</p>}
+        <div className="flex items-center justify-between pt-2 border-t border-white/10">
+          <p className="text-xs text-sand-100/60 max-w-xs">By submitting you authorise Prime Origins to verify the information provided.</p>
           <button disabled={loading} className="btn-primary disabled:opacity-60">
             {loading ? 'Submitting…' : 'Submit for review'}
           </button>
@@ -204,7 +204,7 @@ function TierBtn({ active, onClick, children }: { active: boolean; onClick: () =
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-xl px-4 py-2 text-sm font-medium transition ${active ? 'bg-forest-700 text-white' : 'text-forest-700 hover:bg-forest-50'}`}
+      className={`rounded-xl px-4 py-2 text-sm font-medium transition ${active ? 'bg-forest-700 text-white' : 'text-sand-100/80 hover:bg-white/10'}`}
     >
       {children}
     </button>
@@ -217,8 +217,8 @@ function Field({ name, label, type = 'text', required, placeholder, defaultValue
   const id = `sell-${name}`;
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium text-forest-800 mb-1">{label}{required && <span className="text-forest-600"> *</span>}</label>
-      <input id={id} name={name} type={type} required={required} placeholder={placeholder} defaultValue={defaultValue} readOnly={readOnly} step={step} className={`w-full rounded-lg border border-forest-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500 ${readOnly ? 'bg-forest-50' : ''}`} />
+      <label htmlFor={id} className="block text-sm font-medium text-sand-100/90 mb-1">{label}{required && <span className="text-gold-400"> *</span>}</label>
+      <input id={id} name={name} type={type} required={required} placeholder={placeholder} defaultValue={defaultValue} readOnly={readOnly} step={step} className={`w-full rounded-lg border border-white/15 bg-forest-900/50 px-3 py-2 text-sm text-sand-50 placeholder:text-sand-100/40 focus:outline-none focus:ring-2 focus:ring-gold-500 ${readOnly ? 'bg-white/5 text-sand-100/60' : ''}`} />
     </div>
   );
 }
@@ -227,8 +227,8 @@ function Select({ name, label, options, required }: { name: string; label: strin
   const id = `sell-${name}`;
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium text-forest-800 mb-1">{label}{required && <span className="text-forest-600"> *</span>}</label>
-      <select id={id} name={name} required={required} defaultValue="" className="w-full rounded-lg border border-forest-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500">
+      <label htmlFor={id} className="block text-sm font-medium text-sand-100/90 mb-1">{label}{required && <span className="text-gold-400"> *</span>}</label>
+      <select id={id} name={name} required={required} defaultValue="" className="w-full rounded-lg border border-white/15 bg-forest-900/50 px-3 py-2 text-sm text-sand-50 focus:outline-none focus:ring-2 focus:ring-gold-500">
         <option value="" disabled>Choose…</option>
         {options.map((o) => <option key={o} value={o}>{o}</option>)}
       </select>
