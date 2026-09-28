@@ -48,10 +48,18 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-forest-700 via-forest-800 to-forest-900" aria-hidden />
-        <div className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_25%_15%,rgba(255,255,255,0.45),transparent_55%)]" aria-hidden />
-        <div className="absolute inset-0 opacity-[0.12] bg-[radial-gradient(circle_at_85%_80%,rgba(140,198,158,0.9),transparent_45%)]" aria-hidden />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-sand-50/90 to-transparent" aria-hidden />
+        <div className="absolute inset-0" aria-hidden>
+          {/* eslint-disable-next-line @next/next/no-img-element -- a plain img keeps this a static background layer under the gradient overlays */}
+          <img
+            src="/hero-woodland.jpg"
+            alt=""
+            className="h-full w-full object-cover"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-br from-forest-950/93 via-forest-900/88 to-forest-950/95" aria-hidden />
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_25%_15%,rgba(255,255,255,0.35),transparent_55%)]" aria-hidden />
+        <div className="absolute inset-0 opacity-[0.14] bg-[radial-gradient(circle_at_85%_80%,rgba(140,198,158,0.9),transparent_45%)]" aria-hidden />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-forest-950 to-transparent" aria-hidden />
         <div className="container-narrow relative py-20 md:py-28 text-sand-50">
           <span className="chip reveal bg-white/15 text-sand-50 border border-white/20 backdrop-blur">
             Every listing says what it is
@@ -67,10 +75,10 @@ export default function HomePage() {
             claim.
           </p>
           <div className="reveal reveal-delay-3 mt-8 flex flex-wrap gap-3">
-            <Link href="/browse" className="btn-primary bg-sand-50 text-forest-900 hover:bg-white shadow-lift">
+            <Link href="/browse" className="btn-primary">
               Browse projects →
             </Link>
-            <Link href="/sell" className="btn-secondary border-sand-50 text-sand-50 hover:bg-white/10">
+            <Link href="/sell" className="btn-secondary !border-sand-50/40 !text-sand-50 hover:!bg-white/10">
               List your project
             </Link>
           </div>
@@ -107,28 +115,30 @@ export default function HomePage() {
       </section>
 
       {/* Featured */}
-      <section className="container-narrow py-16">
-        <div className="flex items-end justify-between mb-8">
-          <div>
-            <h2 className="reveal text-2xl md:text-3xl font-semibold text-forest-900">UK woodland, and the wider market</h2>
-            <p className="mt-2 text-forest-700/80 max-w-xl">
-              Woodland Carbon Code projects you can source domestically, listed with their registry number, planted
-              area and predicted removal. Their units are <strong>Pending Issuance Units</strong> &mdash; a promise of
-              future verified removal, which cannot yet be used to report against emissions. Every card says which
-              instrument it is offering.
-            </p>
+      <section className="bg-forest-950 py-16">
+        <div className="container-narrow">
+          <div className="flex items-end justify-between mb-8">
+            <div>
+              <h2 className="reveal text-2xl md:text-3xl font-semibold text-sand-50">UK woodland, and the wider market</h2>
+              <p className="mt-2 text-sand-100/70 max-w-xl">
+                Woodland Carbon Code projects you can source domestically, listed with their registry number, planted
+                area and predicted removal. Their units are <strong className="text-sand-50">Pending Issuance Units</strong> &mdash; a promise of
+                future verified removal, which cannot yet be used to report against emissions. Every card says which
+                instrument it is offering.
+              </p>
+            </div>
+            <Link href="/browse" className="hidden md:inline text-sm font-medium text-gold-400 hover:text-gold-300">View all {stats.totalProjects} →</Link>
           </div>
-          <Link href="/browse" className="hidden md:inline text-sm font-medium text-forest-700 hover:text-forest-600">View all {stats.totalProjects} →</Link>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featured.map((l) => (
-            <ListingCard key={l.id} listing={l} />
-          ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featured.map((l) => (
+              <ListingCard key={l.id} listing={l} />
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Quality */}
-      <section className="bg-gradient-to-b from-white to-sand-50/40 border-y border-forest-100">
+      <section className="bg-forest-900 border-y border-white/10">
         <div className="container-narrow py-16">
           <div className="grid md:grid-cols-3 gap-10">
             <Pillar
@@ -148,50 +158,52 @@ export default function HomePage() {
       </section>
 
       {/* Tiers explained */}
-      <section className="container-narrow py-16">
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <h2 className="text-2xl md:text-3xl font-semibold text-forest-900">Three instruments, and they are not interchangeable</h2>
-          <p className="mt-2 text-forest-700/80">
-            What you may claim depends on which of these you buy. Every listing is labelled with one of them.
-          </p>
-        </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          <TierCard
-            badgeColor="bg-forest-700"
-            badge="Registry-issued"
-            title="Issued carbon credits"
-            body="Units already verified and issued under Verra, Gold Standard, ACR, Puro.earth or Climate Action Reserve. Public serial numbers, a published methodology, third-party validation and verification."
-            bullets={[
-              'Public registry serial numbers',
-              'Independently validated and verified',
-              'Buffer-pool contribution where the methodology requires one',
-              'Retired in your name on the registry'
-            ]}
-          />
-          <TierCard
-            badgeColor="bg-amber-500"
-            badge="Pending Issuance Units"
-            title="UK woodland, not yet verified"
-            body="The Woodland Carbon Code's own definition: a promise to deliver a Woodland Carbon Unit in future, based on predicted removal. It is not guaranteed, so it cannot be used to report against UK-based emissions."
-            bullets={[
-              'Project registered and validated under the Woodland Carbon Code',
-              'Assigned to you on the UK Land Carbon Registry, not retired',
-              'Converts to a Woodland Carbon Unit at verification',
-              'Supports a credible statement about funding UK woodland creation'
-            ]}
-          />
-          <TierCard
-            badgeColor="bg-amber-500"
-            badge="Self-verified"
-            title="Developer documentation only"
-            body="Smaller projects and newer methodologies not on a registry. The developer supplies its own evidence — coordinates, sampling reports, certificates of analysis — which we publish unedited."
-            bullets={[
-              "Developer's documentation published in full",
-              'Not verified by a third party and not registry-issued',
-              'No registry retirement available',
-              'Labelled so it is never mistaken for an issued credit'
-            ]}
-          />
+      <section className="bg-forest-950 py-16">
+        <div className="container-narrow">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <h2 className="text-2xl md:text-3xl font-semibold text-sand-50">Three instruments, and they are not interchangeable</h2>
+            <p className="mt-2 text-sand-100/70">
+              What you may claim depends on which of these you buy. Every listing is labelled with one of them.
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-3">
+            <TierCard
+              badgeColor="bg-gold-600"
+              badge="Registry-issued"
+              title="Issued carbon credits"
+              body="Units already verified and issued under Verra, Gold Standard, ACR, Puro.earth or Climate Action Reserve. Public serial numbers, a published methodology, third-party validation and verification."
+              bullets={[
+                'Public registry serial numbers',
+                'Independently validated and verified',
+                'Buffer-pool contribution where the methodology requires one',
+                'Retired in your name on the registry'
+              ]}
+            />
+            <TierCard
+              badgeColor="bg-amber-500"
+              badge="Pending Issuance Units"
+              title="UK woodland, not yet verified"
+              body="The Woodland Carbon Code's own definition: a promise to deliver a Woodland Carbon Unit in future, based on predicted removal. It is not guaranteed, so it cannot be used to report against UK-based emissions."
+              bullets={[
+                'Project registered and validated under the Woodland Carbon Code',
+                'Assigned to you on the UK Land Carbon Registry, not retired',
+                'Converts to a Woodland Carbon Unit at verification',
+                'Supports a credible statement about funding UK woodland creation'
+              ]}
+            />
+            <TierCard
+              badgeColor="bg-amber-500"
+              badge="Self-verified"
+              title="Developer documentation only"
+              body="Smaller projects and newer methodologies not on a registry. The developer supplies its own evidence — coordinates, sampling reports, certificates of analysis — which we publish unedited."
+              bullets={[
+                "Developer's documentation published in full",
+                'Not verified by a third party and not registry-issued',
+                'No registry retirement available',
+                'Labelled so it is never mistaken for an issued credit'
+              ]}
+            />
+          </div>
         </div>
       </section>
 
@@ -199,9 +211,9 @@ export default function HomePage() {
       <TalkToUs variant="banner" />
 
       {/* CTA */}
-      <section className="container-narrow py-20 text-center">
-        <h2 className="text-3xl md:text-4xl font-semibold text-forest-900">Get a real price, against a real project.</h2>
-        <p className="mt-3 text-forest-700/80 max-w-xl mx-auto">
+      <section className="bg-forest-950 container-narrow py-20 text-center">
+        <h2 className="text-3xl md:text-4xl font-semibold text-sand-50">Get a real price, against a real project.</h2>
+        <p className="mt-3 text-sand-100/70 max-w-xl mx-auto">
           Tell us the volume, the vintage and whether you need the units retired in your own name. You will get a firm price against a named project, with the unit type and registry position stated in writing, before you commit to anything.
         </p>
         <div className="mt-7 flex justify-center gap-3">
@@ -234,21 +246,21 @@ function Stat({ label, value, note }: { label: string; value: string; note?: str
 function Pillar({ title, body }: { title: string; body: string }) {
   return (
     <div>
-      <h3 className="text-lg font-semibold text-forest-900">{title}</h3>
-      <p className="mt-2 text-sm text-forest-800/90 leading-relaxed">{body}</p>
+      <h3 className="text-lg font-semibold text-sand-50">{title}</h3>
+      <p className="mt-2 text-sm text-sand-100/75 leading-relaxed">{body}</p>
     </div>
   );
 }
 
 function TierCard({ badgeColor, badge, title, body, bullets }: { badgeColor: string; badge: string; title: string; body: string; bullets: string[] }) {
   return (
-    <div className="rounded-2xl border border-forest-100 bg-white p-6 md:p-8 shadow-soft transition-all duration-300 hover:shadow-lift motion-safe:hover:-translate-y-1">
+    <div className="rounded-2xl border border-white/10 bg-forest-900/60 p-6 md:p-8 shadow-soft transition-all duration-300 hover:shadow-lift hover:border-gold-500/30 motion-safe:hover:-translate-y-1">
       <span className={`chip ${badgeColor} text-white`}>{badge}</span>
-      <h3 className="mt-4 text-xl font-semibold text-forest-900">{title}</h3>
-      <p className="mt-2 text-sm text-forest-800/90 leading-relaxed">{body}</p>
-      <ul className="mt-4 space-y-1.5 text-sm text-forest-800">
+      <h3 className="mt-4 text-xl font-semibold text-sand-50">{title}</h3>
+      <p className="mt-2 text-sm text-sand-100/75 leading-relaxed">{body}</p>
+      <ul className="mt-4 space-y-1.5 text-sm text-sand-100/80">
         {bullets.map((b) => (
-          <li key={b} className="flex gap-2"><span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-forest-600" /><span>{b}</span></li>
+          <li key={b} className="flex gap-2"><span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-gold-500" /><span>{b}</span></li>
         ))}
       </ul>
     </div>
