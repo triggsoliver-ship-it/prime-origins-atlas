@@ -37,12 +37,12 @@ export default function EcosystemMenu() {
 
   return (
     <details ref={ref} className="relative">
-      <summary className="flex cursor-pointer list-none items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-medium text-forest-800 transition-colors hover:text-forest-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-forest-500">
+      <summary className="flex cursor-pointer list-none items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm font-medium text-sand-100/80 transition-colors hover:text-gold-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500">
         Ecosystem
-        <span aria-hidden className="text-[10px] leading-none text-forest-600">▾</span>
+        <span aria-hidden className="text-[10px] leading-none text-gold-400">▾</span>
       </summary>
       <div className="absolute right-0 z-50 mt-2 w-[19rem] overflow-hidden rounded-2xl border border-forest-100 bg-white p-2 shadow-lift">
-        <p className="px-3 pb-1.5 pt-2 text-[10px] uppercase tracking-[0.18em] text-forest-600">
+        <p className="px-3 pb-1.5 pt-2 text-[10px] uppercase tracking-[0.18em] text-gold-600">
           Prime Origins ecosystem
         </p>
         <ul>
@@ -64,13 +64,13 @@ export default function EcosystemMenu() {
                   href={s.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-baseline justify-between gap-3 rounded-xl px-3 py-2 transition-colors hover:bg-forest-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-forest-500"
+                  className="flex items-baseline justify-between gap-3 rounded-xl px-3 py-2 transition-colors hover:bg-forest-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold-500"
                 >
                   <span>
                     <span className="block text-sm font-medium text-forest-900">{s.name}</span>
                     <span className="block text-[11px] leading-snug text-forest-700/75">{s.role}</span>
                   </span>
-                  <span aria-hidden className="shrink-0 text-forest-600">↗</span>
+                  <span aria-hidden className="shrink-0 text-gold-600">↗</span>
                 </a>
               )}
             </li>
