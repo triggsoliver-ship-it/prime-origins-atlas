@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 export default function CookiesPage() {
   return (
     <div className="container-narrow py-12 max-w-3xl">
-      <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">Cookie Policy</h1>
-      <p className="text-sm text-forest-700/70 mt-2">Last updated: {legal.lastUpdated}</p>
+      <h1 className="text-3xl md:text-4xl font-semibold text-sand-50">Cookie Policy</h1>
+      <p className="text-sm text-sand-100/55 mt-2">Last updated: {legal.lastUpdated}</p>
 
       <Section title="What cookies are">
         <p>Cookies are small text files stored on your device when you visit a website. They are used to remember preferences, keep you signed in, and measure how the site is used.</p>
@@ -19,8 +19,8 @@ export default function CookiesPage() {
 
       <Section title="Cookies we use">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm border border-forest-100 rounded-lg overflow-hidden">
-            <thead className="bg-forest-50 text-forest-800">
+          <table className="w-full text-sm border border-white/10 rounded-lg overflow-hidden">
+            <thead className="bg-white/5 text-sand-100">
               <tr>
                 <th className="text-left px-3 py-2">Cookie</th>
                 <th className="text-left px-3 py-2">Purpose</th>
@@ -28,7 +28,7 @@ export default function CookiesPage() {
                 <th className="text-left px-3 py-2">Duration</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-forest-100">
+            <tbody className="divide-y divide-white/10 text-sand-100/80">
               <tr>
                 <td className="px-3 py-2 font-mono text-xs">__stripe_*</td>
                 <td className="px-3 py-2">Secure payment processing</td>
@@ -58,7 +58,7 @@ export default function CookiesPage() {
       </Section>
 
       <Section title="Questions">
-        <p>If you have questions about this policy, email <a className="underline" href={`mailto:${legal.privacyEmail}`}>{legal.privacyEmail}</a>.</p>
+        <p>If you have questions about this policy, email <a className="text-gold-400 underline" href={`mailto:${legal.privacyEmail}`}>{legal.privacyEmail}</a>.</p>
       </Section>
     </div>
   );
@@ -67,8 +67,8 @@ export default function CookiesPage() {
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mt-8">
-      <h2 className="text-xl font-semibold text-forest-900 mb-2">{title}</h2>
-      <div className="space-y-3 text-forest-800 text-sm leading-relaxed">{children}</div>
+      <h2 className="text-xl font-semibold text-sand-50 mb-2">{title}</h2>
+      <div className="space-y-3 text-sand-100/80 text-sm leading-relaxed">{children}</div>
     </section>
   );
 }
