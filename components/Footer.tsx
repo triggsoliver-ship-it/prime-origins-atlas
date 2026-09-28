@@ -4,14 +4,14 @@ import { ECOSYSTEM, GROUP } from '@/lib/ecosystem';
 
 export default function Footer() {
   return (
-    <footer className="mt-24 border-t border-forest-100 bg-white">
+    <footer className="mt-24 border-t border-white/10 bg-forest-950 text-sand-100/80">
       <div className="container-narrow grid grid-cols-2 gap-8 py-12 md:grid-cols-5">
         <div className="col-span-2 md:col-span-1">
           <div className="flex items-center gap-3">
             <Image src="/logo.png" alt="Prime Origins" width={40} height={40} className="h-10 w-auto object-contain" />
-            <span className="text-sm font-semibold text-forest-900">Prime Origins Atlas</span>
+            <span className="text-sm font-semibold text-sand-50">Prime Origins Atlas</span>
           </div>
-          <p className="mt-3 text-sm text-forest-700/80">
+          <p className="mt-3 text-sm text-sand-100/60">
             Carbon credits and UK woodland units, each listed with its registry, unit type and verification status.
           </p>
         </div>
@@ -34,21 +34,21 @@ export default function Footer() {
           { label: 'Cookies', href: '/cookies' }
         ]} />
         <div className="col-span-2 md:col-span-1">
-          <h4 className="text-xs uppercase tracking-[0.18em] text-forest-600 font-semibold">Ecosystem</h4>
+          <h4 className="text-xs uppercase tracking-[0.18em] text-gold-400 font-semibold">Ecosystem</h4>
           <ul className="mt-3 space-y-2.5 text-sm">
             {ECOSYSTEM.map((s) => (
               <li key={s.url}>
                 {s.current ? (
                   <span aria-current="page" className="block">
-                    <span className="block font-semibold text-forest-900">{s.name}</span>
-                    <span className="block text-[11px] leading-snug text-forest-700/70">
-                      {s.role} &middot; <span className="text-forest-600">you are here</span>
+                    <span className="block font-semibold text-sand-50">{s.name}</span>
+                    <span className="block text-[11px] leading-snug text-sand-100/60">
+                      {s.role} &middot; <span className="text-gold-400">you are here</span>
                     </span>
                   </span>
                 ) : (
-                  <a href={s.url} target="_blank" rel="noreferrer" className="block transition-colors hover:text-forest-600">
-                    <span className="text-forest-800">{s.name}</span>
-                    <span className="block text-[11px] leading-snug text-forest-700/70">{s.role}</span>
+                  <a href={s.url} target="_blank" rel="noreferrer" className="block transition-colors hover:text-gold-400">
+                    <span className="text-sand-100/90">{s.name}</span>
+                    <span className="block text-[11px] leading-snug text-sand-100/60">{s.role}</span>
                   </a>
                 )}
               </li>
@@ -56,8 +56,8 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-forest-100 py-5">
-        <div className="container-narrow flex flex-col md:flex-row gap-2 md:items-center md:justify-between text-xs text-forest-700/70">
+      <div className="border-t border-white/10 py-5">
+        <div className="container-narrow flex flex-col md:flex-row gap-2 md:items-center md:justify-between text-xs text-sand-100/50">
           <span>© {new Date().getFullYear()} Prime Origins Limited. Company number 15775663. Registered office: 128 City Road, London, EC1V 2NX.</span>
           <span>Atlas holds no stock. Prices are indicative and availability is confirmed on request.</span>
           <span>
@@ -66,7 +66,7 @@ export default function Footer() {
               href="https://shipitstudio.co.uk"
               target="_blank"
               rel="noopener noreferrer"
-              className="underline underline-offset-2 transition-colors hover:text-forest-600"
+              className="underline underline-offset-2 transition-colors hover:text-gold-400"
             >
               shipitstudio.co.uk
             </a>
@@ -80,14 +80,14 @@ export default function Footer() {
 function FooterCol({ title, links }: { title: string; links: { label: string; href: string; external?: boolean }[] }) {
   return (
     <div>
-      <h4 className="text-xs uppercase tracking-[0.18em] text-forest-600 font-semibold">{title}</h4>
-      <ul className="mt-3 space-y-2 text-sm text-forest-800">
+      <h4 className="text-xs uppercase tracking-[0.18em] text-gold-400 font-semibold">{title}</h4>
+      <ul className="mt-3 space-y-2 text-sm text-sand-100/80">
         {links.map((l) => (
           <li key={l.href}>
             {l.external ? (
-              <a href={l.href} target="_blank" rel="noreferrer" className="transition-colors hover:text-forest-600">{l.label}</a>
+              <a href={l.href} target="_blank" rel="noreferrer" className="transition-colors hover:text-gold-400">{l.label}</a>
             ) : (
-              <Link href={l.href} className="transition-colors hover:text-forest-600">{l.label}</Link>
+              <Link href={l.href} className="transition-colors hover:text-gold-400">{l.label}</Link>
             )}
           </li>
         ))}
