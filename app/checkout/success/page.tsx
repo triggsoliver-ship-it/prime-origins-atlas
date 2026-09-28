@@ -42,14 +42,14 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
     return (
       <div className="container-narrow py-20 text-center">
         <div className="mx-auto h-14 w-14 grid place-items-center rounded-full bg-forest-700 text-white text-2xl">✓</div>
-        <h1 className="mt-6 text-3xl font-semibold text-forest-900">Thank you — your order is confirmed.</h1>
-        <p className="mt-3 text-forest-700/85 max-w-lg mx-auto">
+        <h1 className="mt-6 text-3xl font-semibold text-sand-50">Thank you — your order is confirmed.</h1>
+        <p className="mt-3 text-sand-100/80 max-w-lg mx-auto">
           We&rsquo;ve received your payment{tonnes ? ` for ${Number(tonnes).toLocaleString()} tCO₂e` : ''}.{' '}
           {retire
             ? 'Our team will retire your credits on the registry within 48 hours and email you the retirement certificate.'
             : 'Our team will be in touch to arrange transfer of the credits.'}
         </p>
-        {sessionId && <p className="mt-4 text-xs text-forest-600 font-mono">Order ref: {sessionId.slice(-12)}</p>}
+        {sessionId && <p className="mt-4 text-xs text-sand-100/50 font-mono">Order ref: {sessionId.slice(-12)}</p>}
         <div className="mt-8 flex justify-center gap-3">
           <Link href="/browse" className="btn-primary">Browse more credits</Link>
           <Link href="/" className="btn-secondary">Back to home</Link>
@@ -61,12 +61,12 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
   if (state === 'processing') {
     return (
       <div className="container-narrow py-20 text-center">
-        <div className="mx-auto h-14 w-14 grid place-items-center rounded-full bg-forest-100 text-forest-800 text-2xl">…</div>
-        <h1 className="mt-6 text-3xl font-semibold text-forest-900">Your payment is still processing.</h1>
-        <p className="mt-3 text-forest-700/85 max-w-lg mx-auto">
+        <div className="mx-auto h-14 w-14 grid place-items-center rounded-full bg-white/10 text-sand-100 text-2xl">…</div>
+        <h1 className="mt-6 text-3xl font-semibold text-sand-50">Your payment is still processing.</h1>
+        <p className="mt-3 text-sand-100/80 max-w-lg mx-auto">
           Some payment methods take a little while to clear. We&rsquo;ll email you as soon as it settles — there&rsquo;s no need to pay again.
         </p>
-        {sessionId && <p className="mt-4 text-xs text-forest-600 font-mono">Order ref: {sessionId.slice(-12)}</p>}
+        {sessionId && <p className="mt-4 text-xs text-sand-100/50 font-mono">Order ref: {sessionId.slice(-12)}</p>}
         <div className="mt-8 flex justify-center gap-3">
           <Link href="/" className="btn-secondary">Back to home</Link>
         </div>
@@ -77,14 +77,14 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
   // 'unpaid' or 'unverified' — never claim we took money we cannot see.
   return (
     <div className="container-narrow py-20 text-center">
-      <div className="mx-auto h-14 w-14 grid place-items-center rounded-full bg-forest-100 text-forest-800 text-2xl">?</div>
-      <h1 className="mt-6 text-3xl font-semibold text-forest-900">We couldn&rsquo;t confirm this order.</h1>
-      <p className="mt-3 text-forest-700/85 max-w-lg mx-auto">
+      <div className="mx-auto h-14 w-14 grid place-items-center rounded-full bg-white/10 text-sand-100 text-2xl">?</div>
+      <h1 className="mt-6 text-3xl font-semibold text-sand-50">We couldn&rsquo;t confirm this order.</h1>
+      <p className="mt-3 text-sand-100/80 max-w-lg mx-auto">
         No completed payment is showing against this link. If you believe you have been charged, email{' '}
-        <a href="mailto:oliver@primeorigins.org" className="text-forest-700 underline">oliver@primeorigins.org</a>{' '}
+        <a href="mailto:oliver@primeorigins.org" className="text-gold-400 underline">oliver@primeorigins.org</a>{' '}
         with the reference below and we&rsquo;ll look into it straight away.
       </p>
-      {sessionId && <p className="mt-4 text-xs text-forest-600 font-mono">Reference: {sessionId.slice(-12)}</p>}
+      {sessionId && <p className="mt-4 text-xs text-sand-100/50 font-mono">Reference: {sessionId.slice(-12)}</p>}
       <div className="mt-8 flex justify-center gap-3">
         <Link href="/browse" className="btn-primary">Back to browse</Link>
       </div>
