@@ -90,8 +90,8 @@ export default function HowItWorks() {
             </div>
           </dl>
           <p className="mt-3 text-xs leading-relaxed text-sand-100/70">
-            The same arithmetic runs on the quote panel and at checkout, from one constant, so the figure you are
-            shown is the figure that is charged.
+            The figure shown on the quote panel is the figure you are charged at checkout &mdash; it does not change
+            between the two.
           </p>
         </div>
 

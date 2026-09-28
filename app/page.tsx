@@ -76,15 +76,18 @@ export default function HomePage() {
           >
             Carbon projects, traced to the source.
           </h1>
+          {/* Kept deliberately short: the full breakdown of what's on Atlas —
+              registries, UK codes, self-verified projects, and what "labelled"
+              actually means — lives in the solid-background section directly
+              below, where it's readable against a plain background instead of
+              stacked dense copy over a photo. */}
           <p
             className="reveal reveal-delay-2 mt-5 text-lg md:text-xl text-sand-100/85 max-w-2xl"
             style={{ textShadow: '0 1px 10px rgba(6, 14, 10, 0.5)' }}
           >
-            Registry-issued credits from Verra, Gold Standard, ACR, Puro.earth and Climate Action Reserve; UK
-            woodland <strong className="text-white">Pending Issuance Units</strong> under the Woodland Carbon Code;
-            and projects listed on their developer&rsquo;s own documentation. Each one is labelled with its registry,
-            its unit type and what has actually been verified &mdash; because those three things decide what you can
-            claim.
+            Registry-issued credits, UK <strong className="text-white">Pending Issuance Units</strong> and developer
+            self-verified projects — each one labelled with its registry, unit type and what&rsquo;s actually been
+            verified.
           </p>
           <div className="reveal reveal-delay-3 mt-8 flex flex-wrap gap-3">
             <Link href="/browse" className="btn-primary">
@@ -116,7 +119,16 @@ export default function HomePage() {
               note="Atlas holds no stock of its own"
             />
           </dl>
-          <p className="reveal reveal-delay-4 mt-6 max-w-2xl text-sm leading-relaxed text-sand-100/70">
+        </div>
+      </section>
+
+      {/* Reading the numbers — moved off the hero photo. This used to be a
+          dense qualification paragraph sitting over the woodland image at
+          text-sand-100/70; it carries real caveats a buyer should read, so it
+          gets a plain solid background instead of competing with a photo. */}
+      <section className="bg-forest-900 border-b border-white/10 py-8 md:py-10">
+        <div className="container-narrow">
+          <p className="max-w-3xl text-sm md:text-base leading-relaxed text-sand-100/80">
             Reading those numbers: the {stats.projectsWithIssuedCredits} registry-issued projects have been issued{' '}
             {compactTonnes(stats.issuedTonnesLifetime)} tCO₂e in total by their registries over the projects&rsquo;
             whole lifetimes, and the {stats.ukCodeProjects} UK woodland projects forecast{' '}

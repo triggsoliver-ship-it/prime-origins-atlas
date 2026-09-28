@@ -19,6 +19,8 @@ import BuyPanel from '@/components/BuyPanel';
 import ProjectMap from '@/components/ProjectMap';
 import ProjectPlate from '@/components/ProjectPlate';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://primeoriginsatlas.org';
+
 export function generateStaticParams() {
   return listings.map((l) => ({ slug: l.slug }));
 }
@@ -38,15 +40,31 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     ? 'Self-Verified Units'
     : 'Carbon Credits';
   const dated = isUkCode(l) ? `planted ${l.plantingYear ?? l.vintage}` : `vintage ${l.vintage}`;
-  const title = `${l.projectName} — ${l.registry} ${noun} | £${l.pricePerTonne.toFixed(2)}/tCO₂e indicative`;
+  const price = `£${l.pricePerTonne.toFixed(2)}/tCO₂e`;
+  // Self-Verified listings carry the registry value "Self-Verified", so
+  // prefixing it onto "Self-Verified Units" produced "Self-Verified
+  // Self-Verified Units" on every one of these titles. Only issued/pending
+  // listings — which sit on a real registry or code — get that prefix.
+  const titleQualifier = kind === 'self-reported-unit' ? noun : `${l.registry} ${noun}`;
+  const title = `${l.projectName} — ${titleQualifier} | ${price} indicative`;
   const held = supplyBasisOf(l) === 'held';
+  // Short by design: project identity and price sit in the title above, so
+  // the description only needs to add the instrument type, its indicative
+  // status and one clear proposition — not restate everything on the page.
   const description = held
-    ? `${l.summary} Buy ${l.projectName} ${noun.toLowerCase()} from £${l.pricePerTonne.toFixed(2)} per tonne. ${l.registry}, ${l.country}, ${dated}. ${statusLabel(l)}.`
+    ? `${l.summary} ${noun} from ${price}. ${l.registry}, ${l.country}, ${dated}.`
     : kind === 'pending-unit'
-    ? `${l.summary} Request a quote for ${l.projectName} Pending Issuance Units, indicative £${l.pricePerTonne.toFixed(2)} per tonne. ${l.registry}, ${l.country}, ${dated}. Pending Issuance Units are a promise of future verified removal and cannot yet be used to report against emissions. Availability confirmed with the developer on request.`
+    ? `${l.summary} Indicative ${price} Pending Issuance Unit — a promise of future removal, not yet usable to report against emissions.`
     : kind === 'self-reported-unit'
-    ? `${l.summary} Request a quote for ${l.projectName}, indicative £${l.pricePerTonne.toFixed(2)} per tonne. ${l.country}, ${dated}. Documented by the developer, not issued on a registry and not independently verified. Availability confirmed on request.`
-    : `${l.summary} Request a quote for ${l.projectName} carbon credits, indicative £${l.pricePerTonne.toFixed(2)} per tonne. ${l.registry}, ${l.country}, ${dated}. Sourced to order, with availability and registry serial numbers confirmed in writing before payment.`;
+    ? `${l.summary} Indicative ${price}, developer self-verified — not registry-issued or independently verified.`
+    : `${l.summary} Indicative ${price} ${l.registry} credit, sourced to order with registry serials confirmed before payment.`;
+  // Every listing's imageUrl is currently empty (see components/ProjectPlate.tsx),
+  // so og:image and twitter:image had nothing to point at and were omitted
+  // site-wide. Fall back to the per-listing generated card at
+  // app/listings/[slug]/opengraph-image.tsx rather than leaving them unset;
+  // a real photograph, once one exists for a listing, takes precedence.
+  const fallbackImage = `${SITE_URL}/listings/${l.slug}/opengraph-image`;
+  const ogImage = l.imageUrl || fallbackImage;
   return {
     title,
     description,
@@ -64,9 +82,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description,
       type: 'website',
       url: `/listings/${l.slug}`,
-      ...(l.imageUrl ? { images: [{ url: l.imageUrl, alt: l.projectName }] } : {})
+      images: [{ url: ogImage, width: 1200, height: 630, alt: l.projectName }]
     },
-    twitter: { card: 'summary_large_image', title, description, ...(l.imageUrl ? { images: [l.imageUrl] } : {}) }
+    twitter: { card: 'summary_large_image', title, description, images: [ogImage] }
   };
 }
 
@@ -78,29 +96,51 @@ export default async function ListingDetail({ params }: { params: Promise<{ slug
   // Every judgement about what this listing is comes from lib/status.ts, so
   // the chips, the detail table, the structured data and the quote panel
   // cannot disagree with each other.
+  const kind = unitKindOf(listing);
   const inStock = supplyBasisOf(listing) === 'held';
   const ukCode = isUkCode(listing);
-  const isPending = unitKindOf(listing) === 'pending-unit';
+  const isPending = kind === 'pending-unit';
   const status = statusChip(listing);
   const volume = volumeField(listing);
+
+  // The category previously read "Carbon Credits / <category>" for every
+  // listing, including the 12 pending-issuance woodland projects that are
+  // explicitly not carbon credits anywhere else on the site. Structured data
+  // has to agree with the visible chips, not contradict them.
+  const instrumentCategory = kind === 'pending-unit'
+    ? 'UK Woodland Carbon Code Pending Issuance Unit'
+    : kind === 'self-reported-unit'
+    ? 'Developer Self-Verified Unit'
+    : 'Carbon Credit';
+  const fallbackImage = `${SITE_URL}/listings/${listing.slug}/opengraph-image`;
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: listing.projectName,
     description: listing.description,
-    ...(listing.imageUrl ? { image: listing.imageUrl } : {}),
+    // A real project photograph where one exists; otherwise the generated
+    // branded card, not an invented photograph.
+    image: listing.imageUrl || fallbackImage,
     brand: { '@type': 'Organization', name: listing.developer },
-    category: `Carbon Credits / ${categoryLabels[listing.category]}`,
+    category: `${instrumentCategory} / ${categoryLabels[listing.category]}`,
     offers: {
       '@type': 'Offer',
-      url: `/listings/${listing.slug}`,
+      // Absolute, not the relative path this previously shipped — a relative
+      // URL in an Offer is not resolvable by a crawler reading the raw JSON-LD.
+      url: `${SITE_URL}/listings/${listing.slug}`,
       priceCurrency: 'GBP',
       price: listing.pricePerTonne,
       availability: inStock
         ? (listing.tonnesAvailable > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock')
         : 'https://schema.org/PreOrder',
-      itemCondition: 'https://schema.org/NewCondition'
+      itemCondition: 'https://schema.org/NewCondition',
+      // Atlas holds no stock for anything not in inStock: the price is a
+      // quote-only indication, not a firm listed price, and the Offer must
+      // say so rather than let PreOrder read as a guaranteed stock promise.
+      ...(inStock
+        ? {}
+        : { description: 'Indicative price per tCO₂e. Atlas holds no stock: availability and a firm price are confirmed with the developer in writing before payment.' })
     },
     additionalProperty: [
       { '@type': 'PropertyValue', name: 'Registry', value: listing.registry },
