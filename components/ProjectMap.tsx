@@ -4,7 +4,7 @@ export default function ProjectMap({ lat, lng, name }: { lat: number; lng: numbe
   const bbox = `${lng - delta},${lat - delta},${lng + delta},${lat + delta}`;
   const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lng}`;
   return (
-    <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-forest-100 bg-forest-50">
+    <div className="relative aspect-[16/9] overflow-hidden rounded-2xl border border-white/10 bg-forest-900/60">
       <iframe
         src={src}
         title={`Map for ${name}`}
