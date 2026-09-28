@@ -56,18 +56,30 @@ export default function HomePage() {
             className="h-full w-full object-cover"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-forest-950/93 via-forest-900/88 to-forest-950/95" aria-hidden />
-        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_25%_15%,rgba(255,255,255,0.35),transparent_55%)]" aria-hidden />
+        {/* Base scrim: deepened from /93 so the photo reads as a texture, not a
+            competing bright image, everywhere the gradient reaches. */}
+        <div className="absolute inset-0 bg-gradient-to-br from-forest-950/95 via-forest-900/92 to-forest-950/97" aria-hidden />
+        {/* Text-column scrim: the copy is left-aligned and doesn't span the full
+            width, so this adds extra depth specifically behind it — needed
+            because the photo's brightest area (sky/mist) sits top-left, right
+            under the badge and headline. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-forest-950/70 via-forest-950/35 to-transparent" aria-hidden />
         <div className="absolute inset-0 opacity-[0.14] bg-[radial-gradient(circle_at_85%_80%,rgba(140,198,158,0.9),transparent_45%)]" aria-hidden />
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-forest-950 to-transparent" aria-hidden />
         <div className="container-narrow relative py-20 md:py-28 text-sand-50">
-          <span className="chip reveal bg-white/15 text-sand-50 border border-white/20 backdrop-blur">
+          <span className="chip reveal bg-forest-950/70 text-sand-50 border border-white/15 backdrop-blur-sm">
             Every listing says what it is
           </span>
-          <h1 className="reveal reveal-delay-1 mt-5 text-4xl md:text-6xl font-semibold tracking-tight max-w-3xl text-balance">
+          <h1
+            className="reveal reveal-delay-1 mt-5 text-4xl md:text-6xl font-semibold tracking-tight max-w-3xl text-balance"
+            style={{ textShadow: '0 2px 16px rgba(6, 14, 10, 0.55)' }}
+          >
             Carbon projects, traced to the source.
           </h1>
-          <p className="reveal reveal-delay-2 mt-5 text-lg md:text-xl text-sand-100/85 max-w-2xl">
+          <p
+            className="reveal reveal-delay-2 mt-5 text-lg md:text-xl text-sand-100/85 max-w-2xl"
+            style={{ textShadow: '0 1px 10px rgba(6, 14, 10, 0.5)' }}
+          >
             Registry-issued credits from Verra, Gold Standard, ACR, Puro.earth and Climate Action Reserve; UK
             woodland <strong className="text-white">Pending Issuance Units</strong> under the Woodland Carbon Code;
             and projects listed on their developer&rsquo;s own documentation. Each one is labelled with its registry,
