@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: 251 248 243;  /* sand-50 */
-  --foreground: 23 58 39;     /* forest-900 */
+  --background: 10 20 16;     /* forest-950 */
+  --foreground: 244 236 221;  /* sand-100 */
 }
 
 html, body {
@@ -44,7 +44,7 @@ h1, h2, h3, h4, .serif {
 
 /* Skip link: off-screen until focused via keyboard */
 .skip-link {
-  @apply absolute left-4 top-4 z-[100] -translate-y-20 rounded-full bg-forest-700 px-4 py-2 text-sm font-medium text-white shadow-md transition-transform focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2 focus:ring-offset-sand-50;
+  @apply absolute left-4 top-4 z-[100] -translate-y-20 rounded-full bg-forest-700 px-4 py-2 text-sm font-medium text-white shadow-md transition-transform focus:translate-y-0 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2 focus:ring-offset-forest-950;
 }
 
 .container-narrow {
@@ -77,6 +77,10 @@ h1, h2, h3, h4, .serif {
   outline-offset: 2px;
 }
 
+/* Secondary action: on the group's dark forest background by default now,
+   so the label reads as bright gold rather than the deep gold-700 that was
+   tuned for a white card. Pages/components on a lighter surface override
+   with !text-*/!border-* as the hero and header already did. */
 .btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -87,20 +91,23 @@ h1, h2, h3, h4, .serif {
   font-size: 0.875rem;
   font-weight: 500;
   border: 1px solid #d9a441;
-  color: #8a6626;
+  color: #f2c566;
   background: transparent;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 .btn-secondary:hover {
-  background: rgba(217, 164, 65, 0.08);
+  background: rgba(217, 164, 65, 0.12);
 }
 .btn-secondary:focus-visible {
   outline: 2px solid #d9a441;
   outline-offset: 2px;
 }
 
+/* Default chip: dark-surface tag. Anywhere a chip sits on a light patch
+   (the category tag over a listing photo, badges given an explicit color)
+   already overrides bg/text with its own utility classes. */
 .chip {
-  @apply inline-flex items-center gap-1.5 rounded-full bg-forest-100 px-3 py-1 text-xs font-medium text-forest-800;
+  @apply inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-sand-100;
 }
 
 .chip-solid {
@@ -112,7 +119,7 @@ h1, h2, h3, h4, .serif {
 }
 
 .chip-outline {
-  @apply inline-flex items-center gap-1.5 rounded-full border border-forest-200 bg-white px-3 py-1 text-xs font-medium text-forest-700;
+  @apply inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-sand-100/80;
 }
 
 /* Scroll-reveal: subtle entrance, fully disabled under reduced-motion */
