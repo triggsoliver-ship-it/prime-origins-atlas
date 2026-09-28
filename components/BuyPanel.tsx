@@ -81,18 +81,18 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
 
   return (
     <aside className="lg:sticky lg:top-20 lg:self-start">
-      <div className="rounded-2xl border border-forest-100 bg-white p-6 shadow-sm">
+      <div className="rounded-2xl border border-white/10 bg-forest-900/60 p-6 shadow-sm">
         <div className="flex items-end justify-between gap-3">
           <div>
-            <p className="text-[11px] uppercase tracking-wider text-forest-600">
+            <p className="text-[11px] uppercase tracking-wider text-sand-100/55">
               {canBuy ? 'Price' : 'Indicative price'}
             </p>
-            <p className="text-3xl font-semibold text-forest-900">
+            <p className="text-3xl font-semibold text-sand-50">
               {gbp(listing.pricePerTonne)}
-              <span className="text-sm font-normal text-forest-700"> / tCO₂e</span>
+              <span className="text-sm font-normal text-sand-100/70"> / tCO₂e</span>
             </p>
           </div>
-          <p className="text-xs text-forest-700 text-right">
+          <p className="text-xs text-sand-100/70 text-right">
             {canBuy
               ? `${available.toLocaleString()} available`
               : soldOut
@@ -102,13 +102,13 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
         </div>
 
         <div className="mt-5">
-          <label htmlFor="buy-tonnes" className="text-xs uppercase tracking-wider text-forest-600">Tonnes</label>
+          <label htmlFor="buy-tonnes" className="text-xs uppercase tracking-wider text-sand-100/55">Tonnes</label>
           <div className="mt-1 flex items-center gap-2">
             <button
               type="button"
               aria-label="Decrease tonnes by 10"
               onClick={() => setTonnes(clamp(tonnes - 10))}
-              className="h-9 w-9 rounded-lg border border-forest-200 text-forest-700 hover:bg-forest-50 focus:outline-none focus:ring-2 focus:ring-forest-500"
+              className="h-9 w-9 rounded-lg border border-white/15 text-sand-100/85 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-gold-500"
             >–</button>
             <input
               id="buy-tonnes"
@@ -117,13 +117,13 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
               max={canBuy ? available : undefined}
               value={tonnes}
               onChange={(e) => setTonnes(clamp(Number(e.target.value || 1)))}
-              className="h-9 flex-1 rounded-lg border border-forest-200 text-center text-sm focus:outline-none focus:ring-2 focus:ring-forest-500"
+              className="h-9 flex-1 rounded-lg border border-white/15 bg-forest-900/50 text-center text-sm text-sand-50 focus:outline-none focus:ring-2 focus:ring-gold-500"
             />
             <button
               type="button"
               aria-label="Increase tonnes by 10"
               onClick={() => setTonnes(clamp(tonnes + 10))}
-              className="h-9 w-9 rounded-lg border border-forest-200 text-forest-700 hover:bg-forest-50 focus:outline-none focus:ring-2 focus:ring-forest-500"
+              className="h-9 w-9 rounded-lg border border-white/15 text-sand-100/85 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-gold-500"
             >+</button>
           </div>
         </div>
@@ -133,35 +133,35 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
              verified to retire yet — and a self-verified project has no
              registry to retire on. Offering a retirement tickbox in either
              case promises something that will not happen. */
-          <p className="mt-4 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2.5 text-xs leading-relaxed text-forest-900">
-            <strong>{isPending ? 'Pending units are assigned, not retired.' : 'No registry retirement available.'}</strong>{' '}
+          <p className="mt-4 rounded-lg bg-amber-500/10 border border-amber-500/30 px-3 py-2.5 text-xs leading-relaxed text-sand-100/90">
+            <strong className="text-amber-300">{isPending ? 'Pending units are assigned, not retired.' : 'No registry retirement available.'}</strong>{' '}
             {retirementExplainer(listing)}
           </p>
         ) : (
-          <label className="mt-4 flex items-start gap-2 text-sm text-forest-800 cursor-pointer">
+          <label className="mt-4 flex items-start gap-2 text-sm text-sand-100/85 cursor-pointer">
             <input
               type="checkbox"
               checked={retire}
               onChange={(e) => setRetire(e.target.checked)}
-              className="mt-0.5 h-4 w-4 rounded border-forest-300 text-forest-700 focus:ring-forest-500"
+              className="mt-0.5 h-4 w-4 rounded border-white/25 bg-forest-900/50 text-gold-500 focus:ring-gold-500"
             />
             <span>Retire credits in my name on the {listing.registry} registry</span>
           </label>
         )}
 
-        <dl className="mt-5 space-y-1.5 text-sm border-t border-forest-100 pt-4">
+        <dl className="mt-5 space-y-1.5 text-sm border-t border-white/10 pt-4">
           <Row
             label={`${unitNoun(listing)} (${tonnes.toLocaleString()} × ${gbp(listing.pricePerTonne)})`}
             value={gbp(subtotal)}
           />
           <Row label={PLATFORM_FEE_LABEL} value={gbp(fee)} />
-          <div className="border-t border-forest-100 pt-2 mt-1">
+          <div className="border-t border-white/10 pt-2 mt-1">
             <Row
               label={<strong>{canBuy ? 'Total' : 'Indicative total'}</strong>}
-              value={<strong className="text-forest-900">{gbp(total)}</strong>}
+              value={<strong className="text-sand-50">{gbp(total)}</strong>}
             />
           </div>
-          <p className="pt-1 text-[11px] leading-relaxed text-forest-700/80">
+          <p className="pt-1 text-[11px] leading-relaxed text-sand-100/60">
             The {(PLATFORM_FEE_RATE * 100).toFixed(0)}% fee is Atlas&rsquo;s only charge. It is added on top of the
             price the seller sets and paid by you at checkout; the seller receives the listed price in full. VAT,
             registry transfer fees and any currency conversion your bank applies are not included in this figure and
@@ -178,8 +178,8 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
             >
               {loading ? 'Redirecting…' : 'Continue to checkout'}
             </button>
-            {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
-            <p className="mt-3 text-[11px] text-forest-700/70 text-center">
+            {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
+            <p className="mt-3 text-[11px] text-sand-100/55 text-center">
               Secure checkout via Stripe. You can cancel any time before payment.
             </p>
           </>
@@ -188,7 +188,7 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
             <button onClick={() => setQuoteOpen(true)} className="btn-primary w-full mt-5">
               Request a quote
             </button>
-            <p className="mt-3 text-[11px] leading-relaxed text-forest-700/80 text-center">
+            <p className="mt-3 text-[11px] leading-relaxed text-sand-100/60 text-center">
               {soldOut
                 ? 'This allocation has gone. We can usually source more from the same project — tell us what you need.'
                 : isPending
@@ -201,8 +201,8 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
         )}
       </div>
 
-      <div className="mt-4 rounded-2xl border border-forest-100 bg-forest-50/50 p-5 text-sm text-forest-800">
-        <p className="font-semibold mb-2">Buying in volume?</p>
+      <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-5 text-sm text-sand-100/85">
+        <p className="font-semibold mb-2 text-sand-50">Buying in volume?</p>
         <p className="mb-3">Above 1,000 tonnes we quote institutional pricing and can structure a forward contract.</p>
         <button onClick={() => setQuoteOpen(true)} className="btn-secondary w-full">
           Talk to us about a larger order
@@ -231,8 +231,8 @@ export default function BuyPanel({ listing }: { listing: Listing }) {
 function Row({ label, value }: { label: React.ReactNode; value: React.ReactNode }) {
   return (
     <div className="flex justify-between gap-3">
-      <span className="text-forest-700">{label}</span>
-      <span className="whitespace-nowrap">{value}</span>
+      <span className="text-sand-100/70">{label}</span>
+      <span className="whitespace-nowrap text-sand-100">{value}</span>
     </div>
   );
 }
