@@ -99,17 +99,17 @@ export default function InquiryDialog({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="inquiry-dialog-title">
-      <div className="absolute inset-0 bg-forest-900/60 backdrop-blur-sm" onClick={onClose} aria-hidden />
-      <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-white shadow-2xl">
-        <button onClick={onClose} className="absolute right-4 top-4 text-forest-600 hover:text-forest-900 text-xl leading-none" aria-label="Close dialog">×</button>
+      <div className="absolute inset-0 bg-forest-950/70 backdrop-blur-sm" onClick={onClose} aria-hidden />
+      <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl border border-white/10 bg-forest-900 shadow-2xl">
+        <button onClick={onClose} className="absolute right-4 top-4 text-sand-100/60 hover:text-sand-50 text-xl leading-none" aria-label="Close dialog">×</button>
 
         {done ? (
           <div className="p-8 text-center">
             <div className="mx-auto h-12 w-12 grid place-items-center rounded-full bg-forest-700 text-white text-xl" aria-hidden>✓</div>
-            <h3 id="inquiry-dialog-title" className="mt-4 text-xl font-semibold text-forest-900">
+            <h3 id="inquiry-dialog-title" className="mt-4 text-xl font-semibold text-sand-50">
               {isQuote ? 'Quote request received.' : 'Thanks — we’ll be in touch.'}
             </h3>
-            <p className="mt-2 text-sm text-forest-700">
+            <p className="mt-2 text-sm text-sand-100/75">
               {isQuote
                 ? 'We’ll come back within one business day with a firm price, the unit type and the registry position — including serial numbers where the units have been issued. Nothing is charged until you accept.'
                 : 'Expect a reply from our team within one business day.'}
@@ -118,40 +118,40 @@ export default function InquiryDialog({
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="p-6 md:p-8">
-            <h3 id="inquiry-dialog-title" className="text-xl font-semibold text-forest-900">
+            <h3 id="inquiry-dialog-title" className="text-xl font-semibold text-sand-50">
               {isQuote ? 'Request a quote' : 'Talk to our team'}
             </h3>
-            <p className="mt-1 text-sm text-forest-700">
+            <p className="mt-1 text-sm text-sand-100/75">
               {isQuote
                 ? 'Tell us what you need and we’ll source it. A firm price, the unit type and the registry position come back to you in writing before any payment is taken.'
                 : 'For portfolio enquiries, large orders (1,000+ tonnes), forward contracts or general questions.'}
             </p>
 
             {context?.listingName && (
-              <div className="mt-3 rounded-lg bg-forest-50 px-3 py-2.5 text-xs text-forest-800">
-                <p><span className="text-forest-700/80">Project:</span> <strong>{context.listingName}</strong></p>
+              <div className="mt-3 rounded-lg bg-white/5 px-3 py-2.5 text-xs text-sand-100/85">
+                <p><span className="text-sand-100/60">Project:</span> <strong className="text-sand-50">{context.listingName}</strong></p>
                 {isQuote && typeof context.tonnes === 'number' && (
-                  <p className="mt-1"><span className="text-forest-700/80">Volume:</span> <strong>{context.tonnes.toLocaleString()} tCO₂e</strong></p>
+                  <p className="mt-1"><span className="text-sand-100/60">Volume:</span> <strong className="text-sand-50">{context.tonnes.toLocaleString()} tCO₂e</strong></p>
                 )}
                 {isQuote && context.unitLabel && (
-                  <p className="mt-1"><span className="text-forest-700/80">Unit type:</span> <strong>{context.unitLabel}</strong></p>
+                  <p className="mt-1"><span className="text-sand-100/60">Unit type:</span> <strong className="text-sand-50">{context.unitLabel}</strong></p>
                 )}
                 {isQuote && context.unitKind === 'pending-unit' && (
                   <p className="mt-1">
-                    <span className="text-forest-700/80">Retirement:</span>{' '}
-                    <strong>Not applicable — pending units are assigned, not retired</strong>
+                    <span className="text-sand-100/60">Retirement:</span>{' '}
+                    <strong className="text-sand-50">Not applicable — pending units are assigned, not retired</strong>
                   </p>
                 )}
                 {isQuote && context.unitKind === 'self-reported-unit' && (
                   <p className="mt-1">
-                    <span className="text-forest-700/80">Retirement:</span>{' '}
-                    <strong>No registry retirement — evidence confirmed with the developer</strong>
+                    <span className="text-sand-100/60">Retirement:</span>{' '}
+                    <strong className="text-sand-50">No registry retirement — evidence confirmed with the developer</strong>
                   </p>
                 )}
                 {isQuote && context.unitKind === 'issued-credit' && (
                   <p className="mt-1">
-                    <span className="text-forest-700/80">Retirement:</span>{' '}
-                    <strong>{context.retire ? `Yes, in your name on the ${context.registry ?? 'registry'}` : 'No, transfer only'}</strong>
+                    <span className="text-sand-100/60">Retirement:</span>{' '}
+                    <strong className="text-sand-50">{context.retire ? `Yes, in your name on the ${context.registry ?? 'registry'}` : 'No, transfer only'}</strong>
                   </p>
                 )}
               </div>
@@ -172,7 +172,7 @@ export default function InquiryDialog({
                 <Field name="deadline" label="When do you need it by? (optional)" placeholder="e.g. before year end" />
               )}
               <div>
-                <label htmlFor="inquiry-message" className="block text-sm font-medium text-forest-800 mb-1">
+                <label htmlFor="inquiry-message" className="block text-sm font-medium text-sand-100/90 mb-1">
                   {isQuote ? 'Anything else we should know?' : 'Message'}
                 </label>
                 <textarea
@@ -182,13 +182,13 @@ export default function InquiryDialog({
                   placeholder={isQuote ? 'Vintage requirements, reporting standard, budget per tonne…' : 'What are you looking for?'}
                   required
                   defaultValue={isQuote && context?.listingName ? `Quote request for ${context.listingName}.` : undefined}
-                  className="w-full rounded-lg border border-forest-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500"
+                  className="w-full rounded-lg border border-white/15 bg-forest-900/50 px-3 py-2 text-sm text-sand-50 placeholder:text-sand-100/40 focus:outline-none focus:ring-2 focus:ring-gold-500"
                 />
               </div>
             </div>
 
             {error && (
-              <div className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-700">
+              <div className="mt-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2.5 text-sm text-red-300">
                 <p>{error}</p>
                 {fallbackEmail && (
                   <p className="mt-1.5">
@@ -201,8 +201,8 @@ export default function InquiryDialog({
             )}
 
             <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-              <p className="text-xs text-forest-700/70">
-                By submitting you agree to our <a className="underline" href="/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>.
+              <p className="text-xs text-sand-100/55">
+                By submitting you agree to our <a className="text-gold-400 underline" href="/privacy" target="_blank" rel="noreferrer">Privacy Policy</a>.
               </p>
               <button disabled={loading} className="btn-primary disabled:opacity-60">
                 {loading ? 'Sending…' : isQuote ? 'Request quote' : 'Send enquiry'}
@@ -229,8 +229,8 @@ function Field({
   const id = `inquiry-${name}`;
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium text-forest-800 mb-1">
-        {label}{required && <span className="text-forest-600"> *</span>}
+      <label htmlFor={id} className="block text-sm font-medium text-sand-100/90 mb-1">
+        {label}{required && <span className="text-gold-400"> *</span>}
       </label>
       <input
         id={id}
@@ -240,7 +240,7 @@ function Field({
         placeholder={placeholder}
         defaultValue={defaultValue}
         autoComplete={autoComplete}
-        className="w-full rounded-lg border border-forest-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500"
+        className="w-full rounded-lg border border-white/15 bg-forest-900/50 px-3 py-2 text-sm text-sand-50 placeholder:text-sand-100/40 focus:outline-none focus:ring-2 focus:ring-gold-500"
       />
     </div>
   );
