@@ -23,9 +23,23 @@ html {
 }
 
 body {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   font-feature-settings: 'cv11', 'ss01';
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/* Headings carry the group's Fraunces serif — same as primeoriginsglobal.org
+   and primeorigins.org — instead of the plain system sans-serif stack. */
+h1, h2, h3, h4, .serif {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: #d9a441;
+  color: #14261c;
 }
 
 /* Skip link: off-screen until focused via keyboard */
@@ -37,12 +51,52 @@ body {
   @apply max-w-6xl mx-auto px-5 sm:px-8;
 }
 
+/* Primary action: the group's warm-gold gradient pill (assets/site.css's
+   .btn.primary on primeoriginsglobal.org), replacing the plain forest-green
+   fill so Atlas's calls to action match the rest of the ecosystem. */
 .btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-full bg-forest-700 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-forest-800 hover:shadow-md motion-safe:hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2 focus:ring-offset-sand-50;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.65rem 1.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #14261c;
+  background-image: linear-gradient(100deg, #b3863a, #d9a441);
+  box-shadow: 0 8px 24px -8px rgba(217, 164, 65, 0.45);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-image 0.2s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px -8px rgba(217, 164, 65, 0.55);
+}
+.btn-primary:focus-visible {
+  outline: 2px solid #d9a441;
+  outline-offset: 2px;
 }
 
 .btn-secondary {
-  @apply inline-flex items-center justify-center gap-2 rounded-full border border-forest-700 px-5 py-2.5 text-sm font-medium text-forest-700 transition-all duration-200 hover:bg-forest-50 motion-safe:hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-forest-500 focus:ring-offset-2 focus:ring-offset-sand-50;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  padding: 0.65rem 1.35rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid #d9a441;
+  color: #8a6626;
+  background: transparent;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.btn-secondary:hover {
+  background: rgba(217, 164, 65, 0.08);
+}
+.btn-secondary:focus-visible {
+  outline: 2px solid #d9a441;
+  outline-offset: 2px;
 }
 
 .chip {
