@@ -25,10 +25,31 @@ const config: Config = {
           100: '#f4ecdd',
           200: '#e8d8bb',
           300: '#d8bd8b'
+        },
+        /**
+         * The group's warm-gold accent (assets/site.css and lib/ecosystem.ts on
+         * primeoriginsglobal.org and primeorigins.org: --gold / --gold-bright).
+         * Added so Atlas's accents, headline emphasis and primary actions can
+         * carry the same family resemblance instead of forest-green-only.
+         */
+        gold: {
+          50: '#fbf3e2',
+          100: '#f6e6c2',
+          200: '#edd59a',
+          300: '#e4c171',
+          400: '#f2c566',
+          500: '#d9a441',
+          600: '#b3863a',
+          700: '#8a6626',
+          800: '#5c4419',
+          900: '#3d2d10'
         }
       },
       fontFamily: {
-        sans: ['ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif']
+        /** Inter + Fraunces, loaded in app/layout.tsx — same pairing as the
+         *  rest of the group (primeoriginsglobal.org, primeorigins.org). */
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        serif: ['Fraunces', 'Georgia', 'serif']
       },
       boxShadow: {
         soft: '0 1px 2px rgba(23, 58, 39, 0.04), 0 8px 24px -12px rgba(23, 58, 39, 0.18)',
