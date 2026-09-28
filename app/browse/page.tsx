@@ -69,14 +69,14 @@ export default function BrowsePage() {
   return (
     <div className="container-narrow py-10 md:py-14">
       <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-semibold text-forest-900">Browse projects</h1>
-        <p className="mt-2 text-forest-700/80">
+        <h1 className="text-3xl md:text-4xl font-semibold text-sand-50">Browse projects</h1>
+        <p className="mt-2 text-sand-100/75">
           Filter by unit type, project category, registry, year and price.
         </p>
-        <p className="mt-3 max-w-2xl rounded-xl border border-forest-100 bg-forest-50/60 px-4 py-3 text-sm leading-relaxed text-forest-800">
+        <p className="mt-3 max-w-2xl rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm leading-relaxed text-sand-100/85">
           Atlas holds no stock. Every price shown is indicative and every volume is confirmed with the developer when
           we quote. Not everything here is an issued carbon credit &mdash; the UK woodland projects offer{' '}
-          <strong>Pending Issuance Units</strong>, which are a promise of future verified removal and cannot be used
+          <strong className="text-sand-50">Pending Issuance Units</strong>, which are a promise of future verified removal and cannot be used
           to report against emissions yet. Each card says which it is.
         </p>
       </div>
@@ -90,7 +90,7 @@ export default function BrowsePage() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Project, country, developer…"
-              className="w-full rounded-lg border border-forest-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500"
+              className="w-full rounded-lg border border-white/15 bg-forest-900/50 px-3 py-2 text-sm text-sand-50 placeholder:text-sand-100/40 focus:outline-none focus:ring-2 focus:ring-gold-500"
             />
           </FilterBox>
 
@@ -140,7 +140,7 @@ export default function BrowsePage() {
               value={minVintage}
               onChange={(e) => setMinVintage(e.target.value ? Number(e.target.value) : '')}
               placeholder="e.g. 2023"
-              className="w-full rounded-lg border border-forest-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500"
+              className="w-full rounded-lg border border-white/15 bg-forest-900/50 px-3 py-2 text-sm text-sand-50 placeholder:text-sand-100/40 focus:outline-none focus:ring-2 focus:ring-gold-500"
             />
           </FilterBox>
 
@@ -150,13 +150,13 @@ export default function BrowsePage() {
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value ? Number(e.target.value) : '')}
               placeholder="No limit"
-              className="w-full rounded-lg border border-forest-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500"
+              className="w-full rounded-lg border border-white/15 bg-forest-900/50 px-3 py-2 text-sm text-sand-50 placeholder:text-sand-100/40 focus:outline-none focus:ring-2 focus:ring-gold-500"
             />
           </FilterBox>
 
           <button
             onClick={() => { setQuery(''); setCats([]); setRegs([]); setKinds([]); setMinVintage(''); setMaxPrice(''); }}
-            className="text-xs font-medium text-forest-700 underline underline-offset-2"
+            className="text-xs font-medium text-gold-400 underline underline-offset-2"
           >
             Reset filters
           </button>
@@ -165,11 +165,11 @@ export default function BrowsePage() {
         {/* Results */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <p className="text-sm text-forest-700/80">{filtered.length} {filtered.length === 1 ? 'project' : 'projects'}</p>
+            <p className="text-sm text-sand-100/75">{filtered.length} {filtered.length === 1 ? 'project' : 'projects'}</p>
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as typeof sort)}
-              className="rounded-lg border border-forest-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-forest-500"
+              className="rounded-lg border border-white/15 bg-forest-900/50 px-3 py-2 text-sm text-sand-50 focus:outline-none focus:ring-2 focus:ring-gold-500"
             >
               <option value="price-asc">Price: low to high</option>
               <option value="price-desc">Price: high to low</option>
@@ -178,8 +178,8 @@ export default function BrowsePage() {
             </select>
           </div>
           {filtered.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-forest-200 p-10 text-center">
-              <p className="text-forest-700">No projects match those filters.</p>
+            <div className="rounded-2xl border border-dashed border-white/15 p-10 text-center">
+              <p className="text-sand-100/75">No projects match those filters.</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -195,7 +195,7 @@ export default function BrowsePage() {
 function FilterBox({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="text-xs uppercase tracking-[0.18em] text-forest-600 font-semibold mb-2">{label}</h3>
+      <h3 className="text-xs uppercase tracking-[0.18em] text-gold-400 font-semibold mb-2">{label}</h3>
       {children}
     </div>
   );
@@ -208,16 +208,16 @@ function Checkbox({
   onChange
 }: { label: string; hint?: string; checked: boolean; onChange: (v: boolean) => void }) {
   return (
-    <label className="flex items-start gap-2 text-sm text-forest-800 cursor-pointer">
+    <label className="flex items-start gap-2 text-sm text-sand-100/85 cursor-pointer">
       <input
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="mt-0.5 h-4 w-4 shrink-0 rounded border-forest-300 text-forest-700 focus:ring-forest-500"
+        className="mt-0.5 h-4 w-4 shrink-0 rounded border-white/25 bg-forest-900/50 text-gold-500 focus:ring-gold-500"
       />
       <span>
         {label}
-        {hint && <span className="block text-[11px] leading-snug text-forest-700/70">{hint}</span>}
+        {hint && <span className="block text-[11px] leading-snug text-sand-100/55">{hint}</span>}
       </span>
     </label>
   );
