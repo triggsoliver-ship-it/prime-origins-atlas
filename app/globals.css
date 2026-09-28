@@ -80,7 +80,7 @@ h1, h2, h3, h4, .serif {
 /* Secondary action: on the group's dark forest background by default now,
    so the label reads as bright gold rather than the deep gold-700 that was
    tuned for a white card. Pages/components on a lighter surface override
-   with !text-*/!border-* as the hero and header already did. */
+   with important-prefixed utility classes, as the hero and header already do. */
 .btn-secondary {
   display: inline-flex;
   align-items: center;
